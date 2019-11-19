@@ -1,5 +1,6 @@
 
 import React from 'react'
+import { Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
@@ -71,10 +72,11 @@ export default class Signup extends React.Component {
               autoCapitalize='none'
             />
           </View>
-          <Image
+          <Ionicons name="ios-contact" size={screenHeight * 0.1} color="black" />
+          {/* <Image
             style={{ width: screenWidth * 0.6, height: screenHeight * 0.1 }}
             source={require('../assets/icon.png')}
-          />
+          /> */}
           {/* <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
             <Button
               title="Pick an image from camera roll"
