@@ -1,12 +1,9 @@
 import React from 'react'
-import { StyleSheet, View, Button, TextInput, Image, Dimensions, Text } from 'react-native'
-import { gray } from 'ansi-colors'
+import { StyleSheet, View, TextInput, Image, Dimensions, Text, TouchableOpacity } from 'react-native'
 const screenWidth = Math.round(Dimensions.get('window').width);
 const screenHeight = Math.round(Dimensions.get('window').height);
 
-function Separator() {
-  return <View style={styles.separator} />;
-}
+
 export default class Login extends React.Component {
   state = {
     username: '',
@@ -43,7 +40,7 @@ export default class Login extends React.Component {
           source={require('../assets/icon.png')}
         />
         <View style={styles.card}>
-          <View style={{ alignItems: 'center', justifyContent: 'center', marginBottom:20 }}>
+          <View style={{ alignItems: 'center', justifyContent: 'center', marginBottom: 20 }}>
             <Text style={styles.font1}>Welcome To Kablanit</Text>
             <Text style={styles.font1}>Sign in with your Company Admin</Text>
             <Text style={styles.font1}>User Name</Text>
@@ -70,9 +67,18 @@ export default class Login extends React.Component {
               onChangeText={this.handlePasswordChange}
             />
           </View>
-          <Separator />
-          <Button title='Login' onPress={this.onLogin} />
-          <Button title='Go to Signup' onPress={this.goToSignup} />
+          <TouchableOpacity
+            style={styles.button1}
+            onPress={this.onLogin}
+          >
+            <Text style={{fontSize:18, color:'white'}}> Login </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button2}
+            onPress={this.goToSignup}
+          >
+            <Text style={{fontSize:18, color:'white'}}> Go to Signup </Text>
+          </TouchableOpacity>          
         </View>
       </View>
     )
@@ -109,15 +115,26 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 40,
-    width:screenWidth*0.6,
+    width: screenWidth * 0.6,
     borderColor: '#cfcfcf',
     borderWidth: 2,
-    paddingLeft:15,
+    paddingLeft: 15,
     backgroundColor: 'white'
   },
-  separator: {
-    marginVertical: 8,
-    borderBottomColor: '#737373',
-    borderBottomWidth: StyleSheet.hairlineWidth,
+  button1: {
+    alignItems: 'center',
+    backgroundColor: '#2684ff' ,
+    padding: 10,
+    borderRadius:5,
+    width: screenWidth*0.7,
+    marginTop:20,
+  },
+  button2: {
+    alignItems: 'center',
+    backgroundColor: '#dbdbdb',
+    padding: 8,
+    borderRadius:5,
+    width: screenWidth*0.7,
+    marginTop:20,
   },
 })

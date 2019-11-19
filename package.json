@@ -8,7 +8,9 @@
     "eject": "expo eject"
   },
   "dependencies": {
-    "expo": "^34.0.1",
+    "expo": "^34.0.4",
+    "expo-font": "~6.0.1",
+    "native-base": "^2.13.8",
     "react": "16.8.3",
     "react-dom": "^16.8.6",
     "react-native": "https://github.com/expo/react-native/archive/sdk-34.0.0.tar.gz",
