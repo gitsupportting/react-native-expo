@@ -73,18 +73,6 @@ export default class Signup extends React.Component {
             />
           </View>
           <Ionicons name="ios-contact" size={screenHeight * 0.1} color="black" />
-          {/* <Image
-            style={{ width: screenWidth * 0.6, height: screenHeight * 0.1 }}
-            source={require('../assets/icon.png')}
-          /> */}
-          {/* <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <Button
-              title="Pick an image from camera roll"
-              onPress={this._pickImage}
-            />
-            {image &&
-              <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
-          </View> */}
           <View style={{ marginLeft: -screenWidth * 0.4 }}>
             <Text style={styles.font1}>Company Admin Details</Text>
           </View>

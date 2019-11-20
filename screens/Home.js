@@ -1,52 +1,16 @@
 
 import React from 'react'
 import { Ionicons } from '@expo/vector-icons';
-import * as ImagePicker from 'expo-image-picker';
-import Constants from 'expo-constants';
-import * as Permissions from 'expo-permissions';
-import { StyleSheet, View, TextInput, Image, Dimensions, Text, Button, TouchableOpacity } from 'react-native'
+import { StyleSheet, View, Dimensions, Text, TouchableOpacity } from 'react-native'
 const screenWidth = Math.round(Dimensions.get('window').width);
 const screenHeight = Math.round(Dimensions.get('window').height);
 
 
 export default class Signup extends React.Component {
-  goToLogin = () => this.props.navigation.navigate('Login');
   goToEmployees = () => this.props.navigation.navigate('Employees');
   goToVehicles = () => this.props.navigation.navigate('Vehicles');
   goToMachines = () => this.props.navigation.navigate('Machines');
-  componentDidMount() {
-    this.getPermissionAsync();
-    console.log('hi');
-  }
-
-  getPermissionAsync = async () => {
-    if (Constants.platform.ios) {
-      const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-      if (status !== 'granted') {
-        alert('Sorry, we need camera roll permissions to make this work!');
-      }
-    }
-  }
-
-  _pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1
-    });
-
-    console.log(result);
-
-    if (!result.cancelled) {
-      this.setState({ image: result.uri });
-    }
-  };
-  state = {
-    image: null,
-  };
-  render() {
-    let { image } = this.state;
+    render() {   
 
     return (
       <View style={styles.container}>
