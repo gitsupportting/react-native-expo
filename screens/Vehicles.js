@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'flex-end',
         position: 'absolute',
-        bottom: screenHeight/30,
+        bottom: 10,
         flexDirection: 'row',
     }
 })
