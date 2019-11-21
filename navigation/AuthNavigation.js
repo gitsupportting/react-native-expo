@@ -10,8 +10,8 @@ const AuthNavigation = createStackNavigator(
     ReportWorking: { screen: ReportWorking },
   },
   {
-    initialRouteName: 'Login',
-    // initialRouteName: 'ReportWorking',    
+    // initialRouteName: 'Login',
+    initialRouteName: 'ReportWorking',    
     headerMode: 'none'
   }
 )

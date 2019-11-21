@@ -148,27 +148,21 @@ export default class Stock extends React.Component {
                         </View>
                         <DatePicker
                             style={{
-                                // height: screenHeight / 20,
-                                // width: screenWidth * 0.6,
-                                // borderColor: '#cfcfcf',
-                                // borderWidth: 2,
-                                // paddingLeft: 10,
-                                // backgroundColor: 'white'
                                 marginBottom: screenHeight / 80
                             }}
-                            date={this.state.date}
+                            date={this.state.licenseDate}
                             mode="date"
-                            placeholder="select date"
+                            placeholder="License Expiration Date"
                             format="YYYY-MM-DD"
-                            minDate="2016-05-01"
-                            maxDate="2016-06-01"
+                            minDate="1950-05-01"
+                            maxDate="2020-06-01"
                             confirmBtnText="Confirm"
                             cancelBtnText="Cancel"
                             customStyles={{
                                 dateIcon: {
                                     position: 'absolute',
                                     left: screenWidth * 0.4,
-                                    top: 4,
+                                    top: 6,
                                     marginLeft: 0
                                 },
                                 dateInput: {
@@ -181,10 +175,11 @@ export default class Stock extends React.Component {
                                     position: 'absolute',
                                     top: 5,
                                     left: -screenWidth / 8,
+
                                 }
                                 // ... You can check the source to find the other keys.
                             }}
-                            onDateChange={(date) => { this.setState({ date: date }) }}
+                            onDateChange={(date) => { this.setState({ licenseDate: date }) }}
                         />
                         <View style={{ alignItems: 'center', justifyContent: 'center' }}>
                             {!this.state.buttonVisable &&
@@ -234,27 +229,21 @@ export default class Stock extends React.Component {
                         </View>
                         <DatePicker
                             style={{
-                                // height: screenHeight / 20,
-                                // width: screenWidth * 0.6,
-                                // borderColor: '#cfcfcf',
-                                // borderWidth: 2,
-                                // paddingLeft: 10,
-                                // backgroundColor: 'white'
                                 marginBottom: screenHeight / 80
                             }}
-                            date={this.state.date}
+                            date={this.state.insuranceDate}
                             mode="date"
-                            placeholder="select date"
+                            placeholder="Expiration Date"
                             format="YYYY-MM-DD"
-                            minDate="2016-05-01"
-                            maxDate="2016-06-01"
+                            minDate="1950-05-01"
+                            maxDate="2020-06-01"
                             confirmBtnText="Confirm"
                             cancelBtnText="Cancel"
                             customStyles={{
                                 dateIcon: {
                                     position: 'absolute',
                                     left: screenWidth * 0.4,
-                                    top: 4,
+                                    top: 6,
                                     marginLeft: 0
                                 },
                                 dateInput: {
@@ -271,7 +260,7 @@ export default class Stock extends React.Component {
                                 }
                                 // ... You can check the source to find the other keys.
                             }}
-                            onDateChange={(date) => { this.setState({ date: date }) }}
+                            onDateChange={(date) => { this.setState({ insuranceDate: date }) }}
                         />
 
 
@@ -295,27 +284,21 @@ export default class Stock extends React.Component {
                         </View>
                         <DatePicker
                             style={{
-                                // height: screenHeight / 20,
-                                // width: screenWidth * 0.6,
-                                // borderColor: '#cfcfcf',
-                                // borderWidth: 2,
-                                // paddingLeft: 10,
-                                // backgroundColor: 'white'
                                 marginBottom: screenHeight / 80
                             }}
-                            date={this.state.date}
+                            date={this.state.accessDate}
                             mode="date"
-                            placeholder="select date"
+                            placeholder="Access Expiration Date"
                             format="YYYY-MM-DD"
-                            minDate="2016-05-01"
-                            maxDate="2016-06-01"
+                            minDate="1950-05-01"
+                            maxDate="2020-06-01"
                             confirmBtnText="Confirm"
                             cancelBtnText="Cancel"
                             customStyles={{
                                 dateIcon: {
                                     position: 'absolute',
                                     left: screenWidth * 0.4,
-                                    top: 4,
+                                    top: 6,
                                     marginLeft: 0
                                 },
                                 dateInput: {
@@ -328,10 +311,11 @@ export default class Stock extends React.Component {
                                     position: 'absolute',
                                     top: 5,
                                     left: -screenWidth / 8,
+
                                 }
                                 // ... You can check the source to find the other keys.
                             }}
-                            onDateChange={(date) => { this.setState({ date: date }) }}
+                            onDateChange={(date) => { this.setState({ accessDate: date }) }}
                         />
 
                         <View style={{ alignItems: 'center', justifyContent: 'center' }}>

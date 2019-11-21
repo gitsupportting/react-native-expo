@@ -1,5 +1,8 @@
 
 import React from 'react'
+import moment from 'moment';
+import Modal, { ModalFooter, ModalButton, ModalContent } from 'react-native-modals';
+import DatePicker from 'react-native-datepicker'
 import { Ionicons } from '@expo/vector-icons';
 import { StyleSheet, View, Dimensions, Text, TouchableOpacity, CheckBox, ScrollView } from 'react-native'
 import { List, ListItem, Left, Body, Right, Thumbnail } from 'native-base';
@@ -141,16 +144,20 @@ export default class ReportWorking extends React.Component {
                             </Right>
                         </ListItem>
                     </List>
-                    <View style={{marginLeft:screenWidth*0.17}}>
+                    <View style={{ marginLeft: screenWidth * 0.17 }}>
                         <TouchableOpacity
                             style={styles.button1}
-                        // onPress={this.goToLogin}
+                            onPress={() => {
+                                this.setState({ autoVisible: true });
+                            }}
                         >
                             <Text style={{ fontSize: 16, color: 'white' }}> Auto Report Working Hours </Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={styles.button3}
-                        // onPress={this.goToLogin}
+                            onPress={() => {
+                                this.setState({ customVisible: true });
+                            }}
                         >
                             <Text style={{ fontSize: 16, color: 'white' }}> Custom </Text>
                         </TouchableOpacity>
@@ -185,7 +192,131 @@ export default class ReportWorking extends React.Component {
                     </View>
 
                 </View>
+                <Modal
+                    visible={this.state.autoVisible}
+                    onTouchOutside={() => {
+                        this.setState({ autoVisible: false });
+                    }}
+                    footer={
+                        <ModalFooter style={{backgroundColor: '#E7E7E7'}}>
+                            <ModalButton
+                                text="Cancel"
+                                onPress={() => { this.setState({ autoVisible: false }); }}
+                            />
+                            <ModalButton
+                                text="Submit"
+                                onPress={() => { this.setState({ autoVisible: false }); }}
+                            />
+                        </ModalFooter>
+                    }
+                >
+                    <ModalContent style={{backgroundColor: '#E7E7E7'}}>
+                        <Text style={{fontSize:16, textAlign:'center', fontWeight:'bold', marginBottom:10,}}>Confirm Auto Submit</Text>
+                        <Text>Please note that will submit the default {"\n"} working hours of the employees per day.</Text>
+                    </ModalContent>
+                </Modal>
 
+                <Modal
+                    visible={this.state.customVisible}
+                    onTouchOutside={() => {
+                        this.setState({ customVisible: false });
+                    }}
+                    footer={
+                        <ModalFooter style={{backgroundColor: '#E7E7E7', marginTop:0}}>
+                            <ModalButton
+                                text="Cancel"
+                                style={{backgroundColor: '#E7E7E7', marginTop:0}}
+                                onPress={() => { this.setState({ customVisible: false }); }}
+                            />
+                            <ModalButton
+                                text="Submit"
+                                style={{backgroundColor: '#E7E7E7', marginTop:0}}
+                                onPress={() => { this.setState({ customVisible: false }); }}
+                            />
+                        </ModalFooter>
+                    }
+                >
+                    <ModalContent style={{backgroundColor: '#E7E7E7', justifyContent: 'center', alignItems: 'center'}}>
+                        <Text style={{fontSize:16, textAlign:'center', fontWeight:'bold', marginBottom:10,}}>Confirm working hours</Text>
+                        <Text style={{marginBottom:10}}>please select below the start and end of shift</Text>
+                        <DatePicker
+                            style={{
+                                marginBottom: screenHeight / 80
+                            }}
+                            date={this.state.startTime}
+                            mode="datetime"
+                            placeholder="Start Time"
+                            format="YYYY-MM-DD:HH-MM"
+                            minDate="2016-05-01"
+                            maxDate="2020-06-01"
+                            confirmBtnText="Confirm"
+                            cancelBtnText="Cancel"
+                            customStyles={{
+                                dateIcon: {
+                                    position: 'absolute',
+                                    left: screenWidth * 0.4,
+                                    top: 6,
+                                    marginLeft: 0
+                                },
+                                dateInput: {
+                                    height: screenHeight / 20,
+                                    width: screenWidth * 0.6,
+                                    borderColor: '#cfcfcf',
+                                    borderWidth: 2,
+                                    paddingLeft: 10,
+                                    backgroundColor: 'white',
+                                    position: 'absolute',
+                                    top: 5,
+                                    left: -screenWidth / 8,
+
+                                }
+                                // ... You can check the source to find the other keys.
+                            }}
+                            onDateChange={(date) => { this.setState({ startTime: date }) }}
+                        />
+                        <DatePicker
+                            style={{
+                                // height: screenHeight / 20,
+                                // width: screenWidth * 0.6,
+                                // borderColor: '#cfcfcf',
+                                // borderWidth: 2,
+                                // paddingLeft: 10,
+                                // backgroundColor: 'white'
+                                // marginBottom: screenHeight / 80
+                            }}
+                            date={this.state.endTime}
+                            mode="datetime"
+                            placeholder="End Time"
+                            format="YYYY-MM-DD:HH-MM"
+                            minDate="2016-05-01"
+                            maxDate="2020-06-01"
+                            confirmBtnText="Confirm"
+                            cancelBtnText="Cancel"
+                            customStyles={{
+                                dateIcon: {
+                                    position: 'absolute',
+                                    left: screenWidth * 0.4,
+                                    top: 6,
+                                    marginLeft: 0
+                                },
+                                dateInput: {
+                                    height: screenHeight / 20,
+                                    width: screenWidth * 0.6,
+                                    borderColor: '#cfcfcf',
+                                    borderWidth: 2,
+                                    paddingLeft: 10,
+                                    backgroundColor: 'white',
+                                    position: 'absolute',
+                                    top: 5,
+                                    left: -screenWidth / 8,
+
+                                }
+                                // ... You can check the source to find the other keys.
+                            }}
+                            onDateChange={(date) => { this.setState({ endTime: date }) }}
+                        />
+                    </ModalContent>
+                </Modal>                
             </View>
         )
     }
