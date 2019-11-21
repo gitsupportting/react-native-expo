@@ -85,11 +85,16 @@ export default class Signup extends React.Component {
                 onPress={this._pickImage}
               >
                 <Ionicons name="ios-add-circle-outline" size={screenHeight * 0.05} color="#2684ff" />
-                <Text style={{ fontSize: 22, color: '#2684ff', fontWeight:'bold' }}> Company Logo </Text>
+                <Text style={{ fontSize: 22, color: '#2684ff', fontWeight: 'bold' }}> Company Logo </Text>
               </TouchableOpacity>
             }
             {image &&
-              <Image source={{ uri: image }} style={{ width: screenWidth * 0.5, height: screenHeight * 0.12 }} />}
+              <TouchableOpacity
+                style={styles.button3}
+                onPress={this._pickImage}
+              >
+                <Image source={{ uri: image }} style={{ width: screenWidth * 0.5, height: screenHeight * 0.12 }} />
+              </TouchableOpacity>}
           </View>
           <View style={{ marginLeft: -screenWidth * 0.4 }}>
             <Text style={styles.font1}>Company Admin Details</Text>
@@ -247,10 +252,10 @@ const styles = StyleSheet.create({
     padding: 5,
     borderRadius: 5,
     width: screenWidth * 0.5,
-    height:screenHeight*0.12,
-    textAlign:'center',
-    justifyContent:'center',
-    flexDirection:'row'
+    height: screenHeight * 0.12,
+    textAlign: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row'
   },
 })
 
