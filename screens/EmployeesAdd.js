@@ -1,27 +1,23 @@
 
+
 import React from 'react'
-import { Select, Option } from "react-native-chooser";
+import { Ionicons } from '@expo/vector-icons';
 import { StyleSheet, View, Dimensions, Text, TouchableOpacity } from 'react-native'
 import { Searchbar } from 'react-native-paper';
 const screenWidth = Math.round(Dimensions.get('window').width);
 const screenHeight = Math.round(Dimensions.get('window').height);
 
 
-export default class Vehicles extends React.Component {
+export default class EmployeesAdd extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            firstQuery: '',
-            value: "Driver"
+            firstQuery: ''
         };
     }
-    onSelect(value, label) {
-        this.setState({ value: value });
-    }
-
-    goToHomeCancel = () => this.props.navigation.navigate('Home');
-    goToHomeDone = () => this.props.navigation.navigate('Home');
+    goToEmployeesAdd = () => this.props.navigation.navigate('EmployeesAdd');
+    goToEmployeesEdit = () => this.props.navigation.navigate('EmployeesAdd');
 
     render() {
         const { firstQuery } = this.state;
@@ -30,49 +26,26 @@ export default class Vehicles extends React.Component {
             <View style={styles.container}>
                 <View style={{ flexDirection: 'row', marginTop: 30 }}>
                     <TouchableOpacity
-                        style={{ width: 0.15 * screenWidth, marginRight: 0.6 * screenWidth }}
-                        onPress={this.goToHomeCancel}
+                        style={{ width: 0.15 * screenWidth }}
+                        onPress={this.goToEmployeesAdd}
                     >
-                        <Text style={{ fontSize: 18, color: '#2684ff' }}> Cancel </Text>
+                    <Ionicons name="md-add" size={screenHeight * 0.04} color="#2684ff" />
                     </TouchableOpacity>
+                    <Text style={styles.font2}>Employees</Text>
                     <TouchableOpacity
                         style={{ width: 0.15 * screenWidth }}
-                        onPress={this.goToHomeDone}
+                        onPress={this.goToEmployeesEdit}
                     >
-                        <Text style={{ fontSize: 18, color: '#2684ff' }}> Done </Text>
+                        <Text style={{ fontSize: 20, color: '#2684ff', }}> Edit </Text>
                     </TouchableOpacity>
-                </View>
-                <View style={{ marginLeft: -0.4 * screenWidth, }}>
-                    <Text style={styles.font2}>Manage Vehicles</Text>
                 </View>
                 <Searchbar
                     placeholder="Search"
                     onChangeText={query => { this.setState({ firstQuery: query }); }}
                     value={firstQuery}
-                    style={{ width: 0.8 * screenWidth, backgroundColor: '#f6f6f6', borderRadius: 8, marginTop: 10 }}
+                    style={{ width: 0.9 * screenWidth, backgroundColor: '#f6f6f6', borderRadius: 8, marginTop: 20 }}
                 />
                 <View style={styles.card}>
-                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center',marginTop:screenHeight/15, position:'absolute', bottom: screenHeight*0.52 }}>
-                        <Select
-                            onSelect={this.onSelect.bind(this)}
-                            defaultText={this.state.value}
-                            style={{ borderWidth: 1, borderColor: "#293137",}}
-                            textStyle={{}}
-                            backdropStyle={{ backgroundColor: "white" }}
-                            optionListStyle={{ backgroundColor: "#f6f6f6", height:screenHeight*0.5 }}
-                        >
-                            <Option value={{ name: "azhar" }}>Azhar</Option>
-                            <Option value="johnceena">Johnceena</Option>
-                            <Option value="undertaker">Undertaker</Option>
-                            <Option value="Daniel">Daniel</Option>
-                            <Option value="Roman">Roman</Option>
-                            <Option value="Stonecold">Stonecold</Option>
-                            <Option value="Rock">Rock</Option>
-                            <Option value="Sheild">Sheild</Option>
-                            <Option value="Orton">Orton</Option>
-
-                        </Select>
-                    </View>
                     <View style={styles.bottom}>
                         <TouchableOpacity
                             style={styles.button2}
@@ -117,7 +90,7 @@ const styles = StyleSheet.create({
         marginTop: 30,
         backgroundColor: '#f6f6f6',
         width: screenWidth * 0.9,
-        height: screenHeight * 0.65,
+        height: screenHeight * 0.73,
         borderRadius: 15,
         alignItems: 'center',
         justifyContent: 'center'
@@ -132,11 +105,13 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     },
     font2: {
-        fontSize: 26,
+        fontSize: 20,
         color: 'black',
-        paddingTop: 5,
-        paddingBottom: 5,
         textAlign: 'center',
+        width: screenWidth * 0.5,
+        marginRight: screenWidth * 0.05,
+        marginLeft: screenWidth * 0.05,
+        marginTop: 0,
         fontWeight: 'bold'
     },
     button2: {
@@ -150,9 +125,9 @@ const styles = StyleSheet.create({
     bottom: {
         flex: 1,
         justifyContent: 'flex-end',
-        position: 'absolute',
-        bottom: screenHeight/30,
         flexDirection: 'row',
+        position: 'absolute',
+        bottom: screenHeight / 30,
     }
 })
 

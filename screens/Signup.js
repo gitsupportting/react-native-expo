@@ -26,11 +26,15 @@ export default class Signup extends React.Component {
   }
 
   _pickImage = async () => {
+    this.setState({
+      buttonVisable: true
+    })
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [4, 3],
-      quality: 1
+      quality: 1,
+
     });
 
     console.log(result);
@@ -72,11 +76,25 @@ export default class Signup extends React.Component {
               autoCapitalize='none'
             />
           </View>
-          <Ionicons name="ios-contact" size={screenHeight * 0.1} color="black" />
+          {/* <Ionicons name="ios-contact" size={screenHeight * 0.1} color="black" /> */}
+
+          <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+            {!this.state.buttonVisable &&
+              <TouchableOpacity
+                style={styles.button3}
+                onPress={this._pickImage}
+              >
+                <Ionicons name="ios-add-circle-outline" size={screenHeight * 0.05} color="#2684ff" />
+                <Text style={{ fontSize: 22, color: '#2684ff', fontWeight:'bold' }}> Company Logo </Text>
+              </TouchableOpacity>
+            }
+            {image &&
+              <Image source={{ uri: image }} style={{ width: screenWidth * 0.5, height: screenHeight * 0.12 }} />}
+          </View>
           <View style={{ marginLeft: -screenWidth * 0.4 }}>
             <Text style={styles.font1}>Company Admin Details</Text>
           </View>
-          <View style={{ margin: 5, flexDirection:'row' }}>
+          <View style={{ margin: 5, flexDirection: 'row' }}>
             <TextInput
               style={styles.input1}
               name='firstName'
@@ -180,7 +198,7 @@ const styles = StyleSheet.create({
   },
   font2: {
     fontSize: 18,
-    color: 'blue',    
+    color: 'blue',
   },
   input: {
     height: screenHeight / 22,
@@ -205,7 +223,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     paddingLeft: 10,
     backgroundColor: 'white',
-    marginLeft: screenWidth*0.04,
+    marginLeft: screenWidth * 0.04,
   },
   button1: {
     alignItems: 'center',
@@ -222,6 +240,17 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     width: screenWidth * 0.6,
     marginTop: 10,
+  },
+  button3: {
+    alignItems: 'center',
+    backgroundColor: 'white',
+    padding: 5,
+    borderRadius: 5,
+    width: screenWidth * 0.5,
+    height:screenHeight*0.12,
+    textAlign:'center',
+    justifyContent:'center',
+    flexDirection:'row'
   },
 })
 
