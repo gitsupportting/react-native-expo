@@ -140,7 +140,7 @@ export default class Employees extends React.Component {
                             <Text style={{ fontSize: 14, color: '#3c3c3c' }}> Company Details </Text>
                         </TouchableOpacity>
                         <TouchableOpacity
-                            style={{ alignItems: 'center', backgroundColor: '#DDDDDD', padding: 8, borderRadius: 20, marginTop: 10, height: 36 }}
+                            style={{ alignItems: 'center', backgroundColor: '#DDDDDD', padding: 6, borderRadius: 20, marginTop: 10, height: 32 }}
                             onPress={this.goToMachines}
                         >
                             <Text style={{ fontSize: 14, color: '#3c3c3c' }}> Employees </Text>
@@ -213,17 +213,17 @@ const styles = StyleSheet.create({
     button2: {
         alignItems: 'center',
         backgroundColor: '#f6f6f6',
-        padding: 8,
+        padding: 6,
         borderRadius: 20,
         marginTop: 10,
-        height: 36,
+        height: 32,
     },
     bottom: {
         flex: 1,
         justifyContent: 'flex-end',
         flexDirection: 'row',
         position: 'absolute',
-        bottom: screenHeight / 30,
+        bottom: 10,
         // alignItems: 'center',
         // justifyContent: 'center'
     }

@@ -5,6 +5,7 @@ import Employees from '../screens/Employees'
 import EmployeesAdd from '../screens/EmployeesAdd'
 import Stock from '../screens/Stock'
 import ReportWorking from '../screens/ReportWorking'
+import ReportTab from '../screens/ReportTab'
 
 const AppNavigation = createStackNavigator(
   {
@@ -13,7 +14,8 @@ const AppNavigation = createStackNavigator(
     Employees: { screen: Employees },
     EmployeesAdd: { screen: EmployeesAdd },
     Stock: { screen: Stock },
-    ReportWorking: {screen: ReportWorking}
+    ReportWorking: {screen: ReportWorking},
+    ReportTab: {screen: ReportTab}
   },
   {
     initialRouteName: 'Home',
