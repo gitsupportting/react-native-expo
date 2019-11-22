@@ -49,9 +49,12 @@ export default class ReportTab extends React.Component {
         });
     }
 
-    goToReportCancel = () => this.props.navigation.navigate('Employees');
-    goToReportDone = () => this.props.navigation.navigate('Employees');
-
+    // goToReportCancel = () => this.props.navigation.navigate('ReportTab');
+    // goToReportDone = () => this.props.navigation.navigate('ReportTab');
+    goToHome = () => this.props.navigation.navigate('Home');
+    goToEmployees = () => this.props.navigation.navigate('Employees');
+    goToStock = () => this.props.navigation.navigate('Stock');
+    goToReportTab = () => this.props.navigation.navigate('ReportTab');
     render() {
         const { firstQuery } = this.state;
         const { selectedStartDate } = this.state;
@@ -79,7 +82,7 @@ export default class ReportTab extends React.Component {
                             borderTopLeftRadius: 10,
                             borderBottomLeftRadius: 10,
                             width: screenWidth * 0.25,
-                            marginTop: -screenHeight / 25,
+                            marginTop: -screenHeight / 20,
                         } :
                             {
                                 alignItems: 'center',
@@ -91,7 +94,7 @@ export default class ReportTab extends React.Component {
                                 borderTopLeftRadius: 10,
                                 borderBottomLeftRadius: 10,
                                 width: screenWidth * 0.25,
-                                marginTop: -screenHeight / 25,
+                                marginTop: -screenHeight / 20,
                             }
                         }
                         onPress={() => {
@@ -109,7 +112,7 @@ export default class ReportTab extends React.Component {
                             borderColor: 'black',
                             height: screenHeight / 20,
                             width: screenWidth * 0.25,
-                            marginTop: -screenHeight / 25,
+                            marginTop: -screenHeight / 20,
                         } :
                             {
                                 alignItems: 'center',
@@ -119,7 +122,7 @@ export default class ReportTab extends React.Component {
                                 borderColor: 'black',
                                 height: screenHeight / 20,
                                 width: screenWidth * 0.25,
-                                marginTop: -screenHeight / 25,
+                                marginTop: -screenHeight / 20,
                             }
                         }
                         onPress={() => {
@@ -139,7 +142,7 @@ export default class ReportTab extends React.Component {
                             borderTopRightRadius: 10,
                             borderBottomRightRadius: 10,
                             width: screenWidth * 0.25,
-                            marginTop: -screenHeight / 25,
+                            marginTop: -screenHeight / 20,
                         } :
                             {
                                 alignItems: 'center',
@@ -151,7 +154,7 @@ export default class ReportTab extends React.Component {
                                 borderTopRightRadius: 10,
                                 borderBottomRightRadius: 10,
                                 width: screenWidth * 0.25,
-                                marginTop: -screenHeight / 25,
+                                marginTop: -screenHeight / 20,
                             }
                         }
                         onPress={() => {
@@ -166,92 +169,94 @@ export default class ReportTab extends React.Component {
                     placeholder="Search"
                     onChangeText={query => { this.setState({ firstQuery: query }); }}
                     value={firstQuery}
-                    style={{ width: 0.9 * screenWidth, backgroundColor: '#f6f6f6', borderRadius: 8, marginTop: 20, marginBottom: 10 }}
+                    style={{ width: 0.9 * screenWidth, backgroundColor: '#f6f6f6', borderRadius: 8, marginTop: 20, height: screenHeight / 20 }}
                 />
-                <ScrollView style={styles.card}>
-                    <List>
-                        <ListItem avatar>
-                            <Left>
-                                {/* <Thumbnail source={{ uri: 'Image URL' }} /> */}
-                                <Ionicons name="ios-contact" size={screenHeight * 0.05} color="black" />
-                            </Left>
-                            <Body>
-                                <Text style={styles.font1}>Kumar Pratik</Text>
-                            </Body>
-                            <Right>
-                                <TouchableOpacity
-                                    style={styles.button1}
-                                    onPress={() => {
-                                        this.setState({ review: true });
-                                    }}
-                                >
-                                    <Text style={{ fontSize: 14, color: 'white' }}> Review </Text>
-                                </TouchableOpacity>
-                            </Right>
-                        </ListItem>
-                        <ListItem avatar>
-                            <Left>
-                                {/* <Thumbnail source={{ uri: 'Image URL' }} /> */}
-                                <Ionicons name="ios-contact" size={screenHeight * 0.05} color="black" />
-                            </Left>
-                            <Body>
-                                <Text style={styles.font1}>Kumar Pratik</Text>
-                            </Body>
-                            <Right>
-                                <TouchableOpacity
-                                    style={styles.button1}
-                                    onPress={() => {
-                                        this.setState({ review: true });
-                                    }}
-                                >
-                                    <Text style={{ fontSize: 14, color: 'white' }}> Review </Text>
-                                </TouchableOpacity>
-                            </Right>
-                        </ListItem>
-                        <ListItem avatar>
-                            <Left>
-                                {/* <Thumbnail source={{ uri: 'Image URL' }} /> */}
-                                <Ionicons name="ios-contact" size={screenHeight * 0.05} color="black" />
-                            </Left>
-                            <Body>
-                                <Text style={styles.font1}>Kumar Pratik</Text>
-                            </Body>
-                            <Right>
-                                <TouchableOpacity
-                                    style={styles.button1}
-                                    onPress={() => {
-                                        this.setState({ review: true });
-                                    }}
-                                >
-                                    <Text style={{ fontSize: 14, color: 'white' }}> Review </Text>
-                                </TouchableOpacity>
-                            </Right>
-                        </ListItem>
-                    </List>
-                </ScrollView>
+                <View style={styles.card}>
+                    <ScrollView>
+                        <List>
+                            <ListItem avatar>
+                                <Left>
+                                    {/* <Thumbnail source={{ uri: 'Image URL' }} /> */}
+                                    <Ionicons name="ios-contact" size={screenHeight * 0.05} color="black" />
+                                </Left>
+                                <Body>
+                                    <Text style={styles.font1}>Kumar Pratik</Text>
+                                </Body>
+                                <Right>
+                                    <TouchableOpacity
+                                        style={styles.button1}
+                                        onPress={() => {
+                                            this.setState({ review: true });
+                                        }}
+                                    >
+                                        <Text style={{ fontSize: 14, color: 'white' }}> Review </Text>
+                                    </TouchableOpacity>
+                                </Right>
+                            </ListItem>
+                            <ListItem avatar>
+                                <Left>
+                                    {/* <Thumbnail source={{ uri: 'Image URL' }} /> */}
+                                    <Ionicons name="ios-contact" size={screenHeight * 0.05} color="black" />
+                                </Left>
+                                <Body>
+                                    <Text style={styles.font1}>Kumar Pratik</Text>
+                                </Body>
+                                <Right>
+                                    <TouchableOpacity
+                                        style={styles.button1}
+                                        onPress={() => {
+                                            this.setState({ review: true });
+                                        }}
+                                    >
+                                        <Text style={{ fontSize: 14, color: 'white' }}> Review </Text>
+                                    </TouchableOpacity>
+                                </Right>
+                            </ListItem>
+                            <ListItem avatar>
+                                <Left>
+                                    {/* <Thumbnail source={{ uri: 'Image URL' }} /> */}
+                                    <Ionicons name="ios-contact" size={screenHeight * 0.05} color="black" />
+                                </Left>
+                                <Body>
+                                    <Text style={styles.font1}>Kumar Pratik</Text>
+                                </Body>
+                                <Right>
+                                    <TouchableOpacity
+                                        style={styles.button1}
+                                        onPress={() => {
+                                            this.setState({ review: true });
+                                        }}
+                                    >
+                                        <Text style={{ fontSize: 14, color: 'white' }}> Review </Text>
+                                    </TouchableOpacity>
+                                </Right>
+                            </ListItem>
+                        </List>
+                    </ScrollView>
+                </View>
                 <View style={styles.card1}>
                     <View style={styles.bottom}>
                         <TouchableOpacity
                             style={styles.button2}
-                            onPress={this.goToMachines}
+                            onPress={this.goToHome}
                         >
                             <Text style={{ fontSize: 14, color: '#3c3c3c' }}> Company Details </Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={styles.button2}
-                            onPress={this.goToMachines}
+                            onPress={this.goToEmployees}
                         >
                             <Text style={{ fontSize: 14, color: '#3c3c3c' }}> Employees </Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={styles.button2}
-                            onPress={this.goToMachines}
+                            onPress={this.goToStock}
                         >
                             <Text style={{ fontSize: 14, color: '#3c3c3c' }}> Stock </Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={{ alignItems: 'center', backgroundColor: '#DDDDDD', padding: 6, borderRadius: 20, marginTop: 10, height: 32 }}
-                            onPress={this.goToMachines}
+                            onPress={this.goToReportTab}
                         >
                             <Text style={{ fontSize: 14, color: '#3c3c3c' }}> Reports </Text>
                         </TouchableOpacity>
@@ -259,63 +264,99 @@ export default class ReportTab extends React.Component {
 
                 </View>
                 <Modal
-                style={{width: screenWidth}}
+                    style={{ width: screenWidth }}
                     visible={this.state.employeesVisible && this.state.review}
                     onTouchOutside={() => {
                         this.setState({ review: false });
                     }}
                     footer={
-                        <ModalFooter style={{ backgroundColor: '#E7E7E7' }}>
-                            <ModalButton
-                                text="Close"
+                        <ModalFooter style={{ backgroundColor: '#E7E7E7', height: screenHeight / 20, }}>                            
+                            <TouchableOpacity
+                                style={{
+                                    position:"absolute",
+                                    left:screenWidth/4,
+                                    bottom:15,
+                                    textAlign:'center',
+                                    alignItems:'center',
+                                    backgroundColor: 'black',
+                                    padding: 5,
+                                    borderRadius: 5,
+                                    width: screenWidth * 0.25,
+                                }}
                                 onPress={() => { this.setState({ review: false }); }}
-                            />
+                            >
+                                <Text style={{ fontSize: 14, color: 'white' }}> Close </Text>
+                            </TouchableOpacity>
                         </ModalFooter>
                     }
                 >
-                    <ModalContent style={{ backgroundColor: '#E7E7E7', width: screenWidth*0.7, }}>
+                    <ModalContent style={{ backgroundColor: '#E7E7E7', width: screenWidth * 0.7 }}>
                         <Text style={{ fontSize: 16, textAlign: 'center', fontWeight: 'bold', marginBottom: 10, }}>Details</Text>
-                        <Text style={{ lineHeight: 25 , textAlign: 'center',}}>Employee firstname lastname{"\n"}shift Start Time: start time{"\n"}Shift End Time: end time{"\n"}Salary on this month: $100</Text>
+                        <Text style={{ lineHeight: 25, textAlign: 'center', }}>Employee firstname lastname{"\n"}shift Start Time: start time{"\n"}Shift End Time: end time{"\n"}Salary on this month: $100</Text>
                     </ModalContent>
                 </Modal>
                 <Modal
-                style={{width: screenWidth}}
+                    style={{ width: screenWidth }}
                     visible={this.state.vehiclesVisible && this.state.review}
                     onTouchOutside={() => {
                         this.setState({ review: false });
                     }}
                     footer={
-                        <ModalFooter style={{ backgroundColor: '#E7E7E7' }}>
-                            <ModalButton
-                                text="Close"
+                        <ModalFooter style={{ backgroundColor: '#E7E7E7', height: screenHeight / 20, }}>
+                            <TouchableOpacity
+                                style={{
+                                    position:"absolute",
+                                    left:screenWidth/4,
+                                    bottom:15,
+                                    textAlign:'center',
+                                    alignItems:'center',
+                                    backgroundColor: 'black',
+                                    padding: 5,
+                                    borderRadius: 5,
+                                    width: screenWidth * 0.25,
+                                }}
                                 onPress={() => { this.setState({ review: false }); }}
-                            />
+                            >
+                                <Text style={{ fontSize: 14, color: 'white' }}> Close </Text>
+                            </TouchableOpacity>
                         </ModalFooter>
                     }
                 >
-                    <ModalContent style={{ backgroundColor: '#E7E7E7', width: screenWidth*0.7, }}>
+                    <ModalContent style={{ backgroundColor: '#E7E7E7', width: screenWidth * 0.7, }}>
                         <Text style={{ fontSize: 16, textAlign: 'center', fontWeight: 'bold', marginBottom: 10, }}>Details</Text>
-                        <Text style={{ lineHeight: 25 , textAlign: 'center',}}>Car name{"\n"}Car license number{"\n"}Driver firstname lastname{"\n"}location at that date</Text>
+                        <Text style={{ lineHeight: 25, textAlign: 'center', }}>Car name{"\n"}Car license number{"\n"}Driver firstname lastname{"\n"}location at that date</Text>
                     </ModalContent>
                 </Modal>
                 <Modal
-                style={{width: screenWidth}}
+                    style={{ width: screenWidth }}
                     visible={this.state.equipmentsVisible && this.state.review}
                     onTouchOutside={() => {
                         this.setState({ review: false });
                     }}
                     footer={
-                        <ModalFooter style={{ backgroundColor: '#E7E7E7' }}>
-                            <ModalButton
-                                text="Close"
+                        <ModalFooter style={{ backgroundColor: '#E7E7E7', height: screenHeight / 20, }}>
+                            <TouchableOpacity
+                                style={{
+                                    position:"absolute",
+                                    left:screenWidth/4,
+                                    bottom:15,
+                                    textAlign:'center',
+                                    alignItems:'center',
+                                    backgroundColor: 'black',
+                                    padding: 5,
+                                    borderRadius: 5,
+                                    width: screenWidth * 0.25,
+                                }}
                                 onPress={() => { this.setState({ review: false }); }}
-                            />
+                            >
+                                <Text style={{ fontSize: 14, color: 'white' }}> Close </Text>
+                            </TouchableOpacity>
                         </ModalFooter>
                     }
                 >
-                    <ModalContent style={{ backgroundColor: '#E7E7E7', width: screenWidth*0.7, }}>
+                    <ModalContent style={{ backgroundColor: '#E7E7E7', width: screenWidth * 0.7, }}>
                         <Text style={{ fontSize: 16, textAlign: 'center', fontWeight: 'bold', marginBottom: 10, }}>Details</Text>
-                        <Text style={{ lineHeight: 25 , textAlign: 'center',}}>Equipment name{"\n"}Equipment location at that date</Text>
+                        <Text style={{ lineHeight: 25, textAlign: 'center', }}>Equipment name{"\n"}Equipment location at that date</Text>
                     </ModalContent>
                 </Modal>
             </View>
@@ -334,7 +375,7 @@ const styles = StyleSheet.create({
         marginTop: 10,
         backgroundColor: '#f6f6f6',
         width: screenWidth * 0.9,
-        height: screenHeight * 0.56,
+        height: screenHeight * 0.19,
         borderTopLeftRadius: 15,
         borderTopRightRadius: 15,
     },

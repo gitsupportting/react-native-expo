@@ -1,6 +1,7 @@
 
 
 import React from 'react'
+import { Select, Option } from "react-native-chooser";
 import { Ionicons } from '@expo/vector-icons';
 import { StyleSheet, View, Dimensions, Text, TouchableOpacity, TextInput, Image, CheckBox, ScrollView } from 'react-native'
 import * as ImagePicker from 'expo-image-picker';
@@ -9,25 +10,35 @@ const screenWidth = Math.round(Dimensions.get('window').width);
 const screenHeight = Math.round(Dimensions.get('window').height);
 
 
-export default class EmployeesAdd extends React.Component {
+export default class StockAdd extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             checkBoxChecked: [],
-            profileImage: null,
-            idImage: null,
-            licenseImage: null,
-            accessImage: null,
+            stockImage: null,
+            sLicenseImage: null,
+            sInsuranceImage: null,
+            sAccessImage: null,
+            typeValue: "Type",
+            driverValue: "Driver",
         };
     }
-    goToEmployeesAdd = () => this.props.navigation.navigate('Employees');
-    goToEmployeesEdit = () => this.props.navigation.navigate('Employees');
+    onTypeSelect(value, label) {
+        this.setState({ typeValue: value });
+    }
+
+    onDriverSelect(value, label) {
+        this.setState({ driverValue: value });
+    }
+
+    goToStockAdded = () => this.props.navigation.navigate('Stock');
+    goToStockCancel = () => this.props.navigation.navigate('Stock');
     goToHome = () => this.props.navigation.navigate('Home');
     goToEmployees = () => this.props.navigation.navigate('Employees');
     goToStock = () => this.props.navigation.navigate('Stock');
     goToReportTab = () => this.props.navigation.navigate('ReportTab');
     componentDidMount() {
-        this.getPermissionAsync();        
+        this.getPermissionAsync();
     }
 
     getPermissionAsync = async () => {
@@ -39,9 +50,9 @@ export default class EmployeesAdd extends React.Component {
         }
     }
 
-    _pickImageProfile = async () => {
+    _pickStockImage = async () => {
         this.setState({
-            buttonVisableProfile: true
+            buttonVisableStock: true
         })
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -54,12 +65,12 @@ export default class EmployeesAdd extends React.Component {
         console.log(result);
 
         if (!result.cancelled) {
-            this.setState({ profileImage: result.uri });
+            this.setState({ stockImage: result.uri });
         }
     };
-    _pickImageId = async () => {
+    _pickSLicenseImage = async () => {
         this.setState({
-            buttonVisableId: true
+            buttonVisableSLicense: true
         })
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -72,12 +83,12 @@ export default class EmployeesAdd extends React.Component {
         console.log(result);
 
         if (!result.cancelled) {
-            this.setState({ idImage: result.uri });
+            this.setState({ sLicenseImage: result.uri });
         }
     };
-    _pickImageLicense = async () => {
+    _pickSInsuranceImage = async () => {
         this.setState({
-            buttonVisableLicense: true
+            buttonVisableSInsurance: true
         })
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -90,12 +101,12 @@ export default class EmployeesAdd extends React.Component {
         console.log(result);
 
         if (!result.cancelled) {
-            this.setState({ licenseImage: result.uri });
+            this.setState({ sInsuranceImage: result.uri });
         }
     };
-    _pickImageAccess = async () => {
+    _pickSAccessImage = async () => {
         this.setState({
-            buttonVisableAccess: true
+            buttonVisableSAccess: true
         })
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -108,114 +119,101 @@ export default class EmployeesAdd extends React.Component {
         console.log(result);
 
         if (!result.cancelled) {
-            this.setState({ accessImage: result.uri });
+            this.setState({ sAccessImage: result.uri });
         }
     };
-    goToEmployeesAdded = () => this.props.navigation.navigate('Employees');
-    goToEmployeesCancel = () => this.props.navigation.navigate('Employees');
     render() {
-        let { profileImage } = this.state;
-        let { idImage } = this.state;
-        let { licenseImage } = this.state;
-        let { accessImage } = this.state;
+        let { stockImage } = this.state;
+        let { sLicenseImage } = this.state;
+        let { sInsuranceImage } = this.state;
+        let { sAccessImage } = this.state;
         return (
             <View style={styles.container}>
                 <ScrollView>
                     <View style={styles.card1}>
-                        <Text style={styles.font2}>Employees details</Text>
+                        <Text style={styles.font2}>Stock details</Text>
                         <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                            {!this.state.buttonVisableProfile &&
+                            {!this.state.buttonVisableStock &&
                                 <TouchableOpacity
                                     style={styles.button3}
-                                    onPress={this._pickImageProfile}
+                                    onPress={this._pickStockImage}
                                 >
                                     <Ionicons name="ios-add-circle-outline" size={screenHeight * 0.04} color="#2684ff" />
-                                    <Text style={{ fontSize: 18, color: '#2684ff', fontWeight: 'bold' }}> Profile Pic </Text>
+                                    <Text style={{ fontSize: 18, color: '#2684ff', fontWeight: 'bold' }}> Stock Pic </Text>
                                 </TouchableOpacity>
                             }
-                            {profileImage &&
+                            {stockImage &&
                                 <TouchableOpacity
                                     style={styles.button3}
-                                    onPress={this._pickImageProfile}
+                                    onPress={this._pickStockImage}
                                 >
-                                    <Image source={{ uri: profileImage }} style={{ width: screenWidth * 0.4, height: screenHeight * 0.12 }} />
+                                    <Image source={{ uri: stockImage }} style={{ width: screenWidth * 0.4, height: screenHeight * 0.12 }} />
                                 </TouchableOpacity>}
                         </View>
-                        <View style={{ margin: screenHeight/80 }}>
+                        <View style={{ margin: screenHeight / 80 }}>
                             <TextInput
                                 style={styles.input}
-                                name='firstName'
+                                name='name'
                                 // value={password}
-                                placeholder='First Name'
+                                placeholder='Name'
                                 autoCapitalize='none'
-                                secureTextEntry
                             />
                         </View>
-                        <View style={{ margin: screenHeight/80 }}>
+                        <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: screenHeight / 80, marginBottom: screenHeight / 80, }}>
+                            <Select
+                                onTypeSelect={this.onTypeSelect.bind(this)}
+                                defaultText={this.state.typeValue}
+                                style={{ borderWidth: 1, borderColor: "#cfcfcf",backgroundColor:'white', height: screenHeight / 20, paddingTop: 6, width: screenWidth * 0.6, }}
+                                textStyle={{color:'#cfcfcf'}}
+                                backdropStyle={{ backgroundColor: "white" }}
+                                optionListStyle={{ backgroundColor: "#f6f6f6", height: screenHeight * 0.5 }}
+                            >
+                                <Option value={{ name: "azhar" }}>Azhar</Option>
+                                <Option value="johnceena">Johnceena</Option>
+                                <Option value="undertaker">Undertaker</Option>
+                                <Option value="Daniel">Daniel</Option>
+                                <Option value="Roman">Roman</Option>
+                                <Option value="Stonecold">Stonecold</Option>
+                                <Option value="Rock">Rock</Option>
+                                <Option value="Sheild">Sheild</Option>
+                                <Option value="Orton">Orton</Option>
+
+                            </Select>
+                        </View>
+                        <View style={{ margin: screenHeight / 80 }}>
                             <TextInput
                                 style={styles.input}
-                                name='lastName'
+                                name='currentLocation'
                                 // value={password}
-                                placeholder='Last Name'
+                                placeholder='Current Location'
                                 autoCapitalize='none'
-                                secureTextEntry
                             />
                         </View>
-                        <View style={{ margin: screenHeight/80 }}>
+                        <View style={{ margin: screenHeight / 80 }}>
                             <TextInput
                                 style={styles.input}
-                                name='id'
+                                name='serialNumber'
                                 // value={password}
-                                placeholder='ID'
+                                placeholder='Serial Number'
                                 autoCapitalize='none'
-                                secureTextEntry
                             />
                         </View>
-                        <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                            {!this.state.buttonVisableId &&
-                                <TouchableOpacity
-                                    style={styles.button3}
-                                    onPress={this._pickImageId}
-                                >
-                                    <Ionicons name="ios-add-circle-outline" size={screenHeight * 0.04} color="#2684ff" />
-                                    <Text style={{ fontSize: 18, color: '#2684ff', fontWeight: 'bold' }}> ID Picture </Text>
-                                </TouchableOpacity>
-                            }
-                            {idImage &&
-                                <TouchableOpacity
-                                    style={styles.button3}
-                                    onPress={this._pickImageId}
-                                >
-                                    <Image source={{ uri: idImage }} style={{ width: screenWidth * 0.4, height: screenHeight * 0.12 }} />
-                                </TouchableOpacity>}
-                        </View>
-                        <View style={{ margin: screenHeight/80 }}>
+                        <View style={{ margin: screenHeight / 80 }}>
                             <TextInput
                                 style={styles.input}
-                                name='phone'
+                                name='licenseNumber'
                                 // value={password}
-                                placeholder='Phone'
+                                placeholder='License Number'
                                 autoCapitalize='none'
-                                secureTextEntry
                             />
                         </View>
-                        <View style={{ margin: screenHeight/80 }}>
-                            <TextInput
-                                style={styles.input}
-                                name='email'
-                                // value={password}
-                                placeholder='Email'
-                                autoCapitalize='none'
-                                secureTextEntry
-                            />
-                        </View>                        
                         <DatePicker
                             style={{
-                                marginBottom: screenHeight / 80
+                                marginBottom: screenHeight / 80,    
                             }}
-                            date={this.state.birthDate}
+                            date={this.state.licenseDate}
                             mode="date"
-                            placeholder="Date of Birth"
+                            placeholder="License Expiration Date"
                             format="YYYY-MM-DD"
                             minDate="1950-05-01"
                             maxDate="2020-06-01"
@@ -243,36 +241,90 @@ export default class EmployeesAdd extends React.Component {
                                 }
                                 // ... You can check the source to find the other keys.
                             }}
-                            onDateChange={(date) => { this.setState({ birthDate: date }) }}
+                            onDateChange={(date) => { this.setState({ licenseDate: date }) }}
                         />
-                        <View style={{ margin: screenHeight/80 }}>
-                            <TextInput
-                                style={styles.input}
-                                name='driverLicenseNumber'
-                                // value={password}
-                                placeholder='Driver License Number'
-                                autoCapitalize='none'
-                                secureTextEntry
-                            />
-                        </View>
                         <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                            {!this.state.buttonVisableLicense &&
+                            {!this.state.buttonVisableSLicense &&
                                 <TouchableOpacity
                                     style={styles.button3}
-                                    onPress={this._pickImageLicense}
+                                    onPress={this._pickSLicenseImage}
                                 >
                                     <Ionicons name="ios-add-circle-outline" size={screenHeight * 0.04} color="#2684ff" />
                                     <Text style={{ fontSize: 18, color: '#2684ff', fontWeight: 'bold' }}> License Pic </Text>
                                 </TouchableOpacity>
                             }
-                            {licenseImage &&
+                            {sLicenseImage &&
                                 <TouchableOpacity
                                     style={styles.button3}
-                                    onPress={this._pickImageLicense}
+                                    onPress={this._pickSLicenseImage}
                                 >
-                                    <Image source={{ uri: licenseImage }} style={{ width: screenWidth * 0.4, height: screenHeight * 0.12 }} />
+                                    <Image source={{ uri: sLicenseImage }} style={{ width: screenWidth * 0.4, height: screenHeight * 0.12 }} />
                                 </TouchableOpacity>}
                         </View>
+                        <View style={{ margin: screenHeight / 80 }}>
+                            <TextInput
+                                style={styles.input}
+                                name='insuranceNumber'
+                                // value={password}
+                                placeholder='Insurance Number'
+                                autoCapitalize='none'
+                            />
+                        </View>
+                        <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+                            {!this.state.buttonVisableSInsurance &&
+                                <TouchableOpacity
+                                    style={styles.button3}
+                                    onPress={this._pickSInsuranceImage}
+                                >
+                                    <Ionicons name="ios-add-circle-outline" size={screenHeight * 0.04} color="#2684ff" />
+                                    <Text style={{ fontSize: 18, color: '#2684ff', fontWeight: 'bold' }}> License Pic </Text>
+                                </TouchableOpacity>
+                            }
+                            {sInsuranceImage &&
+                                <TouchableOpacity
+                                    style={styles.button3}
+                                    onPress={this._pickSInsuranceImage}
+                                >
+                                    <Image source={{ uri: sInsuranceImage }} style={{ width: screenWidth * 0.4, height: screenHeight * 0.12 }} />
+                                </TouchableOpacity>}
+                        </View>
+                        <DatePicker
+                            style={{
+                                marginBottom: screenHeight / 80
+                            }}
+                            date={this.state.insuranceDate}
+                            mode="date"
+                            placeholder="Expiration Date"
+                            format="YYYY-MM-DD"
+                            minDate="1950-05-01"
+                            maxDate="2020-06-01"
+                            confirmBtnText="Confirm"
+                            cancelBtnText="Cancel"
+                            customStyles={{
+                                dateIcon: {
+                                    position: 'absolute',
+                                    left: screenWidth * 0.4,
+                                    top: 6,
+                                    marginLeft: 0
+                                },
+                                dateInput: {
+                                    alignItems: 'flex-start',
+                                    height: screenHeight / 20,
+                                    width: screenWidth * 0.6,
+                                    borderColor: '#cfcfcf',
+                                    borderWidth: 2,
+                                    paddingLeft: 10,
+                                    backgroundColor: 'white',
+                                    position: 'absolute',
+                                    top: 5,
+                                    left: -screenWidth / 8,
+
+                                }
+                                // ... You can check the source to find the other keys.
+                            }}
+                            onDateChange={(date) => { this.setState({ insuranceDate: date }) }}
+                        />
+
 
                         <View style={{ flexDirection: 'row', flexWrap: 'wrap', marginRight: 0.3 * screenWidth }}>
                             <CheckBox
@@ -280,16 +332,15 @@ export default class EmployeesAdd extends React.Component {
                                 styles={{ size: 10 }}
                                 onValueChange={() => this.setState({ checked1: !this.state.checked1 })}
                             />
-                            <Text style={{ fontSize: 14, color: '#3c3c3c', marginTop: screenHeight/80 }}> Has Port Access </Text>
+                            <Text style={{ fontSize: 14, color: '#3c3c3c', marginTop: screenHeight / 100 }}> Has Port Access </Text>
                         </View>
-                        <View style={{ margin: screenHeight/80 }}>
+                        <View style={{ margin: screenHeight / 80 }}>
                             <TextInput
                                 style={styles.input}
                                 name='portAccessNumber'
                                 // value={password}
                                 placeholder='Port Access Number'
                                 autoCapitalize='none'
-                                secureTextEntry
                             />
                         </View>
                         <DatePicker
@@ -330,96 +381,57 @@ export default class EmployeesAdd extends React.Component {
                         />
 
                         <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                            {!this.state.buttonVisableAccess &&
+                            {!this.state.buttonVisableSAccess &&
                                 <TouchableOpacity
                                     style={styles.button3}
-                                    onPress={this._pickImageAccess}
+                                    onPress={this._pickSAccessImage}
                                 >
                                     <Ionicons name="ios-add-circle-outline" size={screenHeight * 0.04} color="#2684ff" />
                                     <Text style={{ fontSize: 18, color: '#2684ff', fontWeight: 'bold' }}> Access Pic </Text>
                                 </TouchableOpacity>
                             }
-                            {accessImage &&
+                            {sAccessImage &&
                                 <TouchableOpacity
                                     style={styles.button3}
-                                    onPress={this._pickImageAccess}
+                                    onPress={this._pickSAccessImage}
                                 >
-                                    <Image source={{ uri: accessImage }} style={{ width: screenWidth * 0.4, height: screenHeight * 0.12 }} />
+                                    <Image source={{ uri: sAccessImage }} style={{ width: screenWidth * 0.4, height: screenHeight * 0.12 }} />
                                 </TouchableOpacity>}
                         </View>
-                        <View style={{ margin: screenHeight/80 }}>
-                            <TextInput
-                                style={styles.input}
-                                name='salaryPerHour'
-                                // value={password}
-                                placeholder='Salary Per Hour'
-                                autoCapitalize='none'
-                                secureTextEntry
-                            />
+                        <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: screenHeight / 80, marginRight: screenHeight / 80, }}>
+                            <Select
+                                onDriverSelect={this.onDriverSelect.bind(this)}
+                                defaultText={this.state.driverValue}
+                                style={{ borderWidth: 1, borderColor: "#cfcfcf", backgroundColor:'white', height: screenHeight / 20, paddingTop: 6, width: screenWidth * 0.6 }}
+                                textStyle={{color:'#cfcfcf'}}
+                                backdropStyle={{ backgroundColor: "white" }}
+                                optionListStyle={{ backgroundColor: "#f6f6f6", height: screenHeight * 0.5 }}
+                            >
+                                <Option value={{ name: "azhar" }}>Azhar</Option>
+                                <Option value="johnceena">Johnceena</Option>
+                                <Option value="undertaker">Undertaker</Option>
+                                <Option value="Daniel">Daniel</Option>
+                                <Option value="Roman">Roman</Option>
+                                <Option value="Stonecold">Stonecold</Option>
+                                <Option value="Rock">Rock</Option>
+                                <Option value="Sheild">Sheild</Option>
+                                <Option value="Orton">Orton</Option>
+
+                            </Select>
                         </View>
-                        <View style={{ margin: screenHeight/80 }}>
-                            <TextInput
-                                style={styles.input}
-                                name='vacationsBalance'
-                                // value={password}
-                                placeholder='Vacations Balance'
-                                autoCapitalize='none'
-                                secureTextEntry
-                            />
-                        </View>
-                        <View style={{ margin: screenHeight/80 }}>
-                            <TextInput
-                                style={styles.input}
-                                name='sicknessBalance'
-                                // value={password}
-                                placeholder='Sickness Balance'
-                                autoCapitalize='none'
-                                secureTextEntry
-                            />
-                        </View>
-                        <View style={{ margin: screenHeight/80 }}>
-                            <TextInput
-                                style={styles.input}
-                                name='vacationseligibilty'
-                                // value={password}
-                                placeholder='Vacations eligibilty per month'
-                                autoCapitalize='none'
-                                secureTextEntry
-                            />
-                        </View>
-                        <View style={{ margin: screenHeight/80 }}>
-                            <TextInput
-                                style={styles.input}
-                                name='sicknesseligibilty'
-                                // value={password}
-                                placeholder='Sickness eligibilty per month'
-                                autoCapitalize='none'
-                                secureTextEntry
-                            />
-                        </View>
-                        <View style={{ margin: screenHeight/80 }}>
-                            <TextInput
-                                style={styles.input}
-                                name='defaultWorking'
-                                // value={password}
-                                placeholder='Default working hours per day'
-                                autoCapitalize='none'
-                                secureTextEntry
-                            />
-                        </View>
-                        <View style={{ flexDirection: 'row', marginTop: 15, marginBottom:20 }}>
+                        <View style={{ flexDirection: 'row', marginTop: 15, marginBottom: 20 }}>
                             <TouchableOpacity
-                                style={{ width: 0.2 * screenWidth }}
-                                onPress={this.goToEmployeesCancel}
+                                style={{ width: 0.2 * screenWidth, marginRight:screenWidth*0.3 }}
+                                onPress={this.goToStockCancel}
                             >
                                 <Text style={{ fontSize: 18, color: '#2684ff', }}> Cancel </Text>
                             </TouchableOpacity>
 
                             <TouchableOpacity
-                                style={{ width: 0.35 * screenWidth }}
-                                onPress={this.goToEmployeesAdded}
+                                style={{ width: 0.25 * screenWidth }}
+                                onPress={this.goToStockAdded}
                             >
-                                <Text style={{ fontSize: 18, color: '#2684ff' }}> Add Employees </Text>
+                                <Text style={{ fontSize: 18, color: '#2684ff' }}> Add Stock </Text>
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -433,13 +445,13 @@ export default class EmployeesAdd extends React.Component {
                             <Text style={{ fontSize: 14, color: '#3c3c3c' }}> Company Details </Text>
                         </TouchableOpacity>
                         <TouchableOpacity
-                            style={{ alignItems: 'center', backgroundColor: '#DDDDDD', padding: 6, borderRadius: 20, marginTop: 10, height: 32 }}
+                            style={styles.button2}
                             onPress={this.goToEmployees}
                         >
                             <Text style={{ fontSize: 14, color: '#3c3c3c' }}> Employees </Text>
                         </TouchableOpacity>
                         <TouchableOpacity
-                            style={styles.button2}
+                            style={{ alignItems: 'center', backgroundColor: '#DDDDDD', padding: 6, borderRadius: 20, marginTop: 10, height: 32 }}
                             onPress={this.goToStock}
                         >
                             <Text style={{ fontSize: 14, color: '#3c3c3c' }}> Stock </Text>
@@ -470,7 +482,7 @@ const styles = StyleSheet.create({
         marginTop: 20,
         backgroundColor: '#f6f6f6',
         width: screenWidth * 0.9,
-        height: screenHeight * 1.91,
+        height: screenHeight * 1.65,
         borderTopRightRadius: 15,
         borderTopLeftRadius: 15,
         alignItems: 'center',

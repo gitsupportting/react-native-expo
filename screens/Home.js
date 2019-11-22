@@ -7,10 +7,15 @@ const screenHeight = Math.round(Dimensions.get('window').height);
 
 
 export default class Signup extends React.Component {
-  goToEmployees = () => this.props.navigation.navigate('Employees');
+  goToReportWorking = () => this.props.navigation.navigate('ReportWorking');
   goToVehicles = () => this.props.navigation.navigate('Vehicles');
   goToMachines = () => this.props.navigation.navigate('Machines');
-    render() {   
+  goToHome = () => this.props.navigation.navigate('Home');
+  goToEmployees = () => this.props.navigation.navigate('Employees');
+  goToStock = () => this.props.navigation.navigate('Stock');
+  goToReportTab = () => this.props.navigation.navigate('ReportTab');
+
+  render() {
 
     return (
       <View style={styles.container}>
@@ -36,7 +41,7 @@ export default class Signup extends React.Component {
           </View>
           <TouchableOpacity
             style={styles.button1}
-            onPress={this.goToEmployees}
+            onPress={this.goToReportWorking}
           >
             <Text style={{ fontSize: 14, color: 'white' }}> Manage Employees </Text>
           </TouchableOpacity>
@@ -64,34 +69,38 @@ export default class Signup extends React.Component {
           >
             <Text style={{ fontSize: 14, color: 'white' }}> Manage Machines </Text>
           </TouchableOpacity>
-          <View style={{ flexDirection: 'row', marginTop: 20 }}>
+        </View>
+
+
+        <View style={styles.card1}>
+          <View style={styles.bottom}>
             <TouchableOpacity
-              style={{ alignItems: 'center', backgroundColor: '#DDDDDD', padding: 8, borderRadius: 20, marginTop: 10, }}
-              onPress={this.goToMachines}
+              style={{ alignItems: 'center', backgroundColor: '#DDDDDD', padding: 6, borderRadius: 20, marginTop: 10, height: 32 }}
+              onPress={this.goToHome}
             >
               <Text style={{ fontSize: 14, color: '#3c3c3c' }}> Company Details </Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.button2}
-              onPress={this.goToMachines}
+              onPress={this.goToEmployees}
             >
               <Text style={{ fontSize: 14, color: '#3c3c3c' }}> Employees </Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.button2}
-              onPress={this.goToMachines}
+              onPress={this.goToStock}
             >
               <Text style={{ fontSize: 14, color: '#3c3c3c' }}> Stock </Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.button2}
-              onPress={this.goToMachines}
+              onPress={this.goToReportTab}
             >
               <Text style={{ fontSize: 14, color: '#3c3c3c' }}> Reports </Text>
             </TouchableOpacity>
           </View>
-        </View>
 
+        </View>
       </View>
     )
   }
@@ -105,11 +114,21 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   card: {
-    marginTop: 30,
+    marginTop: 25,
     backgroundColor: '#f6f6f6',
     width: screenWidth * 0.9,
-    height: screenHeight * 0.93,
-    borderRadius: 15,
+    height: screenHeight * 0.85,
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  card1: {
+    backgroundColor: '#f6f6f6',
+    width: screenWidth * 0.9,
+    height: screenHeight * 0.08,
+    borderBottomLeftRadius: 15,
+    borderBottomRightRadius: 15,
     alignItems: 'center',
     justifyContent: 'center'
   },
@@ -154,7 +173,14 @@ const styles = StyleSheet.create({
     padding: 8,
     borderRadius: 20,
     marginTop: 10,
-  }
+  },
+  bottom: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    flexDirection: 'row',
+    position: 'absolute',
+    bottom: 10,
+}
 })
 
 

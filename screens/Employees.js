@@ -34,7 +34,10 @@ export default class Employees extends React.Component {
 
     goToEmployeesAdd = () => this.props.navigation.navigate('EmployeesAdd');
     goToEmployeesEdit = () => this.props.navigation.navigate('EmployeesAdd');
-
+    goToHome = () => this.props.navigation.navigate('Home');
+    goToEmployees = () => this.props.navigation.navigate('Employees');
+    goToStock = () => this.props.navigation.navigate('Stock');
+    goToReportTab = () => this.props.navigation.navigate('ReportTab');
     render() {
         const { firstQuery } = this.state;
         const products = [{
@@ -135,25 +138,25 @@ export default class Employees extends React.Component {
                     <View style={styles.bottom}>
                         <TouchableOpacity
                             style={styles.button2}
-                            onPress={this.goToMachines}
+                            onPress={this.goToHome}
                         >
                             <Text style={{ fontSize: 14, color: '#3c3c3c' }}> Company Details </Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={{ alignItems: 'center', backgroundColor: '#DDDDDD', padding: 6, borderRadius: 20, marginTop: 10, height: 32 }}
-                            onPress={this.goToMachines}
+                            onPress={this.goToEmployees}
                         >
                             <Text style={{ fontSize: 14, color: '#3c3c3c' }}> Employees </Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={styles.button2}
-                            onPress={this.goToMachines}
+                            onPress={this.goToStock}
                         >
                             <Text style={{ fontSize: 14, color: '#3c3c3c' }}> Stock </Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={styles.button2}
-                            onPress={this.goToMachines}
+                            onPress={this.goToReportTab}
                         >
                             <Text style={{ fontSize: 14, color: '#3c3c3c' }}> Reports </Text>
                         </TouchableOpacity>

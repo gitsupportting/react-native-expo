@@ -1,17 +1,17 @@
 import { createStackNavigator } from 'react-navigation-stack'
 import Login from '../screens/Login'
 import Signup from '../screens/Signup'
-import ReportTab from '../screens/ReportTab'
+// import StockAdd from '../screens/StockAdd'
 
 const AuthNavigation = createStackNavigator(
   {
     Login: { screen: Login },
     Signup: { screen: Signup },
-    ReportTab: { screen: ReportTab },
+    // StockAdd: { screen: StockAdd },
   },
   {
-    // initialRouteName: 'Login',
-    initialRouteName: 'ReportTab',    
+    initialRouteName: 'Login',
+    // initialRouteName: 'StockAdd',    
     headerMode: 'none'
   }
 )

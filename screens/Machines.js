@@ -1,27 +1,26 @@
 
 import React from 'react'
 import { Select, Option } from "react-native-chooser";
-import { StyleSheet, View, Dimensions, Text, TouchableOpacity } from 'react-native'
+import { StyleSheet, View, Dimensions, Text, TouchableOpacity, TextInput } from 'react-native'
 import { Searchbar } from 'react-native-paper';
 const screenWidth = Math.round(Dimensions.get('window').width);
 const screenHeight = Math.round(Dimensions.get('window').height);
 
 
-export default class Vehicles extends React.Component {
+export default class Machines extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            firstQuery: '',
-            value: "Driver"
+            firstQuery: '',            
         };
     }
     onSelect(value, label) {
         this.setState({ value: value });
     }
 
-    goToVehiclesCancel = () => this.props.navigation.navigate('Home');
-    goToVehiclesDone = () => this.props.navigation.navigate('Home');
+    goToMachinesCancel = () => this.props.navigation.navigate('Home');
+    goToMachinesDone = () => this.props.navigation.navigate('Home');
     goToHome = () => this.props.navigation.navigate('Home');
     goToEmployees = () => this.props.navigation.navigate('Employees');
     goToStock = () => this.props.navigation.navigate('Stock');
@@ -34,19 +33,19 @@ export default class Vehicles extends React.Component {
                 <View style={{ flexDirection: 'row', marginTop: 30 }}>
                     <TouchableOpacity
                         style={{ width: 0.15 * screenWidth, marginRight: 0.6 * screenWidth }}
-                        onPress={this.goToVehiclesCancel}
+                        onPress={this.goToMachinesCancel}
                     >
                         <Text style={{ fontSize: 18, color: '#2684ff' }}> Cancel </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={{ width: 0.15 * screenWidth }}
-                        onPress={this.goToVehiclesDone}
+                        onPress={this.goToMachinesDone}
                     >
                         <Text style={{ fontSize: 18, color: '#2684ff' }}> Done </Text>
                     </TouchableOpacity>
                 </View>
                 <View style={{ marginLeft: -0.4 * screenWidth, }}>
-                    <Text style={styles.font2}>Manage Vehicles</Text>
+                    <Text style={styles.font2}>Manage Machines</Text>
                 </View>
                 <Searchbar
                     placeholder="Search"
@@ -55,26 +54,14 @@ export default class Vehicles extends React.Component {
                     style={{ width: 0.8 * screenWidth, backgroundColor: '#f6f6f6', borderRadius: 8, marginTop: 10 }}
                 />
                 <View style={styles.card}>
-                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center',marginTop:screenHeight/15, position:'absolute', bottom: screenHeight*0.52 }}>
-                        <Select
-                            onSelect={this.onSelect.bind(this)}
-                            defaultText={this.state.value}
-                            style={{ borderWidth: 1, borderColor: "#cfcfcf",backgroundColor:'white',}}
-                            textStyle={{color:'#cfcfcf'}}
-                            backdropStyle={{ backgroundColor: "white" }}
-                            optionListStyle={{ backgroundColor: "#f6f6f6", height:screenHeight*0.5 }}
-                        >
-                            <Option value={{ name: "azhar" }}>Azhar</Option>
-                            <Option value="johnceena">Johnceena</Option>
-                            <Option value="undertaker">Undertaker</Option>
-                            <Option value="Daniel">Daniel</Option>
-                            <Option value="Roman">Roman</Option>
-                            <Option value="Stonecold">Stonecold</Option>
-                            <Option value="Rock">Rock</Option>
-                            <Option value="Sheild">Sheild</Option>
-                            <Option value="Orton">Orton</Option>
-
-                        </Select>
+                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center',marginTop:screenHeight/15, position:'absolute', bottom: screenHeight*0.52 }}>                    
+                            <TextInput
+                                style={styles.input}
+                                name='location'
+                                // value={password}
+                                placeholder='Location'
+                                autoCapitalize='none'                                
+                            />                        
                     </View>
                     <View style={styles.bottom}>
                         <TouchableOpacity
@@ -149,6 +136,14 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         marginTop: 10,
         height: 32,
+    },
+    input: {
+        height: screenHeight / 20,
+        width: screenWidth * 0.6,
+        borderColor: '#cfcfcf',
+        borderWidth: 2,
+        paddingLeft: 10,
+        backgroundColor: 'white'
     },
     bottom: {
         flex: 1,

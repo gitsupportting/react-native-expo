@@ -13,7 +13,6 @@ export default class Signup extends React.Component {
   goToLogin = () => this.props.navigation.navigate('Login');
   componentDidMount() {
     this.getPermissionAsync();
-    console.log('hi');
   }
 
   getPermissionAsync = async () => {
@@ -40,19 +39,19 @@ export default class Signup extends React.Component {
     console.log(result);
 
     if (!result.cancelled) {
-      this.setState({ image: result.uri });
+      this.setState({ companyLogo: result.uri });
     }
   };
   state = {
-    image: null,
+    companyLogo: null,
   };
   render() {
-    let { image } = this.state;
+    let { companyLogo } = this.state;
 
     return (
       <View style={styles.container}>
         <View style={styles.card}>
-          <View style={{ alignItems: 'center', justifyContent: 'center', marginBottom: 10, marginTop: 10 }}>
+          <View style={{ alignItems: 'center', justifyContent: 'center', marginBottom: 0, marginTop: 10 }}>
             <Text style={styles.font2}>Welcome To Kablanit</Text>
           </View>
           <View style={{ marginLeft: -screenWidth * 0.5 }}>
@@ -88,12 +87,12 @@ export default class Signup extends React.Component {
                 <Text style={{ fontSize: 22, color: '#2684ff', fontWeight: 'bold' }}> Company Logo </Text>
               </TouchableOpacity>
             }
-            {image &&
+            {companyLogo &&
               <TouchableOpacity
                 style={styles.button3}
                 onPress={this._pickImage}
               >
-                <Image source={{ uri: image }} style={{ width: screenWidth * 0.5, height: screenHeight * 0.12 }} />
+                <Image source={{ uri: companyLogo }} style={{ width: screenWidth * 0.5, height: screenHeight * 0.12 }} />
               </TouchableOpacity>}
           </View>
           <View style={{ marginLeft: -screenWidth * 0.4 }}>
@@ -149,6 +148,7 @@ export default class Signup extends React.Component {
               // value={username}
               placeholder='Pass'
               autoCapitalize='none'
+              secureTextEntry
             />
           </View>
           <View style={{ margin: 5 }}>
@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   card: {
-    marginTop: 30,
+    marginTop: 20,
     backgroundColor: '#f6f6f6',
     width: screenWidth * 0.9,
     height: screenHeight * 0.93,
@@ -236,7 +236,8 @@ const styles = StyleSheet.create({
     padding: 5,
     borderRadius: 5,
     width: screenWidth * 0.6,
-    marginTop: 10,
+    marginTop: 5,
+    marginBottom: 5,
   },
   button2: {
     alignItems: 'center',
@@ -244,7 +245,8 @@ const styles = StyleSheet.create({
     padding: 5,
     borderRadius: 5,
     width: screenWidth * 0.6,
-    marginTop: 10,
+    marginTop: 5,
+    marginBottom: 5,
   },
   button3: {
     alignItems: 'center',
