@@ -2,13 +2,19 @@
 
 import React from 'react'
 import { Select, Option } from "react-native-chooser";
+import CheckboxFormX from 'react-native-checkbox-form';
 import { Ionicons } from '@expo/vector-icons';
 import { StyleSheet, View, Dimensions, Text, TouchableOpacity, TextInput, Image, CheckBox, ScrollView } from 'react-native'
 import * as ImagePicker from 'expo-image-picker';
 import DatePicker from 'react-native-datepicker'
 const screenWidth = Math.round(Dimensions.get('window').width);
 const screenHeight = Math.round(Dimensions.get('window').height);
-
+const selectall = [
+    {
+        label: 'Has Port Access',
+        value: 'one'
+    },
+];
 
 export default class StockAdd extends React.Component {
     constructor(props) {
@@ -23,6 +29,9 @@ export default class StockAdd extends React.Component {
             driverValue: "Driver",
         };
     }
+    _onSelect = (item) => {
+        console.log(item);
+    };
     onTypeSelect(value, label) {
         this.setState({ typeValue: value });
     }
@@ -163,8 +172,8 @@ export default class StockAdd extends React.Component {
                             <Select
                                 onTypeSelect={this.onTypeSelect.bind(this)}
                                 defaultText={this.state.typeValue}
-                                style={{ borderWidth: 1, borderColor: "#cfcfcf",backgroundColor:'white', height: screenHeight / 20, paddingTop: 6, width: screenWidth * 0.6, }}
-                                textStyle={{color:'#cfcfcf'}}
+                                style={{ borderWidth: 1, borderColor: "#cfcfcf", backgroundColor: 'white', height: screenHeight / 20, paddingTop: 6, width: screenWidth * 0.6, }}
+                                textStyle={{ color: '#cfcfcf' }}
                                 backdropStyle={{ backgroundColor: "white" }}
                                 optionListStyle={{ backgroundColor: "#f6f6f6", height: screenHeight * 0.5 }}
                             >
@@ -209,7 +218,7 @@ export default class StockAdd extends React.Component {
                         </View>
                         <DatePicker
                             style={{
-                                marginBottom: screenHeight / 80,    
+                                marginBottom: screenHeight / 80,
                             }}
                             date={this.state.licenseDate}
                             mode="date"
@@ -223,7 +232,7 @@ export default class StockAdd extends React.Component {
                                 dateIcon: {
                                     position: 'absolute',
                                     left: screenWidth * 0.4,
-                                    top: 6,
+                                    top: screenHeight/100,
                                     marginLeft: 0
                                 },
                                 dateInput: {
@@ -236,7 +245,7 @@ export default class StockAdd extends React.Component {
                                     backgroundColor: 'white',
                                     position: 'absolute',
                                     top: 5,
-                                    left: -screenWidth / 8,
+                                    // left: -screenWidth / 8,
 
                                 }
                                 // ... You can check the source to find the other keys.
@@ -304,7 +313,7 @@ export default class StockAdd extends React.Component {
                                 dateIcon: {
                                     position: 'absolute',
                                     left: screenWidth * 0.4,
-                                    top: 6,
+                                    top: screenHeight/100,
                                     marginLeft: 0
                                 },
                                 dateInput: {
@@ -317,22 +326,26 @@ export default class StockAdd extends React.Component {
                                     backgroundColor: 'white',
                                     position: 'absolute',
                                     top: 5,
-                                    left: -screenWidth / 8,
+                                    // left: -screenWidth / 8,
 
                                 }
                                 // ... You can check the source to find the other keys.
                             }}
-                            onDateChange={(date) => { this.setState({ insuranceDate: date }) }}
-                        />
+                            onDateChange={(date) => { this.setState({ insuranceDate: date }) }}                       />
 
 
-                        <View style={{ flexDirection: 'row', flexWrap: 'wrap', marginRight: 0.3 * screenWidth }}>
-                            <CheckBox
-                                value={this.state.checked1}
-                                styles={{ size: 10 }}
-                                onValueChange={() => this.setState({ checked1: !this.state.checked1 })}
+                        <View style={{ flexDirection: 'row', flexWrap: 'wrap', marginLeft:30 }}>
+                            <CheckboxFormX
+                                style={{ width: 30 }}
+                                dataSource={selectall}
+                                itemShowKey="label"
+                                itemCheckedKey="RNchecked"
+                                iconSize={30}
+                                formHorizontal={true}
+                                labelHorizontal={true}
+                                onChecked={(item) => this._onSelect(item)}
                             />
-                            <Text style={{ fontSize: 14, color: '#3c3c3c', marginTop: screenHeight / 100 }}> Has Port Access </Text>
+                            {/* <Text style={{ fontSize: 14, color: '#3c3c3c', marginTop: screenHeight / 100 }}> Has Port Access </Text> */}
                         </View>
                         <View style={{ margin: screenHeight / 80 }}>
                             <TextInput
@@ -359,7 +372,7 @@ export default class StockAdd extends React.Component {
                                 dateIcon: {
                                     position: 'absolute',
                                     left: screenWidth * 0.4,
-                                    top: 6,
+                                    top: screenHeight/100,
                                     marginLeft: 0
                                 },
                                 dateInput: {
@@ -372,7 +385,7 @@ export default class StockAdd extends React.Component {
                                     backgroundColor: 'white',
                                     position: 'absolute',
                                     top: 5,
-                                    left: -screenWidth / 8,
+                                    // left: -screenWidth / 8,
 
                                 }
                                 // ... You can check the source to find the other keys.
@@ -402,8 +415,8 @@ export default class StockAdd extends React.Component {
                             <Select
                                 onDriverSelect={this.onDriverSelect.bind(this)}
                                 defaultText={this.state.driverValue}
-                                style={{ borderWidth: 1, borderColor: "#cfcfcf", backgroundColor:'white', height: screenHeight / 20, paddingTop: 6, width: screenWidth * 0.6 }}
-                                textStyle={{color:'#cfcfcf'}}
+                                style={{ borderWidth: 1, borderColor: "#cfcfcf", backgroundColor: 'white', height: screenHeight / 20, paddingTop: 6, width: screenWidth * 0.6 }}
+                                textStyle={{ color: '#cfcfcf' }}
                                 backdropStyle={{ backgroundColor: "white" }}
                                 optionListStyle={{ backgroundColor: "#f6f6f6", height: screenHeight * 0.5 }}
                             >
@@ -421,7 +434,7 @@ export default class StockAdd extends React.Component {
                         </View>
                         <View style={{ flexDirection: 'row', marginTop: 15, marginBottom: 20 }}>
                             <TouchableOpacity
-                                style={{ width: 0.2 * screenWidth, marginRight:screenWidth*0.3 }}
+                                style={{ width: 0.2 * screenWidth, marginRight: screenWidth * 0.3 }}
                                 onPress={this.goToStockCancel}
                             >
                                 <Text style={{ fontSize: 18, color: '#2684ff', }}> Cancel </Text>
@@ -442,25 +455,25 @@ export default class StockAdd extends React.Component {
                             style={styles.button2}
                             onPress={this.goToHome}
                         >
-                            <Text style={{ fontSize: 14, color: '#3c3c3c' }}> Company Details </Text>
+                            <Text style={{ fontSize: 13, color: '#3c3c3c' }}> Company Details </Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={styles.button2}
                             onPress={this.goToEmployees}
                         >
-                            <Text style={{ fontSize: 14, color: '#3c3c3c' }}> Employees </Text>
+                            <Text style={{ fontSize: 13, color: '#3c3c3c' }}> Employees </Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={{ alignItems: 'center', backgroundColor: '#DDDDDD', padding: 6, borderRadius: 20, marginTop: 10, height: 32 }}
                             onPress={this.goToStock}
                         >
-                            <Text style={{ fontSize: 14, color: '#3c3c3c' }}> Stock </Text>
+                            <Text style={{ fontSize: 13, color: '#3c3c3c' }}> Stock </Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={styles.button2}
                             onPress={this.goToReportTab}
                         >
-                            <Text style={{ fontSize: 14, color: '#3c3c3c' }}> Reports </Text>
+                            <Text style={{ fontSize: 13, color: '#3c3c3c' }}> Reports </Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -517,7 +530,7 @@ const styles = StyleSheet.create({
     button2: {
         alignItems: 'center',
         backgroundColor: '#f6f6f6',
-        padding: 7,
+        padding: 6,
         borderRadius: 20,
         marginTop: 10,
         height: 32,

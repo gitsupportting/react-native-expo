@@ -78,25 +78,25 @@ export default class Signup extends React.Component {
               style={{ alignItems: 'center', backgroundColor: '#DDDDDD', padding: 6, borderRadius: 20, marginTop: 10, height: 32 }}
               onPress={this.goToHome}
             >
-              <Text style={{ fontSize: 14, color: '#3c3c3c' }}> Company Details </Text>
+              <Text style={{ fontSize: 13, color: '#3c3c3c' }}> Company Details </Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.button2}
               onPress={this.goToEmployees}
             >
-              <Text style={{ fontSize: 14, color: '#3c3c3c' }}> Employees </Text>
+              <Text style={{ fontSize: 13, color: '#3c3c3c' }}> Employees </Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.button2}
               onPress={this.goToStock}
             >
-              <Text style={{ fontSize: 14, color: '#3c3c3c' }}> Stock </Text>
+              <Text style={{ fontSize: 13, color: '#3c3c3c' }}> Stock </Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.button2}
               onPress={this.goToReportTab}
             >
-              <Text style={{ fontSize: 14, color: '#3c3c3c' }}> Reports </Text>
+              <Text style={{ fontSize: 13, color: '#3c3c3c' }}> Reports </Text>
             </TouchableOpacity>
           </View>
 
@@ -170,7 +170,7 @@ const styles = StyleSheet.create({
   button2: {
     alignItems: 'center',
     backgroundColor: '#f6f6f6',
-    padding: 8,
+    padding: 6,
     borderRadius: 20,
     marginTop: 10,
   },

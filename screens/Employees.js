@@ -1,13 +1,25 @@
 
 import React from 'react'
 import { Ionicons } from '@expo/vector-icons';
+import CheckboxFormX from 'react-native-checkbox-form';
 import { StyleSheet, View, Dimensions, Text, TouchableOpacity, CheckBox } from 'react-native'
 import { List, ListItem, Left, Body, Right, Thumbnail } from 'native-base';
 import { Searchbar } from 'react-native-paper';
 const screenWidth = Math.round(Dimensions.get('window').width);
 const screenHeight = Math.round(Dimensions.get('window').height);
 
-var tempCheckValues = [];
+const selectall = [
+    {
+        label: 'Select All',
+        value: 'one'
+    },
+];
+const selectone = [
+    {
+        label: '',
+        value: 'one'
+    },
+];
 export default class Employees extends React.Component {
     constructor(props) {
         super(props);
@@ -17,6 +29,9 @@ export default class Employees extends React.Component {
             checkBoxChecked: []
         };
     }
+    _onSelect = (item) => {
+        console.log(item);
+    };
     checkBoxChanged(id, value) {
 
         this.setState({
@@ -49,20 +64,20 @@ export default class Employees extends React.Component {
         {
             id: 3
         }];
-        return (            
-        //     products.map((val) => {
-        //         { tempCheckValues[val.id] = false }   
-        //         return (        
-        //           <View key={val.id} style={{ flexDirection: 'column' }}>        
-        //             <CheckBox        
-        //               value={this.state.checkBoxChecked[val.id]}        
-        //               onValueChange={() => this.checkBoxChanged(val.id, this.state.checkBoxChecked[val.id])}        
-        //             />        
-        //           </View >        
-        //         )        
-        //       }
-        //     )
-            
+        return (
+            //     products.map((val) => {
+            //         { tempCheckValues[val.id] = false }   
+            //         return (        
+            //           <View key={val.id} style={{ flexDirection: 'column' }}>        
+            //             <CheckBox        
+            //               value={this.state.checkBoxChecked[val.id]}        
+            //               onValueChange={() => this.checkBoxChanged(val.id, this.state.checkBoxChecked[val.id])}        
+            //             />        
+            //           </View >        
+            //         )        
+            //       }
+            //     )
+
             <View style={styles.container}>
                 <View style={{ flexDirection: 'row', marginTop: 30 }}>
                     <TouchableOpacity
@@ -96,9 +111,15 @@ export default class Employees extends React.Component {
                                 <Text style={styles.font1}>Kumar Pratik</Text>
                             </Body>
                             <Right>
-                                <CheckBox
-                                    value={this.state.checked1}
-                                    onValueChange={() => this.setState({ checked1: !this.state.checked1 })}
+                                <CheckboxFormX
+                                    style={{ width: 30 }}
+                                    dataSource={selectone}
+                                    itemShowKey="label"
+                                    itemCheckedKey="RNchecked"
+                                    iconSize={30}
+                                    formHorizontal={true}
+                                    // labelHorizontal={true}
+                                    onChecked={(item) => this._onSelect(item)}
                                 />
                             </Right>
                         </ListItem>
@@ -111,9 +132,15 @@ export default class Employees extends React.Component {
                                 <Text style={styles.font1}>Kumar Pratik</Text>
                             </Body>
                             <Right>
-                                <CheckBox
-                                    value={this.state.checked2}
-                                    onValueChange={() => this.setState({ checked2: !this.state.checked2 })}
+                                <CheckboxFormX
+                                    style={{ width: 30 }}
+                                    dataSource={selectone}
+                                    itemShowKey="label"
+                                    itemCheckedKey="RNchecked"
+                                    iconSize={30}
+                                    formHorizontal={true}
+                                    // labelHorizontal={true}
+                                    onChecked={(item) => this._onSelect(item)}
                                 />
                             </Right>
                         </ListItem>
@@ -126,9 +153,15 @@ export default class Employees extends React.Component {
                                 <Text style={styles.font1}>Kumar Pratik</Text>
                             </Body>
                             <Right>
-                                <CheckBox
-                                    value={this.state.checked3}
-                                    onValueChange={() => this.setState({ checked3: !this.state.checked3 })}
+                                <CheckboxFormX
+                                    style={{ width: 30 }}
+                                    dataSource={selectone}
+                                    itemShowKey="label"
+                                    itemCheckedKey="RNchecked"
+                                    iconSize={30}
+                                    formHorizontal={true}
+                                    // labelHorizontal={true}
+                                    onChecked={(item) => this._onSelect(item)}
                                 />
                             </Right>
                         </ListItem>
@@ -140,25 +173,25 @@ export default class Employees extends React.Component {
                             style={styles.button2}
                             onPress={this.goToHome}
                         >
-                            <Text style={{ fontSize: 14, color: '#3c3c3c' }}> Company Details </Text>
+                            <Text style={{ fontSize: 13, color: '#3c3c3c' }}> Company Details </Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={{ alignItems: 'center', backgroundColor: '#DDDDDD', padding: 6, borderRadius: 20, marginTop: 10, height: 32 }}
                             onPress={this.goToEmployees}
                         >
-                            <Text style={{ fontSize: 14, color: '#3c3c3c' }}> Employees </Text>
+                            <Text style={{ fontSize: 13, color: '#3c3c3c' }}> Employees </Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={styles.button2}
                             onPress={this.goToStock}
                         >
-                            <Text style={{ fontSize: 14, color: '#3c3c3c' }}> Stock </Text>
+                            <Text style={{ fontSize: 13, color: '#3c3c3c' }}> Stock </Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={styles.button2}
                             onPress={this.goToReportTab}
                         >
-                            <Text style={{ fontSize: 14, color: '#3c3c3c' }}> Reports </Text>
+                            <Text style={{ fontSize: 13, color: '#3c3c3c' }}> Reports </Text>
                         </TouchableOpacity>
                     </View>
 

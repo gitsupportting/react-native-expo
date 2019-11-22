@@ -1,6 +1,7 @@
 
 import React from 'react'
 import moment from 'moment';
+import CheckboxFormX from 'react-native-checkbox-form';
 import Modal, { ModalFooter, ModalButton, ModalContent } from 'react-native-modals';
 import DatePicker from 'react-native-datepicker'
 import { Ionicons } from '@expo/vector-icons';
@@ -11,7 +12,18 @@ import { Searchbar } from 'react-native-paper';
 const screenWidth = Math.round(Dimensions.get('window').width);
 const screenHeight = Math.round(Dimensions.get('window').height);
 
-var tempCheckValues = [];
+const selectall = [
+    {
+        label: 'Select All',
+        value: 'one'        
+    },
+];
+const selectone = [
+    {
+        label: '',
+        value: 'one'        
+    },
+];
 export default class ReportWorking extends React.Component {
     constructor(props) {
         super(props);
@@ -21,6 +33,9 @@ export default class ReportWorking extends React.Component {
             checkBoxChecked: []
         };
     }
+    _onSelect = (item) => {
+        console.log(item);
+    };
     checkBoxChanged(id, value) {
 
         this.setState({
@@ -58,7 +73,7 @@ export default class ReportWorking extends React.Component {
             <View style={styles.container}>
                 <View style={{ flexDirection: 'row', marginTop: 30 }}>
                     <TouchableOpacity
-                        style={{ width: 0.15 * screenWidth, marginRight: 0.6 * screenWidth }}
+                        style={{ width: 0.2 * screenWidth, marginRight: 0.55 * screenWidth }}
                         onPress={this.goToReportCancel}
                     >
                         <Text style={{ fontSize: 18, color: '#2684ff' }}> Cancel </Text>
@@ -79,13 +94,23 @@ export default class ReportWorking extends React.Component {
                     value={firstQuery}
                     style={{ width: 0.9 * screenWidth, backgroundColor: '#f6f6f6', borderRadius: 8, marginTop: 20, marginBottom: 10 }}
                 />
-                <View style={{ flexDirection: 'row', flexWrap: 'wrap', marginLeft: screenWidth * 0.6 }}>
-                    <CheckBox
+                <View style={{ flexDirection: 'row', flexWrap: 'wrap', marginLeft: 30 }}>
+                    {/* <CheckBox
                         value={this.state.checked}
-                        styles={{ size: 10 }}
+                        styles={{ size: 100 }}
                         onValueChange={() => this.setState({ checked1: !this.state.checked1, checked2: !this.state.checked2, checked3: !this.state.checked3, checked: !this.state.checked })}
+                    /> */}
+                    <CheckboxFormX
+                        style={{ width: 30 }}
+                        dataSource={selectall}
+                        itemShowKey="label"
+                        itemCheckedKey="RNchecked"
+                        iconSize={30}
+                        formHorizontal={true}
+                        labelHorizontal={true}
+                        onChecked={(item) => this._onSelect(item)}
                     />
-                    <Text style={{ fontSize: 14, color: '#3c3c3c', marginTop: screenHeight / 100 }}> Select All </Text>
+                    {/* <Text style={{ fontSize: 14, color: '#3c3c3c', marginTop: screenHeight / 100 }}> Select All </Text> */}
                 </View>
                 <View style={styles.card}>
                     <ScrollView>
@@ -99,9 +124,19 @@ export default class ReportWorking extends React.Component {
                                     <Text style={styles.font1}>Kumar Pratik</Text>
                                 </Body>
                                 <Right>
-                                    <CheckBox
+                                    {/* <CheckBox
                                         value={this.state.checked1}
                                         onValueChange={() => this.setState({ checked1: !this.state.checked1 })}
+                                    /> */}
+                                    <CheckboxFormX
+                                        style={{ width: 30 }}
+                                        dataSource={selectone}
+                                        itemShowKey="label"
+                                        itemCheckedKey="RNchecked"
+                                        iconSize={30}
+                                        formHorizontal={true}
+                                        // labelHorizontal={true}
+                                        onChecked={(item) => this._onSelect(item)}
                                     />
                                 </Right>
                             </ListItem>
@@ -114,9 +149,19 @@ export default class ReportWorking extends React.Component {
                                     <Text style={styles.font1}>Kumar Pratik</Text>
                                 </Body>
                                 <Right>
-                                    <CheckBox
+                                    {/* <CheckBox
                                         value={this.state.checked2}
                                         onValueChange={() => this.setState({ checked2: !this.state.checked2 })}
+                                    /> */}
+                                    <CheckboxFormX
+                                        style={{ width: 30 }}
+                                        dataSource={selectone}
+                                        itemShowKey="label"
+                                        itemCheckedKey="RNchecked"
+                                        iconSize={30}
+                                        formHorizontal={true}
+                                        // labelHorizontal={true}
+                                        onChecked={(item) => this._onSelect(item)}
                                     />
                                 </Right>
                             </ListItem>
@@ -129,9 +174,19 @@ export default class ReportWorking extends React.Component {
                                     <Text style={styles.font1}>Kumar Pratik</Text>
                                 </Body>
                                 <Right>
-                                    <CheckBox
+                                    {/* <CheckBox
                                         value={this.state.checked3}
                                         onValueChange={() => this.setState({ checked3: !this.state.checked3 })}
+                                    /> */}
+                                    <CheckboxFormX
+                                        style={{ width: 30 }}
+                                        dataSource={selectone}
+                                        itemShowKey="label"
+                                        itemCheckedKey="RNchecked"
+                                        iconSize={30}
+                                        formHorizontal={true}
+                                        // labelHorizontal={true}
+                                        onChecked={(item) => this._onSelect(item)}
                                     />
                                 </Right>
                             </ListItem>
@@ -162,25 +217,25 @@ export default class ReportWorking extends React.Component {
                             style={styles.button2}
                             onPress={this.goToHome}
                         >
-                            <Text style={{ fontSize: 14, color: '#3c3c3c' }}> Company Details </Text>
+                            <Text style={{ fontSize: 13, color: '#3c3c3c' }}> Company Details </Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={{ alignItems: 'center', backgroundColor: '#DDDDDD', padding: 6, borderRadius: 20, marginTop: 10, height: 32 }}
                             onPress={this.goToEmployees}
                         >
-                            <Text style={{ fontSize: 14, color: '#3c3c3c' }}> Employees </Text>
+                            <Text style={{ fontSize: 13, color: '#3c3c3c' }}> Employees </Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={styles.button2}
                             onPress={this.goToStock}
                         >
-                            <Text style={{ fontSize: 14, color: '#3c3c3c' }}> Stock </Text>
+                            <Text style={{ fontSize: 13, color: '#3c3c3c' }}> Stock </Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={styles.button2}
                             onPress={this.goToReportTab}
                         >
-                            <Text style={{ fontSize: 14, color: '#3c3c3c' }}> Reports </Text>
+                            <Text style={{ fontSize: 13, color: '#3c3c3c' }}> Reports </Text>
                         </TouchableOpacity>
                     </View>
 
@@ -202,11 +257,11 @@ export default class ReportWorking extends React.Component {
                             /> */}
                             <TouchableOpacity
                                 style={{
-                                    position:"absolute",
-                                    left:screenWidth/16,
-                                    bottom:15,
-                                    textAlign:'center',
-                                    alignItems:'center',
+                                    position: "absolute",
+                                    left: screenWidth / 16,
+                                    bottom: 15,
+                                    textAlign: 'center',
+                                    alignItems: 'center',
                                     backgroundColor: '#E7E7E7',
                                     padding: 5,
                                     borderRadius: 5,
@@ -218,11 +273,11 @@ export default class ReportWorking extends React.Component {
                             </TouchableOpacity>
                             <TouchableOpacity
                                 style={{
-                                    position:"absolute",
-                                    left:screenWidth*0.45,
-                                    bottom:15,
-                                    textAlign:'center',
-                                    alignItems:'center',
+                                    position: "absolute",
+                                    left: screenWidth * 0.45,
+                                    bottom: 15,
+                                    textAlign: 'center',
+                                    alignItems: 'center',
                                     backgroundColor: '#E7E7E7',
                                     padding: 5,
                                     borderRadius: 5,
@@ -247,7 +302,7 @@ export default class ReportWorking extends React.Component {
                         this.setState({ customVisible: false });
                     }}
                     footer={
-                        <ModalFooter style={{ backgroundColor: '#E7E7E7', marginTop: 0 , height: screenHeight / 11,}}>
+                        <ModalFooter style={{ backgroundColor: '#E7E7E7', marginTop: 0, height: screenHeight / 11, }}>
                             {/* <ModalButton
                                 text="Cancel"
                                 style={{ backgroundColor: '#E7E7E7', marginTop: 0 }}
@@ -260,11 +315,11 @@ export default class ReportWorking extends React.Component {
                             /> */}
                             <TouchableOpacity
                                 style={{
-                                    position:"absolute",
-                                    left:screenWidth/16,
-                                    bottom:15,
-                                    textAlign:'center',
-                                    alignItems:'center',
+                                    position: "absolute",
+                                    left: screenWidth / 16,
+                                    bottom: 15,
+                                    textAlign: 'center',
+                                    alignItems: 'center',
                                     backgroundColor: '#E7E7E7',
                                     padding: 5,
                                     borderRadius: 5,
@@ -276,11 +331,11 @@ export default class ReportWorking extends React.Component {
                             </TouchableOpacity>
                             <TouchableOpacity
                                 style={{
-                                    position:"absolute",
-                                    left:screenWidth*0.5,
-                                    bottom:15,
-                                    textAlign:'center',
-                                    alignItems:'center',
+                                    position: "absolute",
+                                    left: screenWidth * 0.5,
+                                    bottom: 15,
+                                    textAlign: 'center',
+                                    alignItems: 'center',
                                     backgroundColor: '#E7E7E7',
                                     padding: 5,
                                     borderRadius: 5,
@@ -312,7 +367,7 @@ export default class ReportWorking extends React.Component {
                                 dateIcon: {
                                     position: 'absolute',
                                     left: screenWidth * 0.4,
-                                    top: 6,
+                                    top: screenHeight/100,
                                     marginLeft: 0
                                 },
                                 dateInput: {
@@ -325,7 +380,7 @@ export default class ReportWorking extends React.Component {
                                     backgroundColor: 'white',
                                     position: 'absolute',
                                     top: 5,
-                                    left: -screenWidth / 8,
+                                    // left: -screenWidth / 8,
 
                                 }
                                 // ... You can check the source to find the other keys.
@@ -354,7 +409,7 @@ export default class ReportWorking extends React.Component {
                                 dateIcon: {
                                     position: 'absolute',
                                     left: screenWidth * 0.4,
-                                    top: 6,
+                                    top: screenHeight/100,
                                     marginLeft: 0
                                 },
                                 dateInput: {
@@ -367,7 +422,7 @@ export default class ReportWorking extends React.Component {
                                     backgroundColor: 'white',
                                     position: 'absolute',
                                     top: 5,
-                                    left: -screenWidth / 8,
+                                    // left: -screenWidth / 8,
 
                                 }
                                 // ... You can check the source to find the other keys.
@@ -419,7 +474,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         color: 'black',
         textAlign: 'center',
-        width: screenWidth * 0.5,
+        width: screenWidth * 0.7,
         marginRight: screenWidth * 0.05,
         marginLeft: screenWidth * 0.05,
         marginTop: 10,

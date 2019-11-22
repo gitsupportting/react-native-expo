@@ -1,6 +1,7 @@
 
 import React from 'react'
 import moment from 'moment';
+import CheckboxFormX from 'react-native-checkbox-form';
 import CalendarPicker from 'react-native-calendar-picker';
 import Modal, { ModalFooter, ModalButton, ModalContent } from 'react-native-modals';
 import DatePicker from 'react-native-datepicker'
@@ -12,7 +13,18 @@ import { Searchbar } from 'react-native-paper';
 const screenWidth = Math.round(Dimensions.get('window').width);
 const screenHeight = Math.round(Dimensions.get('window').height);
 
-var tempCheckValues = [];
+const selectall = [
+    {
+        label: 'Select All',
+        value: 'one'        
+    },
+];
+const selectone = [
+    {
+        label: '',
+        value: 'one'        
+    },
+];
 export default class ReportTab extends React.Component {
     constructor(props) {
         super(props);
@@ -28,6 +40,9 @@ export default class ReportTab extends React.Component {
         };
         this.onDateChange = this.onDateChange.bind(this);
     }
+    _onSelect = (item) => {
+        console.log(item);
+    };
     checkBoxChanged(id, value) {
 
         this.setState({
@@ -78,7 +93,7 @@ export default class ReportTab extends React.Component {
                             padding: 5,
                             borderWidth: 1,
                             borderColor: 'black',
-                            height: screenHeight / 20,
+                            height: 34,
                             borderTopLeftRadius: 10,
                             borderBottomLeftRadius: 10,
                             width: screenWidth * 0.25,
@@ -90,7 +105,7 @@ export default class ReportTab extends React.Component {
                                 padding: 5,
                                 borderWidth: 1,
                                 borderColor: 'black',
-                                height: screenHeight / 20,
+                                height: 34,
                                 borderTopLeftRadius: 10,
                                 borderBottomLeftRadius: 10,
                                 width: screenWidth * 0.25,
@@ -110,7 +125,7 @@ export default class ReportTab extends React.Component {
                             padding: 5,
                             borderWidth: 1,
                             borderColor: 'black',
-                            height: screenHeight / 20,
+                            height: 34,
                             width: screenWidth * 0.25,
                             marginTop: -screenHeight / 20,
                         } :
@@ -120,7 +135,7 @@ export default class ReportTab extends React.Component {
                                 padding: 5,
                                 borderWidth: 1,
                                 borderColor: 'black',
-                                height: screenHeight / 20,
+                                height: 34,
                                 width: screenWidth * 0.25,
                                 marginTop: -screenHeight / 20,
                             }
@@ -138,7 +153,7 @@ export default class ReportTab extends React.Component {
                             padding: 5,
                             borderWidth: 1,
                             borderColor: 'black',
-                            height: screenHeight / 20,
+                            height: 34,
                             borderTopRightRadius: 10,
                             borderBottomRightRadius: 10,
                             width: screenWidth * 0.25,
@@ -150,7 +165,7 @@ export default class ReportTab extends React.Component {
                                 padding: 5,
                                 borderWidth: 1,
                                 borderColor: 'black',
-                                height: screenHeight / 20,
+                                height: 34,
                                 borderTopRightRadius: 10,
                                 borderBottomRightRadius: 10,
                                 width: screenWidth * 0.25,
@@ -240,25 +255,25 @@ export default class ReportTab extends React.Component {
                             style={styles.button2}
                             onPress={this.goToHome}
                         >
-                            <Text style={{ fontSize: 14, color: '#3c3c3c' }}> Company Details </Text>
+                            <Text style={{ fontSize: 13, color: '#3c3c3c' }}> Company Details </Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={styles.button2}
                             onPress={this.goToEmployees}
                         >
-                            <Text style={{ fontSize: 14, color: '#3c3c3c' }}> Employees </Text>
+                            <Text style={{ fontSize: 13, color: '#3c3c3c' }}> Employees </Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={styles.button2}
                             onPress={this.goToStock}
                         >
-                            <Text style={{ fontSize: 14, color: '#3c3c3c' }}> Stock </Text>
+                            <Text style={{ fontSize: 13, color: '#3c3c3c' }}> Stock </Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={{ alignItems: 'center', backgroundColor: '#DDDDDD', padding: 6, borderRadius: 20, marginTop: 10, height: 32 }}
                             onPress={this.goToReportTab}
                         >
-                            <Text style={{ fontSize: 14, color: '#3c3c3c' }}> Reports </Text>
+                            <Text style={{ fontSize: 13, color: '#3c3c3c' }}> Reports </Text>
                         </TouchableOpacity>
                     </View>
 
@@ -369,7 +384,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',        
     },
     card: {
         marginTop: 10,
@@ -382,7 +397,7 @@ const styles = StyleSheet.create({
     card1: {
         backgroundColor: '#f6f6f6',
         width: screenWidth * 0.9,
-        height: screenHeight * 0.08,
+        height: screenHeight * 0.06,
         borderBottomLeftRadius: 15,
         borderBottomRightRadius: 15,
         alignItems: 'center',

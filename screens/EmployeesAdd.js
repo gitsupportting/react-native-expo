@@ -2,13 +2,25 @@
 
 import React from 'react'
 import { Ionicons } from '@expo/vector-icons';
+import CheckboxFormX from 'react-native-checkbox-form';
 import { StyleSheet, View, Dimensions, Text, TouchableOpacity, TextInput, Image, CheckBox, ScrollView } from 'react-native'
 import * as ImagePicker from 'expo-image-picker';
 import DatePicker from 'react-native-datepicker'
 const screenWidth = Math.round(Dimensions.get('window').width);
 const screenHeight = Math.round(Dimensions.get('window').height);
 
-
+const selectall = [
+    {
+        label: 'Has Port Access',
+        value: 'one'
+    },
+];
+const selectone = [
+    {
+        label: '',
+        value: 'one'
+    },
+];
 export default class EmployeesAdd extends React.Component {
     constructor(props) {
         super(props);
@@ -20,6 +32,9 @@ export default class EmployeesAdd extends React.Component {
             accessImage: null,
         };
     }
+    _onSelect = (item) => {
+        console.log(item);
+    };
     goToEmployeesAdd = () => this.props.navigation.navigate('Employees');
     goToEmployeesEdit = () => this.props.navigation.navigate('Employees');
     goToHome = () => this.props.navigation.navigate('Home');
@@ -27,7 +42,7 @@ export default class EmployeesAdd extends React.Component {
     goToStock = () => this.props.navigation.navigate('Stock');
     goToReportTab = () => this.props.navigation.navigate('ReportTab');
     componentDidMount() {
-        this.getPermissionAsync();        
+        this.getPermissionAsync();
     }
 
     getPermissionAsync = async () => {
@@ -141,7 +156,7 @@ export default class EmployeesAdd extends React.Component {
                                     <Image source={{ uri: profileImage }} style={{ width: screenWidth * 0.4, height: screenHeight * 0.12 }} />
                                 </TouchableOpacity>}
                         </View>
-                        <View style={{ margin: screenHeight/80 }}>
+                        <View style={{ margin: screenHeight / 80 }}>
                             <TextInput
                                 style={styles.input}
                                 name='firstName'
@@ -151,7 +166,7 @@ export default class EmployeesAdd extends React.Component {
                                 secureTextEntry
                             />
                         </View>
-                        <View style={{ margin: screenHeight/80 }}>
+                        <View style={{ margin: screenHeight / 80 }}>
                             <TextInput
                                 style={styles.input}
                                 name='lastName'
@@ -161,7 +176,7 @@ export default class EmployeesAdd extends React.Component {
                                 secureTextEntry
                             />
                         </View>
-                        <View style={{ margin: screenHeight/80 }}>
+                        <View style={{ margin: screenHeight / 80 }}>
                             <TextInput
                                 style={styles.input}
                                 name='id'
@@ -189,7 +204,7 @@ export default class EmployeesAdd extends React.Component {
                                     <Image source={{ uri: idImage }} style={{ width: screenWidth * 0.4, height: screenHeight * 0.12 }} />
                                 </TouchableOpacity>}
                         </View>
-                        <View style={{ margin: screenHeight/80 }}>
+                        <View style={{ margin: screenHeight / 80 }}>
                             <TextInput
                                 style={styles.input}
                                 name='phone'
@@ -199,7 +214,7 @@ export default class EmployeesAdd extends React.Component {
                                 secureTextEntry
                             />
                         </View>
-                        <View style={{ margin: screenHeight/80 }}>
+                        <View style={{ margin: screenHeight / 80 }}>
                             <TextInput
                                 style={styles.input}
                                 name='email'
@@ -208,7 +223,7 @@ export default class EmployeesAdd extends React.Component {
                                 autoCapitalize='none'
                                 secureTextEntry
                             />
-                        </View>                        
+                        </View>
                         <DatePicker
                             style={{
                                 marginBottom: screenHeight / 80
@@ -225,7 +240,7 @@ export default class EmployeesAdd extends React.Component {
                                 dateIcon: {
                                     position: 'absolute',
                                     left: screenWidth * 0.4,
-                                    top: 6,
+                                    top: screenHeight/100,
                                     marginLeft: 0
                                 },
                                 dateInput: {
@@ -238,14 +253,14 @@ export default class EmployeesAdd extends React.Component {
                                     backgroundColor: 'white',
                                     position: 'absolute',
                                     top: 5,
-                                    left: -screenWidth / 8,
+                                    // left: -screenWidth / 8,
 
                                 }
                                 // ... You can check the source to find the other keys.
                             }}
                             onDateChange={(date) => { this.setState({ birthDate: date }) }}
                         />
-                        <View style={{ margin: screenHeight/80 }}>
+                        <View style={{ margin: screenHeight / 80 }}>
                             <TextInput
                                 style={styles.input}
                                 name='driverLicenseNumber'
@@ -274,15 +289,20 @@ export default class EmployeesAdd extends React.Component {
                                 </TouchableOpacity>}
                         </View>
 
-                        <View style={{ flexDirection: 'row', flexWrap: 'wrap', marginRight: 0.3 * screenWidth }}>
-                            <CheckBox
-                                value={this.state.checked1}
-                                styles={{ size: 10 }}
-                                onValueChange={() => this.setState({ checked1: !this.state.checked1 })}
+                        <View style={{ flexDirection: 'row', flexWrap: 'wrap',marginLeft:30}}>
+                            <CheckboxFormX
+                                style={{ width: 30 }}
+                                dataSource={selectall}
+                                itemShowKey="label"
+                                itemCheckedKey="RNchecked"
+                                iconSize={30}
+                                formHorizontal={true}
+                                labelHorizontal={true}
+                                onChecked={(item) => this._onSelect(item)}
                             />
-                            <Text style={{ fontSize: 14, color: '#3c3c3c', marginTop: screenHeight/80 }}> Has Port Access </Text>
+                            {/* <Text style={{ fontSize: 14, color: '#3c3c3c', marginTop: screenHeight/80 }}> Has Port Access </Text> */}
                         </View>
-                        <View style={{ margin: screenHeight/80 }}>
+                        <View style={{ margin: screenHeight / 80 }}>
                             <TextInput
                                 style={styles.input}
                                 name='portAccessNumber'
@@ -308,7 +328,7 @@ export default class EmployeesAdd extends React.Component {
                                 dateIcon: {
                                     position: 'absolute',
                                     left: screenWidth * 0.4,
-                                    top: 6,
+                                    top: screenHeight/100,
                                     marginLeft: 0
                                 },
                                 dateInput: {
@@ -321,7 +341,7 @@ export default class EmployeesAdd extends React.Component {
                                     backgroundColor: 'white',
                                     position: 'absolute',
                                     top: 5,
-                                    left: -screenWidth / 8,
+                                    // left: -screenWidth / 8,
 
                                 }
                                 // ... You can check the source to find the other keys.
@@ -347,7 +367,7 @@ export default class EmployeesAdd extends React.Component {
                                     <Image source={{ uri: accessImage }} style={{ width: screenWidth * 0.4, height: screenHeight * 0.12 }} />
                                 </TouchableOpacity>}
                         </View>
-                        <View style={{ margin: screenHeight/80 }}>
+                        <View style={{ margin: screenHeight / 80 }}>
                             <TextInput
                                 style={styles.input}
                                 name='salaryPerHour'
@@ -357,7 +377,7 @@ export default class EmployeesAdd extends React.Component {
                                 secureTextEntry
                             />
                         </View>
-                        <View style={{ margin: screenHeight/80 }}>
+                        <View style={{ margin: screenHeight / 80 }}>
                             <TextInput
                                 style={styles.input}
                                 name='vacationsBalance'
@@ -367,7 +387,7 @@ export default class EmployeesAdd extends React.Component {
                                 secureTextEntry
                             />
                         </View>
-                        <View style={{ margin: screenHeight/80 }}>
+                        <View style={{ margin: screenHeight / 80 }}>
                             <TextInput
                                 style={styles.input}
                                 name='sicknessBalance'
@@ -377,7 +397,7 @@ export default class EmployeesAdd extends React.Component {
                                 secureTextEntry
                             />
                         </View>
-                        <View style={{ margin: screenHeight/80 }}>
+                        <View style={{ margin: screenHeight / 80 }}>
                             <TextInput
                                 style={styles.input}
                                 name='vacationseligibilty'
@@ -387,7 +407,7 @@ export default class EmployeesAdd extends React.Component {
                                 secureTextEntry
                             />
                         </View>
-                        <View style={{ margin: screenHeight/80 }}>
+                        <View style={{ margin: screenHeight / 80 }}>
                             <TextInput
                                 style={styles.input}
                                 name='sicknesseligibilty'
@@ -397,7 +417,7 @@ export default class EmployeesAdd extends React.Component {
                                 secureTextEntry
                             />
                         </View>
-                        <View style={{ margin: screenHeight/80 }}>
+                        <View style={{ margin: screenHeight / 80 }}>
                             <TextInput
                                 style={styles.input}
                                 name='defaultWorking'
@@ -407,7 +427,7 @@ export default class EmployeesAdd extends React.Component {
                                 secureTextEntry
                             />
                         </View>
-                        <View style={{ flexDirection: 'row', marginTop: 15, marginBottom:20 }}>
+                        <View style={{ flexDirection: 'row', marginTop: 15, marginBottom: 20 }}>
                             <TouchableOpacity
                                 style={{ width: 0.2 * screenWidth }}
                                 onPress={this.goToEmployeesCancel}
@@ -430,25 +450,25 @@ export default class EmployeesAdd extends React.Component {
                             style={styles.button2}
                             onPress={this.goToHome}
                         >
-                            <Text style={{ fontSize: 14, color: '#3c3c3c' }}> Company Details </Text>
+                            <Text style={{ fontSize: 13, color: '#3c3c3c' }}> Company Details </Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={{ alignItems: 'center', backgroundColor: '#DDDDDD', padding: 6, borderRadius: 20, marginTop: 10, height: 32 }}
                             onPress={this.goToEmployees}
                         >
-                            <Text style={{ fontSize: 14, color: '#3c3c3c' }}> Employees </Text>
+                            <Text style={{ fontSize: 13, color: '#3c3c3c' }}> Employees </Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={styles.button2}
                             onPress={this.goToStock}
                         >
-                            <Text style={{ fontSize: 14, color: '#3c3c3c' }}> Stock </Text>
+                            <Text style={{ fontSize: 13, color: '#3c3c3c' }}> Stock </Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={styles.button2}
                             onPress={this.goToReportTab}
                         >
-                            <Text style={{ fontSize: 14, color: '#3c3c3c' }}> Reports </Text>
+                            <Text style={{ fontSize: 13, color: '#3c3c3c' }}> Reports </Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -505,7 +525,7 @@ const styles = StyleSheet.create({
     button2: {
         alignItems: 'center',
         backgroundColor: '#f6f6f6',
-        padding: 7,
+        padding: 6,
         borderRadius: 20,
         marginTop: 10,
         height: 32,

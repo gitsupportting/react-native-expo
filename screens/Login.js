@@ -37,7 +37,7 @@ export default class Login extends React.Component {
       <View style={styles.container}>
         <Image
           style={{ width: screenWidth * 0.8, height: screenHeight/6 }}
-          source={require('../assets/logo.png')}
+          source={require('../assets/icon.png')}
         />
         <View style={styles.card}>
           <View style={{ alignItems: 'center', justifyContent: 'center', marginBottom: 20 }}>
