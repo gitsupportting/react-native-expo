@@ -1,7 +1,5 @@
 
 import React from 'react'
-import moment from 'moment';
-import CheckboxFormX from 'react-native-checkbox-form';
 import CalendarPicker from 'react-native-calendar-picker';
 import Modal, { ModalFooter, ModalButton, ModalContent } from 'react-native-modals';
 import DatePicker from 'react-native-datepicker'
@@ -81,6 +79,7 @@ export default class ReportTab extends React.Component {
                 </View>
                 <CalendarPicker
                     onDateChange={this.onDateChange}
+                    scascaleFactor={screenHeight*0.7}
                 />
                 {/* <View>
                         <Text>SELECTED DATE:{startDate}</Text>
@@ -390,7 +389,7 @@ const styles = StyleSheet.create({
         marginTop: 10,
         backgroundColor: '#f6f6f6',
         width: screenWidth * 0.9,
-        height: screenHeight * 0.19,
+        height: screenHeight * 0.3,
         borderTopLeftRadius: 15,
         borderTopRightRadius: 15,
     },
