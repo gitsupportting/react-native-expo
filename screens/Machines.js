@@ -29,6 +29,7 @@ export default class Machines extends React.Component {
         const { firstQuery } = this.state;
         return (
 
+            
             <View style={styles.container}>
                 <View style={{ flexDirection: 'row', marginTop: 30 }}>
                     <TouchableOpacity
