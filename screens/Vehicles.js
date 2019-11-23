@@ -55,14 +55,14 @@ export default class Vehicles extends React.Component {
                     style={{ width: 0.8 * screenWidth, backgroundColor: '#f6f6f6', borderRadius: 8, marginTop: 10 }}
                 />
                 <View style={styles.card}>
-                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center',marginTop:screenHeight/15, position:'absolute', bottom: screenHeight*0.52 }}>
+                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: screenHeight / 15, position: 'absolute', bottom: screenHeight * 0.52 }}>
                         <Select
                             onSelect={this.onSelect.bind(this)}
                             defaultText={this.state.value}
-                            style={{ borderWidth: 1, borderColor: "#cfcfcf",backgroundColor:'white',}}
-                            textStyle={{color:'#cfcfcf'}}
+                            style={{ borderWidth: 1, borderColor: "#cfcfcf", backgroundColor: 'white', }}
+                            textStyle={{ color: '#cfcfcf' }}
                             backdropStyle={{ backgroundColor: "white" }}
-                            optionListStyle={{ backgroundColor: "#f6f6f6", height:screenHeight*0.5 }}
+                            optionListStyle={{ backgroundColor: "#f6f6f6", height: screenHeight * 0.5 }}
                         >
                             <Option value={{ name: "azhar" }}>Azhar</Option>
                             <Option value="johnceena">Johnceena</Option>
@@ -76,6 +76,8 @@ export default class Vehicles extends React.Component {
 
                         </Select>
                     </View>
+                </View>
+                <View style={styles.card1}>
                     <View style={styles.bottom}>
                         <TouchableOpacity
                             style={styles.button2}
@@ -103,7 +105,6 @@ export default class Vehicles extends React.Component {
                         </TouchableOpacity>
                     </View>
                 </View>
-
             </View>
         )
     }
@@ -120,10 +121,21 @@ const styles = StyleSheet.create({
         marginTop: 30,
         backgroundColor: '#f6f6f6',
         width: screenWidth * 0.9,
-        height: screenHeight * 0.7,
+        height: screenHeight * 0.62,
         borderRadius: 15,
         alignItems: 'center',
         justifyContent: 'center'
+    },
+    card1: {
+        backgroundColor: '#f6f6f6',
+        width: screenWidth * 0.9,
+        height: screenHeight * 0.08,
+        borderBottomLeftRadius: 15,
+        borderBottomRightRadius: 15,
+        alignItems: 'center',
+        justifyContent: 'center',
+        position:'absolute',
+        bottom:15
     },
     font1: {
         fontSize: 14,

@@ -460,7 +460,9 @@ const styles = StyleSheet.create({
         borderBottomLeftRadius: 15,
         borderBottomRightRadius: 15,
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        position:'absolute',
+        bottom:15
     },
     font1: {
         fontSize: 16,

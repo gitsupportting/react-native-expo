@@ -12,7 +12,7 @@ export default class Machines extends React.Component {
         super(props);
 
         this.state = {
-            firstQuery: '',            
+            firstQuery: '',
         };
     }
     onSelect(value, label) {
@@ -29,7 +29,7 @@ export default class Machines extends React.Component {
         const { firstQuery } = this.state;
         return (
 
-            
+
             <View style={styles.container}>
                 <View style={{ flexDirection: 'row', marginTop: 30 }}>
                     <TouchableOpacity
@@ -55,15 +55,17 @@ export default class Machines extends React.Component {
                     style={{ width: 0.8 * screenWidth, backgroundColor: '#f6f6f6', borderRadius: 8, marginTop: 10 }}
                 />
                 <View style={styles.card}>
-                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center',marginTop:screenHeight/15, position:'absolute', bottom: screenHeight*0.52 }}>                    
-                            <TextInput
-                                style={styles.input}
-                                name='location'
-                                // value={password}
-                                placeholder='Location'
-                                autoCapitalize='none'                                
-                            />                        
+                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: screenHeight / 15, position: 'absolute', bottom: screenHeight * 0.52 }}>
+                        <TextInput
+                            style={styles.input}
+                            name='location'
+                            // value={password}
+                            placeholder='Location'
+                            autoCapitalize='none'
+                        />
                     </View>
+                </View>
+                <View style={styles.card1}>
                     <View style={styles.bottom}>
                         <TouchableOpacity
                             style={styles.button2}
@@ -91,7 +93,6 @@ export default class Machines extends React.Component {
                         </TouchableOpacity>
                     </View>
                 </View>
-
             </View>
         )
     }
@@ -102,16 +103,27 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
     },
     card: {
         marginTop: 30,
         backgroundColor: '#f6f6f6',
         width: screenWidth * 0.9,
-        height: screenHeight * 0.7,
+        height: screenHeight * 0.62,
         borderRadius: 15,
         alignItems: 'center',
         justifyContent: 'center'
+    },
+    card1: {
+        backgroundColor: '#f6f6f6',
+        width: screenWidth * 0.9,
+        height: screenHeight * 0.08,
+        borderBottomLeftRadius: 15,
+        borderBottomRightRadius: 15,
+        alignItems: 'center',
+        justifyContent: 'center',
+        position: 'absolute',
+        bottom: 15
     },
     font1: {
         fontSize: 14,
