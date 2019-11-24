@@ -1,17 +1,19 @@
 import React from 'react'
 import { StyleSheet, View, TextInput, Image, Dimensions, Text, TouchableOpacity } from 'react-native'
+import { db, Firebase } from '../Firebase';
+
 const screenWidth = Math.round(Dimensions.get('window').width);
 const screenHeight = Math.round(Dimensions.get('window').height);
 
 
 export default class Login extends React.Component {
   state = {
-    username: '',
+    email: '',
     password: ''
   }
 
-  handleusernameChange = username => {
-    this.setState({ username })
+  handleemailChange = email => {
+    this.setState({ email })
   }
 
   handlePasswordChange = password => {
@@ -19,10 +21,14 @@ export default class Login extends React.Component {
   }
 
   onLogin = async () => {
-    const { username, password } = this.state
+    const { email, password } = this.state
     try {
-      if (username.length > 0 && password.length > 0) {
-        this.props.navigation.navigate('App')
+      if (email.length > 0 && password.length > 0) {         
+        Firebase.auth().signInWithEmailAndPassword(email, password).then(res=>{
+          this.props.navigation.navigate('App')
+        }).catch(err=>{
+          alert(err)
+        })
       }
     } catch (error) {
       alert(error)
@@ -31,7 +37,7 @@ export default class Login extends React.Component {
 
   goToSignup = () => this.props.navigation.navigate('Signup')
   render() {
-    const { username, password } = this.state
+    const { email, password } = this.state
 
     return (
       <View style={styles.container}>
@@ -50,11 +56,11 @@ export default class Login extends React.Component {
           <View style={{ margin: 10 }}>
             <TextInput
               style={styles.input}
-              name='username'
-              value={username}
-              placeholder='UserName'
+              name='email'
+              value={email}
+              placeholder='Email'
               autoCapitalize='none'
-              onChangeText={this.handleusernameChange}
+              onChangeText={this.handleemailChange}
             />
           </View>
           <View style={{ margin: 10 }}>

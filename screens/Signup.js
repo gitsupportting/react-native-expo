@@ -4,13 +4,90 @@ import { Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
+import 'firebase/firestore';
+import {Firebase, db} from '../Firebase';
+
 import { StyleSheet, View, TextInput, Image, Dimensions, Text, Button, TouchableOpacity } from 'react-native'
 const screenWidth = Math.round(Dimensions.get('window').width);
 const screenHeight = Math.round(Dimensions.get('window').height);
 
 
 export default class Signup extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      companyLogo: null,
+      companyName:'',
+      companyAddress:'',
+      firstName:'',
+      lastName:'',
+      email:'',
+      phone:'',
+      username:'',
+      password:'',
+      confirmPass:'',
+    };
+}
+  handlecompanyNameChange = companyName => {
+    this.setState({ companyName })
+  }
+  handlecompanyAddressChange = companyAddress => {
+    this.setState({ companyAddress })
+  }
+  handlefirstNameChange = firstName => {
+    this.setState({ firstName })
+  }
+  handlelastNameChange = lastName => {
+    this.setState({ lastName })
+  }
+  handleemailChange = email => {
+    this.setState({ email })
+  }
+  handlephoneChange = phone => {
+    this.setState({ phone })
+  }
+  handleusernameChange = username => {
+    this.setState({ username })
+  }
+  handlepasswordChange = password => {
+    this.setState({ password })
+  }
+  handleconfirmPassChange = confirmPass => {
+    this.setState({ confirmPass })
+  }
   goToLogin = () => this.props.navigation.navigate('Login');
+
+  goToLoginAfterSignup = async () => {
+    const { companyName, companyAddress, firstName, lastName, email, phone, username, password,confirmPass, companyLogo } = this.state
+    try {
+      if ((password==confirmPass) && (companyLogo!=null) && username.length > 0 && password.length > 0 && companyName.length > 0 && companyAddress.length > 0 && firstName.length > 0, lastName.length > 0 && email.length > 0 && phone.length) {        
+        Firebase.auth().createUserWithEmailAndPassword(email, password).then(({ user })=>{
+          try {
+            db.collection("users").add({
+              email: user.email,
+              uid: user.uid,
+              companyName: companyName,
+              companyAddress: companyAddress,
+              firstName: firstName,
+              lastName: lastName,
+              username: username,
+              password: password,
+              companyLogo: companyLogo
+            })
+          } catch (errorr) {
+            alert(errorr);
+          }
+          
+          this.props.navigation.navigate('Login');
+        }).catch(err=>{
+          alert(err.code+" "+err.message)
+        })
+      }
+    } catch (error) {
+      alert(error);
+    }
+  }  
   componentDidMount() {
     this.getPermissionAsync();
   }
@@ -33,13 +110,13 @@ export default class Signup extends React.Component {
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
-
+      base64: true,
     });
 
     console.log(result);
 
     if (!result.cancelled) {
-      this.setState({ companyLogo: result.uri });
+      this.setState({ companyLogo: result.base64 });
     }
   };
   state = {
@@ -47,7 +124,7 @@ export default class Signup extends React.Component {
   };
   render() {
     let { companyLogo } = this.state;
-
+    const { companyName, companyAddress, firstName, lastName, email, phone, username, password,confirmPass } = this.state
     return (
       <View style={styles.container}>
         <View style={styles.card}>
@@ -61,18 +138,20 @@ export default class Signup extends React.Component {
             <TextInput
               style={styles.input}
               name='companyName'
-              // value={username}
+              value={companyName}
               placeholder='Company Name'
               autoCapitalize='none'
+              onChangeText={this.handlecompanyNameChange}
             />
           </View>
           <View style={{ margin: 5 }}>
             <TextInput
               style={styles.input}
               name='companyAddress'
-              // value={password}
+              value={companyAddress}
               placeholder='Company Address'
               autoCapitalize='none'
+              onChangeText={this.handlecompanyAddressChange}
             />
           </View>
           {/* <Ionicons name="ios-contact" size={screenHeight * 0.1} color="black" /> */}
@@ -102,68 +181,75 @@ export default class Signup extends React.Component {
             <TextInput
               style={styles.input1}
               name='firstName'
-              // value={username}
+              value={firstName}
               placeholder='First Name'
               autoCapitalize='none'
+              onChangeText={this.handlefirstNameChange}
             />
             <TextInput
               style={styles.input2}
               name='lastName'
-              // value={username}
+              value={lastName}
               placeholder='Last Name'
               autoCapitalize='none'
+              onChangeText={this.handlelastNameChange}
             />
           </View>
           <View style={{ margin: 5 }}>
             <TextInput
               style={styles.input}
               name='email'
-              // value={password}
+              value={email}
               placeholder='Email'
               autoCapitalize='none'
+              onChangeText={this.handleemailChange}
             />
           </View>
           <View style={{ margin: 5 }}>
             <TextInput
               style={styles.input}
               name='phone'
-              // value={username}
+              value={phone}
               placeholder='Phone'
               autoCapitalize='none'
+              onChangeText={this.handlephoneChange}
             />
           </View>
           <View style={{ margin: 5 }}>
             <TextInput
               style={styles.input}
-              name='userName'
-              // value={password}
+              name='username'
+              value={username}
               placeholder='UserName'
               autoCapitalize='none'
+              onChangeText={this.handleusernameChange}
             />
           </View>
           <View style={{ margin: 5 }}>
             <TextInput
               style={styles.input}
-              name='Pass'
-              // value={username}
+              name='password'
+              value={password}
               placeholder='Pass'
               autoCapitalize='none'
               secureTextEntry
+              onChangeText={this.handlepasswordChange}
             />
           </View>
           <View style={{ margin: 5 }}>
             <TextInput
               style={styles.input}
               name='confirmPass'
-              // value={password}
+              value={confirmPass}
               placeholder='Confirm Pass'
               autoCapitalize='none'
               secureTextEntry
+              onChangeText={this.handleconfirmPassChange}
             />
           </View>
           <TouchableOpacity
-            style={styles.button1}
-            onPress={this.goToLogin}
+            style={styles.button1}            
+            onPress={this.goToLoginAfterSignup}
           >
             <Text style={{ fontSize: 16, color: 'white' }}> Sign Up </Text>
           </TouchableOpacity>
