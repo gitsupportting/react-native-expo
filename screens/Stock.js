@@ -8,67 +8,127 @@ import { Searchbar } from 'react-native-paper';
 import { Firebase, db } from '../Firebase';
 const screenWidth = Math.round(Dimensions.get('window').width);
 const screenHeight = Math.round(Dimensions.get('window').height);
+let select_all = [];
+let selected = 0;
 
-var tempCheckValues = [];
-const selectall = [
-    {
-        label: 'Select All',
-        value: 'one'
-    },
-];
-const selectone = [
-    {
-        label: '',
-        value: 'one'
-    },
-];
+
 export default class Stock extends React.Component {
     constructor(props) {
         super(props);
-
         this.state = {
             firstQuery: '',
-            checkBoxChecked: []
-        };
+            stocks: [],
+            dataLoaded: false,
+            selectedData: [],
+        };        
     }
     componentDidMount() {
         this.getStocks();
     }
     async getStocks() {
+        let stocksData = [];
         const stocks = await db.collection('stock').get()
             .then(querySnapshot => {
                 querySnapshot.docs.map(doc => {
-                    console.log('LOG 1', doc.data());
-                    return doc.data();
+                    stocksData.push(doc.data());
                 });
-            });        
+                this.setState({ stocks: stocksData });
+                this.setState({ dataLoaded: true });
+            });
     }
+
     _onSelect = (item) => {
-        console.log(item);
+        selected = item[0].value;
     };
-    checkBoxChanged(id, value) {
-
-        this.setState({
-            checkBoxChecked: tempCheckValues
+    goToStockAdd = () => {
+        this.props.navigation.navigate('StockAdd');
+    }
+    goToStockEdit = () => {
+        employeesList = this.state.employees.map((data) => {
+            if (data.employeeId == selected) {
+                this.setState({
+                    selectedData: data
+                }, () => {
+                    this.props.navigation.navigate('StockEdit', { editData: this.state.selectedData });
+                });
+            }
         })
-
-        var tempCheckBoxChecked = this.state.checkBoxChecked;
-        tempCheckBoxChecked[id] = !value;
-
-        this.setState({
-            checkBoxChecked: tempCheckBoxChecked
-        })
-
     }
 
-    goToStockAdd = () => this.props.navigation.navigate('StockAdd');
-    goToStockEdit = () => this.props.navigation.navigate('StockAdd');
     goToHome = () => this.props.navigation.navigate('Home');
     goToEmployees = () => this.props.navigation.navigate('Employees');
     goToStock = () => this.props.navigation.navigate('Stock');
     goToReportTab = () => this.props.navigation.navigate('ReportTab');
     render() {
-        const { firstQuery } = this.state;
+        select_all = [];
+        const { firstQuery, stocks } = this.state;
+        const stocksList = stocks.map((data) => {
+
+            select_all.push({
+                label: '',
+                value: data.stockId
+            })
+            if (firstQuery == '') {
+                let selectone = [];
+                selectone.push({
+                    label: '',
+                    value: data.stockId
+                })
+                return (
+                    <ListItem avatar>
+                        <Left>
+                            <Ionicons name="ios-contact" size={screenHeight * 0.05} color="black" />
+                        </Left>
+                        <Body>
+                            <Text style={styles.font1}>{data.name}</Text>
+                        </Body>
+                        <Right>
+                            <CheckboxFormX
+                                style={{ width: 30 }}
+                                dataSource={selectone}
+                                itemShowKey="label"
+                                itemCheckedKey="RNchecked"
+                                iconSize={30}
+                                formHorizontal={true}
+                                onChecked={(item) => this._onSelect(item)}
+                            />
+                        </Right>
+                    </ListItem>
+                )
+            } else {
+
+                let str = data.name;
+                var n = str.includes(firstQuery);
+                if (n) {
+                    let selecttwo = [];
+                    selecttwo.push({
+                        label: '',
+                        value: data.stockId
+                    })
+                    return (
+                        <ListItem avatar>
+                            <Left>
+                                <Ionicons name="ios-contact" size={screenHeight * 0.05} color="black" />
+                            </Left>
+                            <Body>
+                                <Text style={styles.font1}>{str}</Text>
+                            </Body>
+                            <Right>
+                                <CheckboxFormX
+                                    style={{ width: 30 }}
+                                    dataSource={selecttwo}
+                                    itemShowKey="label"
+                                    itemCheckedKey="RNchecked"
+                                    iconSize={30}
+                                    formHorizontal={true}
+                                    onChecked={(item) => this._onSelect(item)}
+                                />
+                            </Right>
+                        </ListItem >
+                    )
+                }
+            }
+        })
         return (
             <View style={styles.container}>
                 <View style={{ flexDirection: 'row', marginTop: 30 }}>
@@ -93,71 +153,12 @@ export default class Stock extends React.Component {
                     style={{ width: 0.9 * screenWidth, backgroundColor: '#f6f6f6', borderRadius: 8, marginTop: 20 }}
                 />
                 <View style={styles.card}>
-                    <List>
-                        <ListItem avatar>
-                            <Left>
-                                {/* <Thumbnail source={{ uri: 'Image URL' }} /> */}
-                                <Ionicons name="ios-car" size={screenHeight * 0.05} color="black" />
-                            </Left>
-                            <Body>
-                                <Text style={styles.font1}>Stock1</Text>
-                            </Body>
-                            <Right>
-                                <CheckboxFormX
-                                    style={{ width: 30 }}
-                                    dataSource={selectone}
-                                    itemShowKey="label"
-                                    itemCheckedKey="RNchecked"
-                                    iconSize={30}
-                                    formHorizontal={true}
-                                    // labelHorizontal={true}
-                                    onChecked={(item) => this._onSelect(item)}
-                                />
-                            </Right>
-                        </ListItem>
-                        <ListItem avatar>
-                            <Left>
-                                {/* <Thumbnail source={{ uri: 'Image URL' }} /> */}
-                                <Ionicons name="ios-car" size={screenHeight * 0.05} color="black" />
-                            </Left>
-                            <Body>
-                                <Text style={styles.font1}>Stock2</Text>
-                            </Body>
-                            <Right>
-                                <CheckboxFormX
-                                    style={{ width: 30 }}
-                                    dataSource={selectone}
-                                    itemShowKey="label"
-                                    itemCheckedKey="RNchecked"
-                                    iconSize={30}
-                                    formHorizontal={true}
-                                    // labelHorizontal={true}
-                                    onChecked={(item) => this._onSelect(item)}
-                                />
-                            </Right>
-                        </ListItem>
-                        <ListItem avatar>
-                            <Left>
-                                {/* <Thumbnail source={{ uri: 'Image URL' }} /> */}
-                                <Ionicons name="ios-car" size={screenHeight * 0.05} color="black" />
-                            </Left>
-                            <Body>
-                                <Text style={styles.font1}>Stock3</Text>
-                            </Body>
-                            <Right>
-                                <CheckboxFormX
-                                    style={{ width: 30 }}
-                                    dataSource={selectone}
-                                    itemShowKey="label"
-                                    itemCheckedKey="RNchecked"
-                                    iconSize={30}
-                                    formHorizontal={true}
-                                    // labelHorizontal={true}
-                                    onChecked={(item) => this._onSelect(item)}
-                                />
-                            </Right>
-                        </ListItem>
-                    </List>
+                {this.state.dataLoaded && <List>
+                        {stocksList}
+                    </List>}
+                    {!this.state.dataLoaded && <Text style={{ fontSize: 18, margin: 30 }}>
+                        Loading...
+                    </Text>}
                 </View>
                 <View style={styles.card1}>
                     <View style={styles.bottom}>

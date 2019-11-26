@@ -16,7 +16,7 @@ const selectall = [
         value: 'one'
     },
 ];
-export default class EmployeesAdd extends React.Component {
+export default class EmployeesEdit extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -98,38 +98,46 @@ export default class EmployeesAdd extends React.Component {
     goToEmployeesAdded = async () => {
         const { profileImage, firstName, lastName, id, idImage, email, phone, birthDate, driverLicenseNumber, licenseImage, hasPortAccess, portAccessNumber, accessDate, accessImage, salaryPerHour, vacationsBalance, sicknessBalance, vacationseligibilty, sicknesseligibilty, defaultWorking } = this.state
         let employeeId = new Date().getTime();
-        if ((profileImage != null) && (idImage != null) && (licenseImage != null) && (accessImage != null) && (hasPortAccess == true) && firstName.length > 0 && lastName.length > 0 && id, email.length > 0 && phone.length > 0 && birthDate.length > 0 && driverLicenseNumber.length > 0 && portAccessNumber.length > 0 && accessDate.length > 0 && salaryPerHour.length > 0 && vacationsBalance.length > 0 && sicknessBalance.length > 0 && vacationseligibilty.length > 0 && sicknesseligibilty.length > 0 && defaultWorking.length > 0) {
-            try {
-                db.collection("employees").add({
-                    employeeId: employeeId,
-                    profileImage: profileImage,
-                    firstName: firstName,
-                    lastName: lastName,
-                    id: id,
-                    idImage: idImage,
-                    phone: phone,
-                    birthDate: birthDate,
-                    driverLicenseNumber: driverLicenseNumber,
-                    licenseImage: licenseImage,
-                    hasPortAccess: hasPortAccess,
-                    portAccessNumber: portAccessNumber,
-                    accessDate: accessDate,
-                    accessImage: accessImage,
-                    salaryPerHour: salaryPerHour,
-                    vacationsBalance: vacationsBalance,
-                    sicknessBalance: sicknessBalance,
-                    vacationseligibilty: vacationseligibilty,
-                    sicknesseligibilty: sicknesseligibilty,
-                    defaultWorking: defaultWorking
-                })
-            } catch (error) {
-                alert(error);
-            }
-            this.props.navigation.navigate('Employees');
-
-        } else {
-            alert("Please insert required data")
+        // if ((profileImage != null) && (idImage != null) && (licenseImage != null) && (accessImage != null) && (hasPortAccess == true) && firstName.length > 0 && lastName.length > 0 && id, email.length > 0 && phone.length > 0 && birthDate.length > 0 && driverLicenseNumber.length > 0 && portAccessNumber.length > 0 && accessDate.length > 0 && salaryPerHour.length > 0 && vacationsBalance.length > 0 && sicknessBalance.length > 0 && vacationseligibilty.length > 0 && sicknesseligibilty.length > 0 && defaultWorking.length > 0) {
+        try {
+            db.collection("employees").where("employeeId", "==", (this.state.tempEmployee).employeeId)
+                .get()
+                .then(function (querySnapshot) {
+                    querySnapshot.forEach(function (doc) {
+                        console.warn(doc.id, " => ", doc.data());
+                        db.collection("employees").doc(doc.id).update({
+                            employeeId: employeeId,
+                            profileImage: profileImage,
+                            firstName: firstName,
+                            lastName: lastName,
+                            id: id,
+                            idImage: idImage,
+                            phone: phone,
+                            birthDate: birthDate,
+                            driverLicenseNumber: driverLicenseNumber,
+                            licenseImage: licenseImage,
+                            hasPortAccess: hasPortAccess,
+                            portAccessNumber: portAccessNumber,
+                            accessDate: accessDate,
+                            accessImage: accessImage,
+                            salaryPerHour: salaryPerHour,
+                            vacationsBalance: vacationsBalance,
+                            sicknessBalance: sicknessBalance,
+                            vacationseligibilty: vacationseligibilty,
+                            sicknesseligibilty: sicknesseligibilty,
+                            defaultWorking: defaultWorking,
+                            email:email
+                        });                        
+                    });
+                })            
+        } catch (error) {
+            alert(error);
         }
+        this.props.navigation.navigate('Employees');
+
+        // } else {
+        //     alert("Please insert required data")
+        // }
     }
     goToEmployeesCancel = async () => {
         this.setState({
@@ -166,7 +174,57 @@ export default class EmployeesAdd extends React.Component {
     goToStock = () => this.props.navigation.navigate('Stock');
     goToReportTab = () => this.props.navigation.navigate('ReportTab');
     componentDidMount() {
-        this.getPermissionAsync();        
+        this.getPermissionAsync();
+        this.setState({
+            tempEmployee: this.props.navigation.state.params.editData
+        }, () => {
+            if (this.state.tempEmployee != '') {
+                if (this.state.tempEmployee.profileImage != null) {
+                    this.setState({
+                        buttonVisableProfile: true
+                    })
+                }
+                if (this.state.tempEmployee.licenseImage != null) {
+                    this.setState({
+                        buttonVisableLicense: true
+                    })
+                }
+                if (this.state.tempEmployee.idImage != null) {
+                    this.setState({
+                        buttonVisableId: true
+                    })
+                }
+                if (this.state.tempEmployee.accessImage != null) {
+                    this.setState({
+                        buttonVisableAccess: true
+                    })
+                }
+                this.setState({
+                    profileImage: this.state.tempEmployee.profileImage,
+                    idImage: this.state.tempEmployee.idImage,
+                    licenseImage: this.state.tempEmployee.licenseImage,
+                    accessImage: this.state.tempEmployee.accessImage,
+                    hasPortAccess: this.state.tempEmployee.hasPortAccess,
+                    firstName: this.state.tempEmployee.firstName,
+                    lastName: this.state.tempEmployee.lastName,
+                    id: this.state.tempEmployee.id,
+                    phone: this.state.tempEmployee.phone,
+                    email: this.state.tempEmployee.email,
+                    birthDate: this.state.tempEmployee.birthDate,
+                    driverLicenseNumber: this.state.tempEmployee.driverLicenseNumber,
+                    portAccessNumber: this.state.tempEmployee.portAccessNumber,
+                    accessDate: this.state.tempEmployee.accessDate,
+                    salaryPerHour: this.state.tempEmployee.salaryPerHour,
+                    vacationsBalance: this.state.tempEmployee.vacationsBalance,
+                    sicknessBalance: this.state.tempEmployee.sicknessBalance,
+                    vacationseligibilty: this.state.tempEmployee.vacationseligibilty,
+                    sicknesseligibilty: this.state.tempEmployee.sicknesseligibilty,
+                    defaultWorking: this.state.tempEmployee.defaultWorking,
+                })
+            }
+        });
+
+
     }
 
     getPermissionAsync = async () => {
@@ -177,32 +235,13 @@ export default class EmployeesAdd extends React.Component {
             }
         }
     }
-    // _pickImageProfile = () => {
-    //     this.setState({
-    //         buttonVisableProfile: true
-    //     })
-        
-    //     let result = ImagePicker.launchImageLibraryAsync({
-    //         mediaTypes: ImagePicker.MediaTypeOptions.All,
-    //         allowsEditing: true,
-    //         aspect: [4, 3],
-    //         quality: 1,
-    //         base64: true,
-    //     });
-        
-    //     setTimeout(() => {
-    //         if (!result.cancelled) {
-    //             console.log(result.base64);
-    //             this.setState({ profileImage: 'data:image/gif;base64,' + result.base64 });            
-    //         } 
-    //     }, 500);
-    // }
+
     _pickImageProfile = async () => {
-        
+
         this.setState({
             buttonVisableProfile: true
         })
-        
+
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
             allowsEditing: true,
@@ -210,11 +249,11 @@ export default class EmployeesAdd extends React.Component {
             quality: 1,
             base64: true,
         });
-        
+
         setTimeout(() => {
             if (!result.cancelled) {
-                this.setState({ profileImage: 'data:image/gif;base64,' + result.base64 });            
-            } 
+                this.setState({ profileImage: 'data:image/gif;base64,' + result.base64 });
+            }
         }, 50);
     };
     _pickImageId = async () => {

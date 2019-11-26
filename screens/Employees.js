@@ -8,13 +8,8 @@ import { Searchbar } from 'react-native-paper';
 import { Firebase, db } from '../Firebase';
 const screenWidth = Math.round(Dimensions.get('window').width);
 const screenHeight = Math.round(Dimensions.get('window').height);
-
-const selectone = [
-    {
-        label: '',
-        value: 'one'
-    },
-];
+let select_all = [];
+let selected = 0;
 export default class Employees extends React.Component {
     constructor(props) {
         super(props);
@@ -22,6 +17,8 @@ export default class Employees extends React.Component {
         this.state = {
             firstQuery: '',
             employees: [],
+            dataLoaded: false,
+            selectedData: [],
         };
     }
     componentDidMount() {
@@ -30,29 +27,112 @@ export default class Employees extends React.Component {
     async getEmployees() {
         let employeesData = [];
         const employees = await db.collection('employees').get()
-            .then(querySnapshot => {                
-                querySnapshot.docs.map(doc => {   
-                    employeesData.push(doc.data());                 
-                    //console.log('LOG 1', doc.data());
-                    return doc.data();
+            .then(querySnapshot => {
+                querySnapshot.docs.map(doc => {
+                    employeesData.push(doc.data());
                 });
-                this.setState({employees:employeesData});
-                //console.log(this.state.employees);
-            });        
+                this.setState({ employees: employeesData });
+                this.setState({ dataLoaded: true });
+            });
     }
-    _onSelect = (item) => {
-        console.log(item);
-    };
-    
 
-    goToEmployeesAdd = () => this.props.navigation.navigate('EmployeesAdd');
-    goToEmployeesEdit = () => this.props.navigation.navigate('EmployeesAdd');
+    _onSelect = (item) => {
+        selected = item[0].value;
+    };
+
+
+    goToEmployeesAdd = () => {
+        // console.log('aaa');   
+        this.props.navigation.navigate('EmployeesAdd');
+    }
+    goToEmployeesEdit = () => {
+        employeesList = this.state.employees.map((data) => {
+            if (data.employeeId == selected) {
+                this.setState({
+                    selectedData: data
+                }, () => {
+                    this.props.navigation.navigate('EmployeesEdit', { editData: this.state.selectedData });
+                });
+            }
+        })
+    }
+
     goToHome = () => this.props.navigation.navigate('Home');
     goToEmployees = () => this.props.navigation.navigate('Employees');
     goToStock = () => this.props.navigation.navigate('Stock');
     goToReportTab = () => this.props.navigation.navigate('ReportTab');
     render() {
-        const { firstQuery } = this.state;
+        select_all = [];
+        const { firstQuery, employees } = this.state;
+        const employeesList = employees.map((data) => {
+
+            select_all.push({
+                label: '',
+                value: data.employeeId
+            })
+            if (firstQuery == '') {
+                let selectone = [];
+                selectone.push({
+                    label: '',
+                    value: data.employeeId
+                })
+                return (
+                    <ListItem avatar>
+                        <Left>
+                            {/* <Thumbnail source={{ uri: 'Image URL' }} /> */}
+                            <Ionicons name="ios-contact" size={screenHeight * 0.05} color="black" />
+                        </Left>
+                        <Body>
+                            <Text style={styles.font1}>{data.firstName} {data.lastName}</Text>
+                        </Body>
+                        <Right>
+                            <CheckboxFormX
+                                style={{ width: 30 }}
+                                dataSource={selectone}
+                                itemShowKey="label"
+                                itemCheckedKey="RNchecked"
+                                iconSize={30}
+                                formHorizontal={true}
+                                onChecked={(item) => this._onSelect(item)}
+                            />
+                        </Right>
+                    </ListItem>
+                )
+            } else {
+
+                let str = data.firstName + ' ' + data.lastName;
+                var n = str.includes(firstQuery);
+                if (n) {
+                    let selecttwo = [];
+                    selecttwo.push({
+                        label: '',
+                        value: data.employeeId
+                    })
+                    return (
+                        <ListItem avatar>
+                            <Left>
+                                <Ionicons name="ios-contact" size={screenHeight * 0.05} color="black" />
+                            </Left>
+                            <Body>
+                                <Text style={styles.font1}>{str}</Text>
+                            </Body>
+                            <Right>
+                                <CheckboxFormX
+                                    style={{ width: 30 }}
+                                    dataSource={selecttwo}
+                                    itemShowKey="label"
+                                    itemCheckedKey="RNchecked"
+                                    iconSize={30}
+                                    formHorizontal={true}
+                                    onChecked={(item) => this._onSelect(item)}
+                                />
+                            </Right>
+                        </ListItem >
+                    )
+                }
+            }
+        })
+
         return (
 
             <View style={styles.container}>
@@ -78,71 +158,12 @@ export default class Employees extends React.Component {
                     style={{ width: 0.9 * screenWidth, backgroundColor: '#f6f6f6', borderRadius: 8, marginTop: 20 }}
                 />
                 <View style={styles.card}>
-                    <List>
-                        <ListItem avatar>
-                            <Left>
-                                {/* <Thumbnail source={{ uri: 'Image URL' }} /> */}
-                                <Ionicons name="ios-contact" size={screenHeight * 0.05} color="black" />
-                            </Left>
-                            <Body>
-                                <Text style={styles.font1}>Kumar Pratik</Text>
-                            </Body>
-                            <Right>
-                                <CheckboxFormX
-                                    style={{ width: 30 }}
-                                    dataSource={selectone}
-                                    itemShowKey="label"
-                                    itemCheckedKey="RNchecked"
-                                    iconSize={30}
-                                    formHorizontal={true}
-                                    // labelHorizontal={true}
-                                    onChecked={(item) => this._onSelect(item)}
-                                />
-                            </Right>
-                        </ListItem>
-                        <ListItem avatar>
-                            <Left>
-                                {/* <Thumbnail source={{ uri: 'Image URL' }} /> */}
-                                <Ionicons name="ios-contact" size={screenHeight * 0.05} color="black" />
-                            </Left>
-                            <Body>
-                                <Text style={styles.font1}>Kumar Pratik</Text>
-                            </Body>
-                            <Right>
-                                <CheckboxFormX
-                                    style={{ width: 30 }}
-                                    dataSource={selectone}
-                                    itemShowKey="label"
-                                    itemCheckedKey="RNchecked"
-                                    iconSize={30}
-                                    formHorizontal={true}
-                                    // labelHorizontal={true}
-                                    onChecked={(item) => this._onSelect(item)}
-                                />
-                            </Right>
-                        </ListItem>
-                        <ListItem avatar>
-                            <Left>
-                                {/* <Thumbnail source={{ uri: 'Image URL' }} /> */}
-                                <Ionicons name="ios-contact" size={screenHeight * 0.05} color="black" />
-                            </Left>
-                            <Body>
-                                <Text style={styles.font1}>Kumar Pratik</Text>
-                            </Body>
-                            <Right>
-                                <CheckboxFormX
-                                    style={{ width: 30 }}
-                                    dataSource={selectone}
-                                    itemShowKey="label"
-                                    itemCheckedKey="RNchecked"
-                                    iconSize={30}
-                                    formHorizontal={true}
-                                    // labelHorizontal={true}
-                                    onChecked={(item) => this._onSelect(item)}
-                                />
-                            </Right>
-                        </ListItem>
-                    </List>
+                    {this.state.dataLoaded && <List>
+                        {employeesList}
+                    </List>}
+                    {!this.state.dataLoaded && <Text style={{ fontSize: 18, margin: 30 }}>
+                        Loading...
+                    </Text>}
                 </View>
                 <View style={styles.card1}>
                     <View style={styles.bottom}>
