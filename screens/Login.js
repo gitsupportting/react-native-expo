@@ -23,14 +23,17 @@ export default class Login extends React.Component {
   onLogin = async () => {
     const { email, password } = this.state
     try {
-      if (email.length > 0 && password.length > 0) {         
-        Firebase.auth().signInWithEmailAndPassword(email, password).then(res=>{
+      if (email.length > 0 && password.length > 0) {
+        Firebase.auth().signInWithEmailAndPassword(email, password).then(res => {
           this.props.navigation.navigate('App')
-        }).catch(err=>{
+        }).catch(err => {
           alert(err)
         })
+      } else {
+        alert("Please insert required data")
       }
-    } catch (error) {
+    }
+    catch (error) {
       alert(error)
     }
   }
@@ -42,7 +45,7 @@ export default class Login extends React.Component {
     return (
       <View style={styles.container}>
         <Image
-          style={{ width: screenWidth * 0.8, height: screenHeight/6 }}
+          style={{ width: screenWidth * 0.8, height: screenHeight / 6 }}
           source={require('../assets/icon.png')}
         />
         <View style={styles.card}>
@@ -77,14 +80,14 @@ export default class Login extends React.Component {
             style={styles.button1}
             onPress={this.onLogin}
           >
-            <Text style={{fontSize:18, color:'white'}}> Login </Text>
+            <Text style={{ fontSize: 18, color: 'white' }}> Login </Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.button2}
             onPress={this.goToSignup}
           >
-            <Text style={{fontSize:18, color:'white'}}> Go to Signup </Text>
-          </TouchableOpacity>          
+            <Text style={{ fontSize: 18, color: 'white' }}> Go to Signup </Text>
+          </TouchableOpacity>
         </View>
       </View>
     )
@@ -129,18 +132,18 @@ const styles = StyleSheet.create({
   },
   button1: {
     alignItems: 'center',
-    backgroundColor: '#2684ff' ,
+    backgroundColor: '#2684ff',
     padding: 8,
-    borderRadius:5,
-    width: screenWidth*0.7,
-    marginTop:20,
+    borderRadius: 5,
+    width: screenWidth * 0.7,
+    marginTop: 20,
   },
   button2: {
     alignItems: 'center',
     backgroundColor: '#dbdbdb',
     padding: 8,
-    borderRadius:5,
-    width: screenWidth*0.7,
-    marginTop:20,
+    borderRadius: 5,
+    width: screenWidth * 0.7,
+    marginTop: 20,
   },
 })

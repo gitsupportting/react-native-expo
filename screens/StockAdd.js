@@ -7,6 +7,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { StyleSheet, View, Dimensions, Text, TouchableOpacity, TextInput, Image, CheckBox, ScrollView } from 'react-native'
 import * as ImagePicker from 'expo-image-picker';
 import DatePicker from 'react-native-datepicker'
+import { Firebase, db } from '../Firebase';
 const screenWidth = Math.round(Dimensions.get('window').width);
 const screenHeight = Math.round(Dimensions.get('window').height);
 const selectall = [
@@ -20,28 +21,130 @@ export default class StockAdd extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            checkBoxChecked: [],
+            buttonVisableSAccess: false,
+            buttonVisableSInsurance: false,
+            buttonVisableSLicense: false,
+            buttonVisableStock: false,
             stockImage: null,
             sLicenseImage: null,
             sInsuranceImage: null,
             sAccessImage: null,
             typeValue: "Type",
             driverValue: "Driver",
+            hasPortAccess: 'false',
+            name: '',
+            currentLocation: '',
+            serialNumber: '',
+            licenseNumber: '',
+            licenseDate: '',
+            insuranceNumber: '',
+            expirationDate: '',
+            portAccessNumber: '',
+            accessDate: '',
         };
     }
     _onSelect = (item) => {
-        console.log(item);
+        this.setState({
+            hasPortAccess: item[0].RNchecked
+        })
     };
     onTypeSelect(value, label) {
+        console.log(value);
         this.setState({ typeValue: value });
     }
 
     onDriverSelect(value, label) {
         this.setState({ driverValue: value });
     }
+    handlenameChange = name => {
+        this.setState({ name })
+    }
+    handlecurrentLocationChange = currentLocation => {
+        this.setState({ currentLocation })
+    }
+    handleserialNumberChange = serialNumber => {
+        this.setState({ serialNumber })
+    }
+    handlelicenseNumberChange = licenseNumber => {
+        this.setState({ licenseNumber })
+    }
+    handlelicenseDateChange = licenseDate => {
+        this.setState({ licenseDate })
+    }
+    handleinsuranceNumberChange = insuranceNumber => {
+        this.setState({ insuranceNumber })
+    }
+    handleexpirationDateChange = expirationDate => {
+        this.setState({ expirationDate })
+    }
+    handleportAccessNumberChange = portAccessNumber => {
+        this.setState({ portAccessNumber })
+    }
+    handleaccessDateChange = accessDate => {
+        this.setState({ accessDate })
+    }
+    goToStockAdded = async () => {
+        const { stockImage, sLicenseImage, sInsuranceImage, sAccessImage, name, currentLocation, serialNumber, licenseDate, licenseNumber, insuranceNumber, expirationDate, portAccessNumber, accessDate, hasPortAccess, typeValue, driverValue } = this.state;
+        let stockId = new Date().getTime();      
 
-    goToStockAdded = () => this.props.navigation.navigate('Stock');
-    goToStockCancel = () => this.props.navigation.navigate('Stock');
+            if ((stockImage != null) && (sLicenseImage != null) && (sInsuranceImage != null) && (sAccessImage != null) && name.length>0 && currentLocation.length>0 && serialNumber.length>0 && licenseDate.length>0 && licenseNumber.length>0 && insuranceNumber.length>0 && expirationDate.length>0 && portAccessNumber.length>0 && accessDate.length>0) {
+            try {
+                db.collection("stock").add({
+                    stockId: stockId,
+                    stockImage: stockImage,
+                    sInsuranceImage: sInsuranceImage,
+                    sAccessImage: sAccessImage,
+                    name: name,
+                    currentLocation: currentLocation,
+                    serialNumber: serialNumber,
+                    licenseDate: licenseDate,
+                    licenseNumber: licenseNumber,
+                    insuranceNumber: insuranceNumber,
+                    sLicenseImage: sLicenseImage,
+                    hasPortAccess: hasPortAccess,
+                    portAccessNumber: portAccessNumber,
+                    accessDate: accessDate,
+                    driverValue: driverValue,
+                    typeValue: typeValue,
+                    expirationDate: expirationDate
+                })
+                    
+            } catch (error) {
+                alert(error);
+            }
+            this.props.navigation.navigate('Stock');
+            } else {
+                alert("Please insert required data")
+            }        
+
+    }
+    goToStockCancel = async () => {
+        this.setState({
+            buttonVisableSAccess: false,
+            buttonVisableSInsurance: false,
+            buttonVisableSLicense: false,
+            buttonVisableStock: false,
+            stockImage: null,
+            sLicenseImage: null,
+            sInsuranceImage: null,
+            sAccessImage: null,
+            typeValue: "Type",
+            driverValue: "Driver",
+            hasPortAccess: 'false',
+            name: '',
+            currentLocation: '',
+            serialNumber: '',
+            licenseNumber: '',
+            licenseDate: '',
+            insuranceNumber: '',
+            expirationDate: '',
+            portAccessNumber: '',
+            accessDate: '',
+        })
+        this.props.navigation.navigate('Stock')
+    }
+
+
     goToHome = () => this.props.navigation.navigate('Home');
     goToEmployees = () => this.props.navigation.navigate('Employees');
     goToStock = () => this.props.navigation.navigate('Stock');
@@ -68,13 +171,13 @@ export default class StockAdd extends React.Component {
             allowsEditing: true,
             aspect: [4, 3],
             quality: 1,
-
+            base64: true
         });
 
-        console.log(result);
+
 
         if (!result.cancelled) {
-            this.setState({ stockImage: result.uri });
+            this.setState({ stockImage: 'data:image/gif;base64,' + result.base64 });
         }
     };
     _pickSLicenseImage = async () => {
@@ -86,13 +189,11 @@ export default class StockAdd extends React.Component {
             allowsEditing: true,
             aspect: [4, 3],
             quality: 1,
-
+            base64: true,
         });
 
-        console.log(result);
-
         if (!result.cancelled) {
-            this.setState({ sLicenseImage: result.uri });
+            this.setState({ sLicenseImage: 'data:image/gif;base64,' + result.base64 });
         }
     };
     _pickSInsuranceImage = async () => {
@@ -104,13 +205,10 @@ export default class StockAdd extends React.Component {
             allowsEditing: true,
             aspect: [4, 3],
             quality: 1,
-
+            base64: true,
         });
-
-        console.log(result);
-
         if (!result.cancelled) {
-            this.setState({ sInsuranceImage: result.uri });
+            this.setState({ sInsuranceImage: 'data:image/gif;base64,' + result.base64 });
         }
     };
     _pickSAccessImage = async () => {
@@ -122,20 +220,15 @@ export default class StockAdd extends React.Component {
             allowsEditing: true,
             aspect: [4, 3],
             quality: 1,
-
+            base64: true
         });
-
-        console.log(result);
-
         if (!result.cancelled) {
-            this.setState({ sAccessImage: result.uri });
+            this.setState({ sAccessImage: 'data:image/gif;base64,' + result.base64 });
         }
     };
     render() {
-        let { stockImage } = this.state;
-        let { sLicenseImage } = this.state;
-        let { sInsuranceImage } = this.state;
-        let { sAccessImage } = this.state;
+
+        const { stockImage, sLicenseImage, sInsuranceImage, sAccessImage, name, currentLocation, serialNumber, licenseDate, licenseNumber, insuranceNumber, expirationDate, portAccessNumber, accessDate, driverValue, typeValue } = this.state;
         return (
             <View style={styles.container}>
                 <ScrollView>
@@ -163,15 +256,16 @@ export default class StockAdd extends React.Component {
                             <TextInput
                                 style={styles.input}
                                 name='name'
-                                // value={password}
+                                value={name}
                                 placeholder='Name'
                                 autoCapitalize='none'
+                                onChangeText={this.handlenameChange}
                             />
                         </View>
                         <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: screenHeight / 80, marginBottom: screenHeight / 80, }}>
                             <Select
-                                onTypeSelect={this.onTypeSelect.bind(this)}
-                                defaultText={this.state.typeValue}
+                                onSelect={this.onTypeSelect.bind(this)}
+                                defaultText={typeValue}
                                 style={{ borderWidth: 1, borderColor: "#cfcfcf", backgroundColor: 'white', height: screenHeight / 20, paddingTop: 6, width: screenWidth * 0.6, }}
                                 textStyle={{ color: '#cfcfcf' }}
                                 backdropStyle={{ backgroundColor: "white" }}
@@ -193,34 +287,37 @@ export default class StockAdd extends React.Component {
                             <TextInput
                                 style={styles.input}
                                 name='currentLocation'
-                                // value={password}
+                                value={currentLocation}
                                 placeholder='Current Location'
                                 autoCapitalize='none'
+                                onChangeText={this.handlecurrentLocationChange}
                             />
                         </View>
                         <View style={{ margin: screenHeight / 80 }}>
                             <TextInput
                                 style={styles.input}
                                 name='serialNumber'
-                                // value={password}
+                                value={serialNumber}
                                 placeholder='Serial Number'
                                 autoCapitalize='none'
+                                onChangeText={this.handleserialNumberChange}
                             />
                         </View>
                         <View style={{ margin: screenHeight / 80 }}>
                             <TextInput
                                 style={styles.input}
                                 name='licenseNumber'
-                                // value={password}
+                                value={licenseNumber}
                                 placeholder='License Number'
                                 autoCapitalize='none'
+                                onChangeText={this.handlelicenseNumberChange}
                             />
                         </View>
                         <DatePicker
                             style={{
                                 marginBottom: screenHeight / 80,
                             }}
-                            date={this.state.licenseDate}
+                            date={licenseDate}
                             mode="date"
                             placeholder="License Expiration Date"
                             format="YYYY-MM-DD"
@@ -232,7 +329,7 @@ export default class StockAdd extends React.Component {
                                 dateIcon: {
                                     position: 'absolute',
                                     left: screenWidth * 0.4,
-                                    top: screenHeight/100,
+                                    top: screenHeight / 100,
                                     marginLeft: 0
                                 },
                                 dateInput: {
@@ -274,9 +371,10 @@ export default class StockAdd extends React.Component {
                             <TextInput
                                 style={styles.input}
                                 name='insuranceNumber'
-                                // value={password}
+                                value={insuranceNumber}
                                 placeholder='Insurance Number'
                                 autoCapitalize='none'
+                                onChangeText={this.handleinsuranceNumberChange}
                             />
                         </View>
                         <View style={{ alignItems: 'center', justifyContent: 'center' }}>
@@ -301,7 +399,7 @@ export default class StockAdd extends React.Component {
                             style={{
                                 marginBottom: screenHeight / 80
                             }}
-                            date={this.state.insuranceDate}
+                            date={expirationDate}
                             mode="date"
                             placeholder="Expiration Date"
                             format="YYYY-MM-DD"
@@ -313,7 +411,7 @@ export default class StockAdd extends React.Component {
                                 dateIcon: {
                                     position: 'absolute',
                                     left: screenWidth * 0.4,
-                                    top: screenHeight/100,
+                                    top: screenHeight / 100,
                                     marginLeft: 0
                                 },
                                 dateInput: {
@@ -331,10 +429,10 @@ export default class StockAdd extends React.Component {
                                 }
                                 // ... You can check the source to find the other keys.
                             }}
-                            onDateChange={(date) => { this.setState({ insuranceDate: date }) }}                       />
+                            onDateChange={(date) => { this.setState({ expirationDate: date }) }} />
 
 
-                        <View style={{ flexDirection: 'row', flexWrap: 'wrap', marginLeft:30 }}>
+                        <View style={{ flexDirection: 'row', flexWrap: 'wrap', marginLeft: 30 }}>
                             <CheckboxFormX
                                 style={{ width: 30 }}
                                 dataSource={selectall}
@@ -351,16 +449,17 @@ export default class StockAdd extends React.Component {
                             <TextInput
                                 style={styles.input}
                                 name='portAccessNumber'
-                                // value={password}
+                                value={portAccessNumber}
                                 placeholder='Port Access Number'
                                 autoCapitalize='none'
+                                onChangeText={this.handleportAccessNumberChange}
                             />
                         </View>
                         <DatePicker
                             style={{
                                 marginBottom: screenHeight / 80
                             }}
-                            date={this.state.accessDate}
+                            date={accessDate}
                             mode="date"
                             placeholder="Access Expiration Date"
                             format="YYYY-MM-DD"
@@ -372,7 +471,7 @@ export default class StockAdd extends React.Component {
                                 dateIcon: {
                                     position: 'absolute',
                                     left: screenWidth * 0.4,
-                                    top: screenHeight/100,
+                                    top: screenHeight / 100,
                                     marginLeft: 0
                                 },
                                 dateInput: {
@@ -413,8 +512,8 @@ export default class StockAdd extends React.Component {
                         </View>
                         <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: screenHeight / 80, marginRight: screenHeight / 80, }}>
                             <Select
-                                onDriverSelect={this.onDriverSelect.bind(this)}
-                                defaultText={this.state.driverValue}
+                                onSelect={this.onDriverSelect.bind(this)}
+                                defaultText={driverValue}
                                 style={{ borderWidth: 1, borderColor: "#cfcfcf", backgroundColor: 'white', height: screenHeight / 20, paddingTop: 6, width: screenWidth * 0.6 }}
                                 textStyle={{ color: '#cfcfcf' }}
                                 backdropStyle={{ backgroundColor: "white" }}

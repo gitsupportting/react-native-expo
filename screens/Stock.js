@@ -5,6 +5,7 @@ import CheckboxFormX from 'react-native-checkbox-form';
 import { StyleSheet, View, Dimensions, Text, TouchableOpacity, CheckBox } from 'react-native'
 import { List, ListItem, Left, Body, Right, Thumbnail } from 'native-base';
 import { Searchbar } from 'react-native-paper';
+import { Firebase, db } from '../Firebase';
 const screenWidth = Math.round(Dimensions.get('window').width);
 const screenHeight = Math.round(Dimensions.get('window').height);
 
@@ -29,6 +30,18 @@ export default class Stock extends React.Component {
             firstQuery: '',
             checkBoxChecked: []
         };
+    }
+    componentDidMount() {
+        this.getStocks();
+    }
+    async getStocks() {
+        const stocks = await db.collection('stock').get()
+            .then(querySnapshot => {
+                querySnapshot.docs.map(doc => {
+                    console.log('LOG 1', doc.data());
+                    return doc.data();
+                });
+            });        
     }
     _onSelect = (item) => {
         console.log(item);

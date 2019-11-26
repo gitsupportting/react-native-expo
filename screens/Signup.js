@@ -5,7 +5,7 @@ import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
 import 'firebase/firestore';
-import {Firebase, db} from '../Firebase';
+import { Firebase, db } from '../Firebase';
 
 import { StyleSheet, View, TextInput, Image, Dimensions, Text, Button, TouchableOpacity } from 'react-native'
 const screenWidth = Math.round(Dimensions.get('window').width);
@@ -18,17 +18,17 @@ export default class Signup extends React.Component {
 
     this.state = {
       companyLogo: null,
-      companyName:'',
-      companyAddress:'',
-      firstName:'',
-      lastName:'',
-      email:'',
-      phone:'',
-      username:'',
-      password:'',
-      confirmPass:'',
+      companyName: '',
+      companyAddress: '',
+      firstName: '',
+      lastName: '',
+      email: '',
+      phone: '',
+      username: '',
+      password: '',
+      confirmPass: '',
     };
-}
+  }
   handlecompanyNameChange = companyName => {
     this.setState({ companyName })
   }
@@ -56,13 +56,29 @@ export default class Signup extends React.Component {
   handleconfirmPassChange = confirmPass => {
     this.setState({ confirmPass })
   }
-  goToLogin = () => this.props.navigation.navigate('Login');
+  goToLogin = async() => {
+    this.setState({
+      companyLogo: null,
+      companyName: '',
+      companyAddress: '',
+      firstName: '',
+      lastName: '',
+      email: '',
+      phone: '',
+      username: '',
+      password: '',
+      confirmPass: '',
+      buttonVisable: false,
+    })
+    this.props.navigation.navigate('Login')
+    // setTimeout(() => this.props.navigation.navigate('Login'),10);
+  }
 
   goToLoginAfterSignup = async () => {
-    const { companyName, companyAddress, firstName, lastName, email, phone, username, password,confirmPass, companyLogo } = this.state
+    const { companyName, companyAddress, firstName, lastName, email, phone, username, password, confirmPass, companyLogo } = this.state
     try {
-      if ((password==confirmPass) && (companyLogo!=null) && username.length > 0 && password.length > 0 && companyName.length > 0 && companyAddress.length > 0 && firstName.length > 0, lastName.length > 0 && email.length > 0 && phone.length) {        
-        Firebase.auth().createUserWithEmailAndPassword(email, password).then(({ user })=>{
+      if ((password == confirmPass) && (companyLogo != null) && username.length > 0 && password.length > 0 && companyName.length > 0 && companyAddress.length > 0 && firstName.length > 0, lastName.length > 0 && email.length > 0 && phone.length) {
+        Firebase.auth().createUserWithEmailAndPassword(email, password).then(({ user }) => {
           try {
             db.collection("users").add({
               email: user.email,
@@ -78,16 +94,18 @@ export default class Signup extends React.Component {
           } catch (errorr) {
             alert(errorr);
           }
-          
+
           this.props.navigation.navigate('Login');
-        }).catch(err=>{
-          alert(err.code+" "+err.message)
+        }).catch(err => {
+          alert(err.code + " " + err.message)
         })
+      } else {
+        alert("Please insert required data")
       }
     } catch (error) {
       alert(error);
     }
-  }  
+  }
   componentDidMount() {
     this.getPermissionAsync();
   }
@@ -113,18 +131,17 @@ export default class Signup extends React.Component {
       base64: true,
     });
 
-    console.log(result);
+    // console.log(result.base64);
 
     if (!result.cancelled) {
-      this.setState({ companyLogo: result.base64 });
+      this.setState({ companyLogo: 'data:image/gif;base64,'+result.base64 });
     }
+    
   };
-  state = {
-    companyLogo: null,
-  };
+  
   render() {
     let { companyLogo } = this.state;
-    const { companyName, companyAddress, firstName, lastName, email, phone, username, password,confirmPass } = this.state
+    const { companyName, companyAddress, firstName, lastName, email, phone, username, password, confirmPass } = this.state
     return (
       <View style={styles.container}>
         <View style={styles.card}>
@@ -171,7 +188,7 @@ export default class Signup extends React.Component {
                 style={styles.button3}
                 onPress={this._pickImage}
               >
-                <Image source={{ uri: companyLogo }} style={{ width: screenWidth * 0.5, height: screenHeight * 0.12 }} />
+                <Image source={{ uri:companyLogo }} style={{ width: screenWidth * 0.5, height: screenHeight * 0.12 }} />
               </TouchableOpacity>}
           </View>
           <View style={{ marginLeft: -screenWidth * 0.4 }}>
@@ -248,7 +265,7 @@ export default class Signup extends React.Component {
             />
           </View>
           <TouchableOpacity
-            style={styles.button1}            
+            style={styles.button1}
             onPress={this.goToLoginAfterSignup}
           >
             <Text style={{ fontSize: 16, color: 'white' }}> Sign Up </Text>

@@ -6,6 +6,7 @@ import CheckboxFormX from 'react-native-checkbox-form';
 import { StyleSheet, View, Dimensions, Text, TouchableOpacity, TextInput, Image, CheckBox, ScrollView } from 'react-native'
 import * as ImagePicker from 'expo-image-picker';
 import DatePicker from 'react-native-datepicker'
+import { Firebase, db } from '../Firebase';
 const screenWidth = Math.round(Dimensions.get('window').width);
 const screenHeight = Math.round(Dimensions.get('window').height);
 
@@ -15,28 +16,151 @@ const selectall = [
         value: 'one'
     },
 ];
-const selectone = [
-    {
-        label: '',
-        value: 'one'
-    },
-];
 export default class EmployeesAdd extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            checkBoxChecked: [],
+            buttonVisableAccess:false,
+            buttonVisableId:false,
+            buttonVisableLicense: false,
+            buttonVisableProfile: false,
             profileImage: null,
             idImage: null,
             licenseImage: null,
             accessImage: null,
+            hasPortAccess: 'false',
+            firstName: '',
+            lastName: '',
+            id: '',
+            phone: '',
+            email: '',
+            birthDate: '',
+            driverLicenseNumber: '',
+            portAccessNumber: '',
+            accessDate: '',
+            salaryPerHour: '',
+            vacationsBalance: '',
+            sicknessBalance: '',
+            vacationseligibilty: '',
+            sicknesseligibilty: '',
+            defaultWorking: ''
         };
     }
-    _onSelect = (item) => {
-        console.log(item);
+    _onSelect = (item, e) => {
+        this.setState({
+            hasPortAccess: item[0].RNchecked
+        })
     };
-    goToEmployeesAdd = () => this.props.navigation.navigate('Employees');
-    goToEmployeesEdit = () => this.props.navigation.navigate('Employees');
+    handlefirstNameChange = firstName => {
+        this.setState({ firstName })
+    }
+    handlelastNameChange = lastName => {
+        this.setState({ lastName })
+    }
+    handleidChange = id => {
+        this.setState({ id })
+    }
+    handlephoneChange = phone => {
+        this.setState({ phone })
+    }
+    handleemailChange = email => {
+        this.setState({ email })
+    }
+    handledriverLicenseNumberChange = driverLicenseNumber => {
+        this.setState({ driverLicenseNumber })
+    }
+    handleportAccessNumberChange = portAccessNumber => {
+        this.setState({ portAccessNumber })
+    }
+    handlesalaryPerHourChange = salaryPerHour => {
+        this.setState({ salaryPerHour })
+    }
+    handlevacationsBalanceChange = vacationsBalance => {
+        this.setState({ vacationsBalance })
+    }
+    handlesicknessBalanceChange = sicknessBalance => {
+        this.setState({ sicknessBalance })
+    }
+    handledriverLicenseNumberChange = driverLicenseNumber => {
+        this.setState({ driverLicenseNumber })
+    }
+    handlevacationseligibiltyChange = vacationseligibilty => {
+        this.setState({ vacationseligibilty })
+    }
+    handlesicknesseligibiltyChange = sicknesseligibilty => {
+        this.setState({ sicknesseligibilty })
+    }
+    handledefaultWorkingChange = defaultWorking => {
+        this.setState({ defaultWorking })
+    }
+
+
+    goToEmployeesAdded = async () => {
+        const { profileImage, firstName, lastName, id, idImage, email, phone, birthDate, driverLicenseNumber, licenseImage, hasPortAccess, portAccessNumber, accessDate, accessImage, salaryPerHour, vacationsBalance, sicknessBalance, vacationseligibilty, sicknesseligibilty, defaultWorking } = this.state
+        let employeeId = new Date().getTime();
+        // if ((profileImage != null) && (idImage != null) && (licenseImage != null) && (accessImage != null) && (hasPortAccess==true) && firstName.length>0 && lastName.length>0 && id, email.length>0 && phone.length>0 && birthDate.length>0 && driverLicenseNumber.length>0 && portAccessNumber.length>0 && accessDate.length>0 && salaryPerHour.length>0 && vacationsBalance.length>0 && sicknessBalance.length>0 && vacationseligibilty.length>0 && sicknesseligibilty.length>0 && defaultWorking.length>0) {
+            try {
+                db.collection("employees").add({
+                    employeeId: employeeId,
+                    profileImage: profileImage,
+                    firstName: firstName,
+                    lastName: lastName,
+                    id: id,
+                    idImage: idImage,
+                    phone: phone,
+                    birthDate: birthDate,
+                    driverLicenseNumber: driverLicenseNumber,
+                    licenseImage: licenseImage,
+                    hasPortAccess: hasPortAccess,
+                    portAccessNumber: portAccessNumber,
+                    accessDate: accessDate,
+                    accessImage: accessImage,
+                    salaryPerHour: salaryPerHour,
+                    vacationsBalance: vacationsBalance,
+                    sicknessBalance: sicknessBalance,
+                    vacationseligibilty: vacationseligibilty,
+                    sicknesseligibilty: sicknesseligibilty,
+                    defaultWorking: defaultWorking
+                })
+            } catch (error) {
+                alert(error);
+            }
+            this.props.navigation.navigate('Employees');
+
+        // } else {
+        //     alert("Please insert required data")
+        // }
+    }
+    goToEmployeesCancel = async() => {
+        this.setState({
+            buttonVisableAccess:false,
+            buttonVisableId:false,
+            buttonVisableLicense: false,
+            buttonVisableProfile: false,
+            profileImage: null,
+            idImage: null,
+            licenseImage: null,
+            accessImage: null,
+            hasPortAccess: 'false',
+            firstName: '',
+            lastName: '',
+            id: '',
+            phone: '',
+            email: '',
+            birthDate: '',
+            driverLicenseNumber: '',
+            portAccessNumber: '',
+            accessDate: '',
+            salaryPerHour: '',
+            vacationsBalance: '',
+            sicknessBalance: '',
+            vacationseligibilty: '',
+            sicknesseligibilty: '',
+            defaultWorking: ''
+        })
+        this.props.navigation.navigate('Employees')
+      }
+    
     goToHome = () => this.props.navigation.navigate('Home');
     goToEmployees = () => this.props.navigation.navigate('Employees');
     goToStock = () => this.props.navigation.navigate('Stock');
@@ -63,13 +187,11 @@ export default class EmployeesAdd extends React.Component {
             allowsEditing: true,
             aspect: [4, 3],
             quality: 1,
+            base64: true,
 
         });
-
-        console.log(result);
-
         if (!result.cancelled) {
-            this.setState({ profileImage: result.uri });
+            this.setState({ profileImage: 'data:image/gif;base64,'+ result.base64 });
         }
     };
     _pickImageId = async () => {
@@ -81,13 +203,11 @@ export default class EmployeesAdd extends React.Component {
             allowsEditing: true,
             aspect: [4, 3],
             quality: 1,
+            base64: true,
 
         });
-
-        console.log(result);
-
         if (!result.cancelled) {
-            this.setState({ idImage: result.uri });
+            this.setState({ idImage: 'data:image/gif;base64,'+ result.base64 });
         }
     };
     _pickImageLicense = async () => {
@@ -99,13 +219,11 @@ export default class EmployeesAdd extends React.Component {
             allowsEditing: true,
             aspect: [4, 3],
             quality: 1,
+            base64: true,
 
         });
-
-        console.log(result);
-
         if (!result.cancelled) {
-            this.setState({ licenseImage: result.uri });
+            this.setState({ licenseImage: 'data:image/gif;base64,'+ result.base64 });
         }
     };
     _pickImageAccess = async () => {
@@ -117,22 +235,16 @@ export default class EmployeesAdd extends React.Component {
             allowsEditing: true,
             aspect: [4, 3],
             quality: 1,
+            base64: true,
 
         });
-
-        console.log(result);
-
         if (!result.cancelled) {
-            this.setState({ accessImage: result.uri });
+            this.setState({ accessImage: 'data:image/gif;base64,'+ result.base64 });
         }
     };
-    goToEmployeesAdded = () => this.props.navigation.navigate('Employees');
-    goToEmployeesCancel = () => this.props.navigation.navigate('Employees');
+
     render() {
-        let { profileImage } = this.state;
-        let { idImage } = this.state;
-        let { licenseImage } = this.state;
-        let { accessImage } = this.state;
+        const { profileImage, firstName, lastName, id, idImage, email, phone, birthDate, driverLicenseNumber, licenseImage, hasPortAccess, portAccessNumber, accessDate, accessImage, salaryPerHour, vacationsBalance, sicknessBalance, vacationseligibilty, sicknesseligibilty, defaultWorking } = this.state
         return (
             <View style={styles.container}>
                 <ScrollView>
@@ -160,30 +272,30 @@ export default class EmployeesAdd extends React.Component {
                             <TextInput
                                 style={styles.input}
                                 name='firstName'
-                                // value={password}
+                                value={firstName}
                                 placeholder='First Name'
                                 autoCapitalize='none'
-                                secureTextEntry
+                                onChangeText={this.handlefirstNameChange}
                             />
                         </View>
                         <View style={{ margin: screenHeight / 80 }}>
                             <TextInput
                                 style={styles.input}
                                 name='lastName'
-                                // value={password}
+                                value={lastName}
                                 placeholder='Last Name'
                                 autoCapitalize='none'
-                                secureTextEntry
+                                onChangeText={this.handlelastNameChange}
                             />
                         </View>
                         <View style={{ margin: screenHeight / 80 }}>
                             <TextInput
                                 style={styles.input}
                                 name='id'
-                                // value={password}
+                                value={id}
                                 placeholder='ID'
                                 autoCapitalize='none'
-                                secureTextEntry
+                                onChangeText={this.handleidChange}
                             />
                         </View>
                         <View style={{ alignItems: 'center', justifyContent: 'center' }}>
@@ -208,27 +320,27 @@ export default class EmployeesAdd extends React.Component {
                             <TextInput
                                 style={styles.input}
                                 name='phone'
-                                // value={password}
+                                value={phone}
                                 placeholder='Phone'
                                 autoCapitalize='none'
-                                secureTextEntry
+                                onChangeText={this.handlephoneChange}
                             />
                         </View>
                         <View style={{ margin: screenHeight / 80 }}>
                             <TextInput
                                 style={styles.input}
                                 name='email'
-                                // value={password}
+                                value={email}
                                 placeholder='Email'
                                 autoCapitalize='none'
-                                secureTextEntry
+                                onChangeText={this.handleemailChange}
                             />
                         </View>
                         <DatePicker
                             style={{
                                 marginBottom: screenHeight / 80
                             }}
-                            date={this.state.birthDate}
+                            date={birthDate}
                             mode="date"
                             placeholder="Date of Birth"
                             format="YYYY-MM-DD"
@@ -240,7 +352,7 @@ export default class EmployeesAdd extends React.Component {
                                 dateIcon: {
                                     position: 'absolute',
                                     left: screenWidth * 0.4,
-                                    top: screenHeight/100,
+                                    top: screenHeight / 100,
                                     marginLeft: 0
                                 },
                                 dateInput: {
@@ -264,10 +376,10 @@ export default class EmployeesAdd extends React.Component {
                             <TextInput
                                 style={styles.input}
                                 name='driverLicenseNumber'
-                                // value={password}
+                                value={driverLicenseNumber}
                                 placeholder='Driver License Number'
                                 autoCapitalize='none'
-                                secureTextEntry
+                                onChangeText={this.handledriverLicenseNumberChange}
                             />
                         </View>
                         <View style={{ alignItems: 'center', justifyContent: 'center' }}>
@@ -289,7 +401,7 @@ export default class EmployeesAdd extends React.Component {
                                 </TouchableOpacity>}
                         </View>
 
-                        <View style={{ flexDirection: 'row', flexWrap: 'wrap',marginLeft:30}}>
+                        <View style={{ flexDirection: 'row', flexWrap: 'wrap', marginLeft: 30 }}>
                             <CheckboxFormX
                                 style={{ width: 30 }}
                                 dataSource={selectall}
@@ -300,23 +412,22 @@ export default class EmployeesAdd extends React.Component {
                                 labelHorizontal={true}
                                 onChecked={(item) => this._onSelect(item)}
                             />
-                            {/* <Text style={{ fontSize: 14, color: '#3c3c3c', marginTop: screenHeight/80 }}> Has Port Access </Text> */}
                         </View>
                         <View style={{ margin: screenHeight / 80 }}>
                             <TextInput
                                 style={styles.input}
                                 name='portAccessNumber'
-                                // value={password}
+                                value={portAccessNumber}
                                 placeholder='Port Access Number'
                                 autoCapitalize='none'
-                                secureTextEntry
+                                onChangeText={this.handleportAccessNumberChange}
                             />
                         </View>
                         <DatePicker
                             style={{
                                 marginBottom: screenHeight / 80
                             }}
-                            date={this.state.accessDate}
+                            date={accessDate}
                             mode="date"
                             placeholder="Access Expiration Date"
                             format="YYYY-MM-DD"
@@ -328,7 +439,7 @@ export default class EmployeesAdd extends React.Component {
                                 dateIcon: {
                                     position: 'absolute',
                                     left: screenWidth * 0.4,
-                                    top: screenHeight/100,
+                                    top: screenHeight / 100,
                                     marginLeft: 0
                                 },
                                 dateInput: {
@@ -371,60 +482,60 @@ export default class EmployeesAdd extends React.Component {
                             <TextInput
                                 style={styles.input}
                                 name='salaryPerHour'
-                                // value={password}
+                                value={salaryPerHour}
                                 placeholder='Salary Per Hour'
                                 autoCapitalize='none'
-                                secureTextEntry
+                                onChangeText={this.handlesalaryPerHourChange}
                             />
                         </View>
                         <View style={{ margin: screenHeight / 80 }}>
                             <TextInput
                                 style={styles.input}
                                 name='vacationsBalance'
-                                // value={password}
+                                value={vacationsBalance}
                                 placeholder='Vacations Balance'
                                 autoCapitalize='none'
-                                secureTextEntry
+                                onChangeText={this.handlevacationsBalanceChange}
                             />
                         </View>
                         <View style={{ margin: screenHeight / 80 }}>
                             <TextInput
                                 style={styles.input}
                                 name='sicknessBalance'
-                                // value={password}
+                                value={sicknessBalance}
                                 placeholder='Sickness Balance'
                                 autoCapitalize='none'
-                                secureTextEntry
+                                onChangeText={this.handlesicknessBalanceChange}
                             />
                         </View>
                         <View style={{ margin: screenHeight / 80 }}>
                             <TextInput
                                 style={styles.input}
                                 name='vacationseligibilty'
-                                // value={password}
+                                value={vacationseligibilty}
                                 placeholder='Vacations eligibilty per month'
                                 autoCapitalize='none'
-                                secureTextEntry
+                                onChangeText={this.handlevacationseligibiltyChange}
                             />
                         </View>
                         <View style={{ margin: screenHeight / 80 }}>
                             <TextInput
                                 style={styles.input}
                                 name='sicknesseligibilty'
-                                // value={password}
+                                value={sicknesseligibilty}
                                 placeholder='Sickness eligibilty per month'
                                 autoCapitalize='none'
-                                secureTextEntry
+                                onChangeText={this.handlesicknesseligibiltyChange}
                             />
                         </View>
                         <View style={{ margin: screenHeight / 80 }}>
                             <TextInput
                                 style={styles.input}
                                 name='defaultWorking'
-                                // value={password}
+                                value={defaultWorking}
                                 placeholder='Default working hours per day'
                                 autoCapitalize='none'
-                                secureTextEntry
+                                onChangeText={this.handledefaultWorkingChange}
                             />
                         </View>
                         <View style={{ flexDirection: 'row', marginTop: 15, marginBottom: 20 }}>

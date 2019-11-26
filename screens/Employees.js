@@ -2,18 +2,13 @@
 import React from 'react'
 import { Ionicons } from '@expo/vector-icons';
 import CheckboxFormX from 'react-native-checkbox-form';
-import { StyleSheet, View, Dimensions, Text, TouchableOpacity, CheckBox } from 'react-native'
+import { StyleSheet, View, Dimensions, Text, TouchableOpacity } from 'react-native'
 import { List, ListItem, Left, Body, Right, Thumbnail } from 'native-base';
 import { Searchbar } from 'react-native-paper';
+import { Firebase, db } from '../Firebase';
 const screenWidth = Math.round(Dimensions.get('window').width);
 const screenHeight = Math.round(Dimensions.get('window').height);
 
-const selectall = [
-    {
-        label: 'Select All',
-        value: 'one'
-    },
-];
 const selectone = [
     {
         label: '',
@@ -26,26 +21,29 @@ export default class Employees extends React.Component {
 
         this.state = {
             firstQuery: '',
-            checkBoxChecked: []
+            employees: [],
         };
+    }
+    componentDidMount() {
+        this.getEmployees();
+    }
+    async getEmployees() {
+        let employeesData = [];
+        const employees = await db.collection('employees').get()
+            .then(querySnapshot => {                
+                querySnapshot.docs.map(doc => {   
+                    employeesData.push(doc.data());                 
+                    //console.log('LOG 1', doc.data());
+                    return doc.data();
+                });
+                this.setState({employees:employeesData});
+                //console.log(this.state.employees);
+            });        
     }
     _onSelect = (item) => {
         console.log(item);
     };
-    checkBoxChanged(id, value) {
-
-        this.setState({
-            checkBoxChecked: tempCheckValues
-        })
-
-        var tempCheckBoxChecked = this.state.checkBoxChecked;
-        tempCheckBoxChecked[id] = !value;
-
-        this.setState({
-            checkBoxChecked: tempCheckBoxChecked
-        })
-
-    }
+    
 
     goToEmployeesAdd = () => this.props.navigation.navigate('EmployeesAdd');
     goToEmployeesEdit = () => this.props.navigation.navigate('EmployeesAdd');
@@ -55,28 +53,7 @@ export default class Employees extends React.Component {
     goToReportTab = () => this.props.navigation.navigate('ReportTab');
     render() {
         const { firstQuery } = this.state;
-        const products = [{
-            id: 1
-        },
-        {
-            id: 2
-        },
-        {
-            id: 3
-        }];
         return (
-            //     products.map((val) => {
-            //         { tempCheckValues[val.id] = false }   
-            //         return (        
-            //           <View key={val.id} style={{ flexDirection: 'column' }}>        
-            //             <CheckBox        
-            //               value={this.state.checkBoxChecked[val.id]}        
-            //               onValueChange={() => this.checkBoxChanged(val.id, this.state.checkBoxChecked[val.id])}        
-            //             />        
-            //           </View >        
-            //         )        
-            //       }
-            //     )
 
             <View style={styles.container}>
                 <View style={{ flexDirection: 'row', marginTop: 30 }}>
