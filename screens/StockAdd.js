@@ -49,7 +49,6 @@ export default class StockAdd extends React.Component {
         })
     };
     onTypeSelect(value, label) {
-        console.log(value);
         this.setState({ typeValue: value });
     }
 

@@ -20,12 +20,22 @@ export default class Stock extends React.Component {
             stocks: [],
             dataLoaded: false,
             selectedData: [],
-        };        
+        };
     }
     componentDidMount() {
-        this.getStocks();
+        // this.getStocks();
+        let stocksData = [];
+        const stocks = db.collection('stock').get()
+            .then(querySnapshot => {
+                querySnapshot.docs.map(doc => {
+                    stocksData.push(doc.data());
+                    // console.warn(doc.data());
+                });
+                this.setState({ stocks: stocksData });
+                this.setState({ dataLoaded: true });
+            });
     }
-    async getStocks() {
+    async getStocks() {        
         let stocksData = [];
         const stocks = await db.collection('stock').get()
             .then(querySnapshot => {
@@ -44,8 +54,8 @@ export default class Stock extends React.Component {
         this.props.navigation.navigate('StockAdd');
     }
     goToStockEdit = () => {
-        employeesList = this.state.employees.map((data) => {
-            if (data.employeeId == selected) {
+        stocksList = this.state.stocks.map((data) => {
+            if (data.stockId == selected) {
                 this.setState({
                     selectedData: data
                 }, () => {
@@ -153,7 +163,7 @@ export default class Stock extends React.Component {
                     style={{ width: 0.9 * screenWidth, backgroundColor: '#f6f6f6', borderRadius: 8, marginTop: 20 }}
                 />
                 <View style={styles.card}>
-                {this.state.dataLoaded && <List>
+                    {this.state.dataLoaded && <List>
                         {stocksList}
                     </List>}
                     {!this.state.dataLoaded && <Text style={{ fontSize: 18, margin: 30 }}>

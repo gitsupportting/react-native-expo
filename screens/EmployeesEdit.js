@@ -7,6 +7,7 @@ import { StyleSheet, View, Dimensions, Text, TouchableOpacity, TextInput, Image,
 import * as ImagePicker from 'expo-image-picker';
 import DatePicker from 'react-native-datepicker'
 import { Firebase, db } from '../Firebase';
+import { concatenateTypeDefs } from 'graphql-tools';
 const screenWidth = Math.round(Dimensions.get('window').width);
 const screenHeight = Math.round(Dimensions.get('window').height);
 
@@ -99,12 +100,16 @@ export default class EmployeesEdit extends React.Component {
         const { profileImage, firstName, lastName, id, idImage, email, phone, birthDate, driverLicenseNumber, licenseImage, hasPortAccess, portAccessNumber, accessDate, accessImage, salaryPerHour, vacationsBalance, sicknessBalance, vacationseligibilty, sicknesseligibilty, defaultWorking } = this.state
         let employeeId = new Date().getTime();
         // if ((profileImage != null) && (idImage != null) && (licenseImage != null) && (accessImage != null) && (hasPortAccess == true) && firstName.length > 0 && lastName.length > 0 && id, email.length > 0 && phone.length > 0 && birthDate.length > 0 && driverLicenseNumber.length > 0 && portAccessNumber.length > 0 && accessDate.length > 0 && salaryPerHour.length > 0 && vacationsBalance.length > 0 && sicknessBalance.length > 0 && vacationseligibilty.length > 0 && sicknesseligibilty.length > 0 && defaultWorking.length > 0) {
+       
         try {
+            //console.warn((this.state.tempEmployee).employeeId);
             db.collection("employees").where("employeeId", "==", (this.state.tempEmployee).employeeId)
                 .get()
-                .then(function (querySnapshot) {
+                .then(function (querySnapshot) {                    
                     querySnapshot.forEach(function (doc) {
-                        console.warn(doc.id, " => ", doc.data());
+                        
+                        //console.warn(doc.id, " => ", doc.data());
+                        console.warn('aaa');
                         db.collection("employees").doc(doc.id).update({
                             employeeId: employeeId,
                             profileImage: profileImage,
@@ -133,7 +138,10 @@ export default class EmployeesEdit extends React.Component {
         } catch (error) {
             alert(error);
         }
-        this.props.navigation.navigate('Employees');
+        setTimeout(() => {
+            this.props.navigation.navigate('Employees');
+        }, 2000);
+        
 
         // } else {
         //     alert("Please insert required data")

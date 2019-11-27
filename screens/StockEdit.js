@@ -17,7 +17,7 @@ const selectall = [
     },
 ];
 
-export default class StockAdd extends React.Component {
+export default class StockEdit extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -118,7 +118,10 @@ export default class StockAdd extends React.Component {
             } catch (error) {
                 alert(error);
             }
-            this.props.navigation.navigate('Stock');
+            setTimeout(() => {
+                this.props.navigation.navigate('Stock');
+            }, 2000);
+            
         // } else {
         //     alert("Please insert required data")
         // }
@@ -160,23 +163,23 @@ export default class StockAdd extends React.Component {
         this.setState({
             tempStock: this.props.navigation.state.params.editData
         }, () => {
-            if (this.state.tempEmployee != '') {
-                if (this.state.tempEmployee.stockImage != null) {
+            if (this.state.tempStock != '') {
+                if (this.state.tempStock.stockImage != null) {
                     this.setState({
                         buttonVisableStock: true
                     })
                 }
-                if (this.state.tempEmployee.sLicenseImage != null) {
+                if (this.state.tempStock.sLicenseImage != null) {
                     this.setState({
                         buttonVisableSLicense: true
                     })
                 }
-                if (this.state.tempEmployee.sInsuranceImage != null) {
+                if (this.state.tempStock.sInsuranceImage != null) {
                     this.setState({
                         buttonVisableSInsurance: true
                     })
                 }
-                if (this.state.tempEmployee.sAccessImage != null) {
+                if (this.state.tempStock.sAccessImage != null) {
                     this.setState({
                         buttonVisableSAccess: true
                     })
