@@ -111,7 +111,10 @@ export default class StockAdd extends React.Component {
             } catch (error) {
                 alert(error);
             }
-            this.props.navigation.navigate('Stock');
+            setTimeout(() => {
+                this.props.navigation.navigate('Stock');    
+            }, 2000);
+            
             } else {
                 alert("Please insert required data")
             }        

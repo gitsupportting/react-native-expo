@@ -620,7 +620,7 @@ export default class EmployeesEdit extends React.Component {
                                 style={{ width: 0.35 * screenWidth }}
                                 onPress={this.goToEmployeesAdded}
                             >
-                                <Text style={{ fontSize: 18, color: '#2684ff' }}> Add Employees </Text>
+                                <Text style={{ fontSize: 18, color: '#2684ff' }}> Edit Employees </Text>
                             </TouchableOpacity>
                         </View>
                     </View>

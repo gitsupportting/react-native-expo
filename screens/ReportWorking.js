@@ -8,48 +8,76 @@ import { Ionicons } from '@expo/vector-icons';
 import { StyleSheet, View, Dimensions, Text, TouchableOpacity, CheckBox, ScrollView } from 'react-native'
 import { List, ListItem, Left, Body, Right, Thumbnail } from 'native-base';
 import { Searchbar } from 'react-native-paper';
+import { Firebase, db } from '../Firebase';
 // import { ScrollView } from 'react-native-gesture-handler';
 const screenWidth = Math.round(Dimensions.get('window').width);
 const screenHeight = Math.round(Dimensions.get('window').height);
 
-const selectall = [
+let select_all = [];
+let selectall = [
     {
-        label: 'Select All',
-        value: 'one'        
-    },
-];
-const selectone = [
-    {
-        label: '',
-        value: 'one'        
-    },
-];
+        value: 'all',
+        label: 'Select All'
+    }
+]
+let selectedData;
 export default class ReportWorking extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
             firstQuery: '',
-            checkBoxChecked: []
+            employees: [],
+            dataLoaded: false,
         };
     }
-    _onSelect = (item) => {
-        console.log(item);
-    };
-    checkBoxChanged(id, value) {
-
-        this.setState({
-            checkBoxChecked: tempCheckValues
-        })
-
-        var tempCheckBoxChecked = this.state.checkBoxChecked;
-        tempCheckBoxChecked[id] = !value;
-
-        this.setState({
-            checkBoxChecked: tempCheckBoxChecked
-        })
-
+    componentDidMount() {
+        selectedData = [];
+        this.getEmployees();
     }
+    async getEmployees() {
+        let employeesData = [];
+        const employees = await db.collection('employees').get()
+            .then(querySnapshot => {
+                querySnapshot.docs.map(doc => {
+                    employeesData.push(doc.data());
+                });
+                this.setState({ employees: employeesData });
+                this.setState({ dataLoaded: true });
+            });
+    }
+
+    _onSelect = (item) => {
+        if (item[0].value === 'all') {
+            if (item[0].RNchecked) {
+                selectedData = [];
+                for (var i = 0; i < select_all.length; i++) {
+                    selectedData.push({
+                        id: select_all[i].value,
+                        name: select_all[i].name,
+                        defaultWorking: select_all[i].defaultWorking,
+                    })
+                }
+            } else {
+                selectedData = [];
+            }
+        } else {
+            if (item[0].RNchecked) {
+                selectedData.push({
+                    id: item[0].value,
+                    name: item[0].name,
+                    defaultWorking: item[0].defaultWorking,
+                })
+            } else {
+                for (var i = 0; i < selectedData.length; i++) {
+                    if (selectedData[i].id === item[0].value) {
+                        selectedData.splice(i, 1);
+                    }
+                }
+            }
+        }
+        // console.warn(selectedData);
+    };
 
     goToReportCancel = () => this.props.navigation.navigate('Home');
     goToReportDone = () => this.props.navigation.navigate('Home');
@@ -58,16 +86,82 @@ export default class ReportWorking extends React.Component {
     goToStock = () => this.props.navigation.navigate('Stock');
     goToReportTab = () => this.props.navigation.navigate('ReportTab');
     render() {
-        const { firstQuery } = this.state;
-        const products = [{
-            id: 1
-        },
-        {
-            id: 2
-        },
-        {
-            id: 3
-        }];
+        select_all = [];
+        const { firstQuery, employees } = this.state;
+        const employeesList = employees.map((data) => {
+
+            select_all.push({
+                label: '',
+                value: data.employeeId,
+                name: data.firstName + data.lastName,
+                defaultWorking: data.defaultWorking,
+            })
+            if (firstQuery == '') {
+                let selectone = [];
+                selectone.push({
+                    label: '',
+                    value: data.employeeId,
+                    name: data.firstName + data.lastName,
+                    defaultWorking: data.defaultWorking,
+                })
+                return (
+                    <ListItem avatar>
+                        <Left>
+                            {/* <Thumbnail source={{ uri: 'Image URL' }} /> */}
+                            <Ionicons name="ios-contact" size={screenHeight * 0.05} color="black" />
+                        </Left>
+                        <Body>
+                            <Text style={styles.font1}>{data.firstName} {data.lastName}</Text>
+                        </Body>
+                        <Right>
+                            <CheckboxFormX
+                                style={{ width: 30 }}
+                                dataSource={selectone}
+                                itemShowKey="label"
+                                itemCheckedKey="RNchecked"
+                                iconSize={30}
+                                formHorizontal={true}
+                                onChecked={(item) => this._onSelect(item)}
+                            />
+                        </Right>
+                    </ListItem>
+                )
+            } else {
+
+                let str = data.firstName + ' ' + data.lastName;
+                var n = str.includes(firstQuery);
+                if (n) {
+                    let selecttwo = [];
+                    selecttwo.push({
+                        label: '',
+                        value: data.employeeId,
+                        name: data.firstName + data.lastName,
+                        defaultWorking: data.defaultWorking,
+                    })
+                    return (
+                        <ListItem avatar>
+                            <Left>
+                                <Ionicons name="ios-contact" size={screenHeight * 0.05} color="black" />
+                            </Left>
+                            <Body>
+                                <Text style={styles.font1}>{str}</Text>
+                            </Body>
+                            <Right>
+                                <CheckboxFormX
+                                    style={{ width: 30 }}
+                                    dataSource={selecttwo}
+                                    itemShowKey="label"
+                                    itemCheckedKey="RNchecked"
+                                    iconSize={30}
+                                    formHorizontal={true}
+                                    onChecked={(item) => this._onSelect(item)}
+                                />
+                            </Right>
+                        </ListItem >
+                    )
+                }
+            }
+        })
         return (
 
             <View style={styles.container}>
@@ -95,11 +189,6 @@ export default class ReportWorking extends React.Component {
                     style={{ width: 0.9 * screenWidth, backgroundColor: '#f6f6f6', borderRadius: 8, marginTop: 20, marginBottom: 10 }}
                 />
                 <View style={{ flexDirection: 'row', flexWrap: 'wrap', marginLeft: 30 }}>
-                    {/* <CheckBox
-                        value={this.state.checked}
-                        styles={{ size: 100 }}
-                        onValueChange={() => this.setState({ checked1: !this.state.checked1, checked2: !this.state.checked2, checked3: !this.state.checked3, checked: !this.state.checked })}
-                    /> */}
                     <CheckboxFormX
                         style={{ width: 30 }}
                         dataSource={selectall}
@@ -110,105 +199,38 @@ export default class ReportWorking extends React.Component {
                         labelHorizontal={true}
                         onChecked={(item) => this._onSelect(item)}
                     />
-                    {/* <Text style={{ fontSize: 14, color: '#3c3c3c', marginTop: screenHeight / 100 }}> Select All </Text> */}
                 </View>
                 <View style={styles.card}>
                     <ScrollView>
-                        <List>
-                            <ListItem avatar>
-                                <Left>
-                                    {/* <Thumbnail source={{ uri: 'Image URL' }} /> */}
-                                    <Ionicons name="ios-contact" size={screenHeight * 0.05} color="black" />
-                                </Left>
-                                <Body>
-                                    <Text style={styles.font1}>Kumar Pratik</Text>
-                                </Body>
-                                <Right>
-                                    {/* <CheckBox
-                                        value={this.state.checked1}
-                                        onValueChange={() => this.setState({ checked1: !this.state.checked1 })}
-                                    /> */}
-                                    <CheckboxFormX
-                                        style={{ width: 30 }}
-                                        dataSource={selectone}
-                                        itemShowKey="label"
-                                        itemCheckedKey="RNchecked"
-                                        iconSize={30}
-                                        formHorizontal={true}
-                                        // labelHorizontal={true}
-                                        onChecked={(item) => this._onSelect(item)}
-                                    />
-                                </Right>
-                            </ListItem>
-                            <ListItem avatar>
-                                <Left>
-                                    {/* <Thumbnail source={{ uri: 'Image URL' }} /> */}
-                                    <Ionicons name="ios-contact" size={screenHeight * 0.05} color="black" />
-                                </Left>
-                                <Body>
-                                    <Text style={styles.font1}>Kumar Pratik</Text>
-                                </Body>
-                                <Right>
-                                    {/* <CheckBox
-                                        value={this.state.checked2}
-                                        onValueChange={() => this.setState({ checked2: !this.state.checked2 })}
-                                    /> */}
-                                    <CheckboxFormX
-                                        style={{ width: 30 }}
-                                        dataSource={selectone}
-                                        itemShowKey="label"
-                                        itemCheckedKey="RNchecked"
-                                        iconSize={30}
-                                        formHorizontal={true}
-                                        // labelHorizontal={true}
-                                        onChecked={(item) => this._onSelect(item)}
-                                    />
-                                </Right>
-                            </ListItem>
-                            <ListItem avatar>
-                                <Left>
-                                    {/* <Thumbnail source={{ uri: 'Image URL' }} /> */}
-                                    <Ionicons name="ios-contact" size={screenHeight * 0.05} color="black" />
-                                </Left>
-                                <Body>
-                                    <Text style={styles.font1}>Kumar Pratik</Text>
-                                </Body>
-                                <Right>
-                                    {/* <CheckBox
-                                        value={this.state.checked3}
-                                        onValueChange={() => this.setState({ checked3: !this.state.checked3 })}
-                                    /> */}
-                                    <CheckboxFormX
-                                        style={{ width: 30 }}
-                                        dataSource={selectone}
-                                        itemShowKey="label"
-                                        itemCheckedKey="RNchecked"
-                                        iconSize={30}
-                                        formHorizontal={true}
-                                        // labelHorizontal={true}
-                                        onChecked={(item) => this._onSelect(item)}
-                                    />
-                                </Right>
-                            </ListItem>
-                        </List>
-                        <View style={{ marginLeft: screenWidth * 0.17 }}>
-                            <TouchableOpacity
-                                style={styles.button1}
-                                onPress={() => {
-                                    this.setState({ autoVisible: true });
-                                }}
-                            >
-                                <Text style={{ fontSize: 16, color: 'white' }}> Auto Report Working Hours </Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                style={styles.button3}
-                                onPress={() => {
-                                    this.setState({ customVisible: true });
-                                }}
-                            >
-                                <Text style={{ fontSize: 16, color: 'white' }}> Custom </Text>
-                            </TouchableOpacity>
-                        </View>
+                        {this.state.dataLoaded &&
+                            <View>
+                                <List>
+                                    {employeesList}
+                                </List>
+                                <View style={{ marginLeft: screenWidth * 0.17 }}>
+                                    <TouchableOpacity
+                                        style={styles.button1}
+                                        onPress={() => {
+                                            this.setState({ autoVisible: true });
+                                        }}
+                                    >
+                                        <Text style={{ fontSize: 16, color: 'white' }}> Auto Report Working Hours </Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity
+                                        style={styles.button3}
+                                        onPress={() => {
+                                            this.setState({ customVisible: true });
+                                        }}
+                                    >
+                                        <Text style={{ fontSize: 16, color: 'white' }}> Custom </Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                        }
+                        {!this.state.dataLoaded && <Text style={{ fontSize: 18, margin: 30 }}>
+                            Loading...
+                    </Text>}
+
                     </ScrollView>
                 </View>
                 <View style={styles.card1}>
@@ -247,14 +269,6 @@ export default class ReportWorking extends React.Component {
                     }}
                     footer={
                         <ModalFooter style={{ backgroundColor: '#E7E7E7', height: screenHeight / 11, }}>
-                            {/* <ModalButton
-                                text="Cancel"
-                                onPress={() => { this.setState({ autoVisible: false }); }}
-                            />
-                            <ModalButton
-                                text="Submit"
-                                onPress={() => { this.setState({ autoVisible: false }); }}
-                            /> */}
                             <TouchableOpacity
                                 style={{
                                     position: "absolute",
@@ -283,7 +297,27 @@ export default class ReportWorking extends React.Component {
                                     borderRadius: 5,
                                     width: screenWidth * 0.2,
                                 }}
-                                onPress={() => { this.setState({ autoVisible: false }); }}
+                                onPress={() => {
+                                    for (var i = 0; i < selectedData.length; i++) {
+                                        let workingHourId = new Date().getTime();
+                                        try {
+                                            db.collection("workingHours").add({
+                                                workingHourId: workingHourId,
+                                                employeeId: selectedData[i].id,
+                                                name: selectedData[i].name,
+                                                defaultWorking: selectedData[i].defaultWorking,
+                                                startTime: '',
+                                                endTime: ''
+                                            })
+                                        } catch (error) {
+                                            alert(error);
+                                        }
+                                    }
+
+                                    setTimeout(() => {
+                                        this.setState({ autoVisible: false });
+                                    }, 2000);
+                                }}
                             >
                                 <Text style={{ fontSize: 14, color: '#2684ff' }}> Submit </Text>
                             </TouchableOpacity>
@@ -303,16 +337,6 @@ export default class ReportWorking extends React.Component {
                     }}
                     footer={
                         <ModalFooter style={{ backgroundColor: '#E7E7E7', marginTop: 0, height: screenHeight / 11, }}>
-                            {/* <ModalButton
-                                text="Cancel"
-                                style={{ backgroundColor: '#E7E7E7', marginTop: 0 }}
-                                onPress={() => { this.setState({ customVisible: false }); }}
-                            />
-                            <ModalButton
-                                text="Submit"
-                                style={{ backgroundColor: '#E7E7E7', marginTop: 0 }}
-                                onPress={() => { this.setState({ customVisible: false }); }}
-                            /> */}
                             <TouchableOpacity
                                 style={{
                                     position: "absolute",
@@ -341,7 +365,28 @@ export default class ReportWorking extends React.Component {
                                     borderRadius: 5,
                                     width: screenWidth * 0.2,
                                 }}
-                                onPress={() => { this.setState({ customVisible: false }); }}
+                                onPress={() => {
+                                    const workingHours_custom = Number((this.state.endTime).slice(11, 13))-Number((this.state.startTime).slice(11, 13))
+                                    for (var i = 0; i < selectedData.length; i++) {
+                                        let workingHourId = new Date().getTime();
+                                        try {
+                                            db.collection("workingHours").add({
+                                                workingHourId: workingHourId,
+                                                employeeId: selectedData[i].id,
+                                                name: selectedData[i].name,
+                                                defaultWorking: workingHours_custom,
+                                                startTime: this.state.startTime,
+                                                endTime: this.state.endTime,
+                                            })
+                                        } catch (error) {
+                                            alert(error);
+                                        }
+                                    }
+
+                                    setTimeout(() => {
+                                        this.setState({ customVisible: false });
+                                    }, 2000);
+                                }}
                             >
                                 <Text style={{ fontSize: 14, color: '#2684ff' }}> Submit </Text>
                             </TouchableOpacity>
@@ -367,7 +412,7 @@ export default class ReportWorking extends React.Component {
                                 dateIcon: {
                                     position: 'absolute',
                                     left: screenWidth * 0.4,
-                                    top: screenHeight/100,
+                                    top: screenHeight / 100,
                                     marginLeft: 0
                                 },
                                 dateInput: {
@@ -409,7 +454,7 @@ export default class ReportWorking extends React.Component {
                                 dateIcon: {
                                     position: 'absolute',
                                     left: screenWidth * 0.4,
-                                    top: screenHeight/100,
+                                    top: screenHeight / 100,
                                     marginLeft: 0
                                 },
                                 dateInput: {
@@ -447,7 +492,8 @@ const styles = StyleSheet.create({
         marginTop: 10,
         backgroundColor: '#f6f6f6',
         width: screenWidth * 0.9,
-        height: screenHeight * 0.58,
+        height: screenHeight * 0.53,
+        // height: screenHeight * 0.58,
         borderTopLeftRadius: 15,
         borderTopRightRadius: 15,
         // alignItems: 'center',
@@ -456,13 +502,13 @@ const styles = StyleSheet.create({
     card1: {
         backgroundColor: '#f6f6f6',
         width: screenWidth * 0.9,
-        height: screenHeight * 0.08,
+        height: screenHeight * 0.06,
         borderBottomLeftRadius: 15,
         borderBottomRightRadius: 15,
         alignItems: 'center',
         justifyContent: 'center',
-        position:'absolute',
-        bottom:15
+        position: 'absolute',
+        bottom: 15
     },
     font1: {
         fontSize: 16,

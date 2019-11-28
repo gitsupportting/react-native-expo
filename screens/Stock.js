@@ -23,13 +23,11 @@ export default class Stock extends React.Component {
         };
     }
     componentDidMount() {
-        // this.getStocks();
         let stocksData = [];
         const stocks = db.collection('stock').get()
             .then(querySnapshot => {
                 querySnapshot.docs.map(doc => {
                     stocksData.push(doc.data());
-                    // console.warn(doc.data());
                 });
                 this.setState({ stocks: stocksData });
                 this.setState({ dataLoaded: true });

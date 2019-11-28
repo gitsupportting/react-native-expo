@@ -43,7 +43,7 @@ export default class EmployeesAdd extends React.Component {
             sicknessBalance: '',
             vacationseligibilty: '',
             sicknesseligibilty: '',
-            defaultWorking: ''
+            defaultWorking: 8
         };
     }
     _onSelect = (item, e) => {
@@ -125,7 +125,10 @@ export default class EmployeesAdd extends React.Component {
             } catch (error) {
                 alert(error);
             }
-            this.props.navigation.navigate('Employees');
+            setTimeout(() => {
+                this.props.navigation.navigate('Employees');    
+            }, 2000);
+            
 
         } else {
             alert("Please insert required data")
@@ -156,7 +159,7 @@ export default class EmployeesAdd extends React.Component {
             sicknessBalance: '',
             vacationseligibilty: '',
             sicknesseligibilty: '',
-            defaultWorking: ''
+            defaultWorking: 8
         })
         this.props.navigation.navigate('Employees')
     }
@@ -177,26 +180,7 @@ export default class EmployeesAdd extends React.Component {
             }
         }
     }
-    // _pickImageProfile = () => {
-    //     this.setState({
-    //         buttonVisableProfile: true
-    //     })
-        
-    //     let result = ImagePicker.launchImageLibraryAsync({
-    //         mediaTypes: ImagePicker.MediaTypeOptions.All,
-    //         allowsEditing: true,
-    //         aspect: [4, 3],
-    //         quality: 1,
-    //         base64: true,
-    //     });
-        
-    //     setTimeout(() => {
-    //         if (!result.cancelled) {
-    //             console.log(result.base64);
-    //             this.setState({ profileImage: 'data:image/gif;base64,' + result.base64 });            
-    //         } 
-    //     }, 500);
-    // }
+    
     _pickImageProfile = async () => {
         
         this.setState({
