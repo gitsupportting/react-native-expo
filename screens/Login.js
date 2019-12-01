@@ -1,7 +1,6 @@
 import React from 'react'
-import { StyleSheet, View, TextInput, Image, Dimensions, Text, TouchableOpacity } from 'react-native'
+import { StyleSheet, View, TextInput, Image, Dimensions, Text, TouchableOpacity, KeyboardAvoidingView } from 'react-native'
 import { db, Firebase } from '../Firebase';
-import KeyboardShift from '../KeyboardShift';
 const screenWidth = Math.round(Dimensions.get('window').width);
 const screenHeight = Math.round(Dimensions.get('window').height);
 
@@ -43,57 +42,60 @@ export default class Login extends React.Component {
     const { email, password } = this.state
 
     return (
-      <KeyboardShift>
-        {() => (
-          <View style={styles.container}>
-            <Image
-              style={{ width: screenWidth * 0.8, height: screenHeight / 6 }}
-              source={require('../assets/icon.png')}
-            />
-            <View style={styles.card}>
-              <View style={{ alignItems: 'center', justifyContent: 'center', marginBottom: 20 }}>
-                <Text style={styles.font1}>Welcome To Kablanit</Text>
-                <Text style={styles.font1}>Sign in with your Company Admin</Text>
-                <Text style={styles.font1}>User Name</Text>
-                <Text style={styles.font2}>New Company?</Text>
-                <Text style={styles.font2}>Sign Up Below</Text>
-              </View>
-              <View style={{ margin: 10 }}>
-                <TextInput
-                  style={styles.input}
-                  name='email'
-                  value={email}
-                  placeholder='Email'
-                  autoCapitalize='none'
-                  onChangeText={this.handleemailChange}
-                />
-              </View>
-              <View style={{ margin: 10 }}>
-                <TextInput
-                  style={styles.input}
-                  name='password'
-                  value={password}
-                  placeholder='Password'
-                  secureTextEntry
-                  onChangeText={this.handlePasswordChange}
-                />
-              </View>
-              <TouchableOpacity
-                style={styles.button1}
-                onPress={this.onLogin}
-              >
-                <Text style={{ fontSize: 18, color: 'white' }}> Login </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.button2}
-                onPress={this.goToSignup}
-              >
-                <Text style={{ fontSize: 18, color: 'white' }}> Go to Signup </Text>
-              </TouchableOpacity>
-            </View>
+      <KeyboardAvoidingView
+        style={styles.container}
+        behavior="padding"
+      >
+        {/* <View style={styles.container}> */}
+        <Image
+          style={{ width: screenWidth * 0.8, height: screenHeight / 6 }}
+          source={require('../assets/icon.png')}
+        />
+        <View style={styles.card}>
+          <View style={{ alignItems: 'center', justifyContent: 'center', marginBottom: 20 }}>
+            <Text style={styles.font1}>Welcome To Kablanit</Text>
+            <Text style={styles.font1}>Sign in with your Company Admin</Text>
+            <Text style={styles.font1}>User Name</Text>
+            <Text style={styles.font2}>New Company?</Text>
+            <Text style={styles.font2}>Sign Up Below</Text>
           </View>
-        )}
-      </KeyboardShift>
+
+          <View style={{ margin: 10 }}>
+
+            <TextInput
+              style={styles.input}
+              name='email'
+              value={email}
+              placeholder='Email'
+              autoCapitalize='none'
+              onChangeText={this.handleemailChange}
+            />
+          </View>
+          <View style={{ margin: 10 }}>
+            <TextInput
+              style={styles.input}
+              name='password'
+              value={password}
+              placeholder='Password'
+              secureTextEntry
+              onChangeText={this.handlePasswordChange}
+            />
+          </View>
+          <TouchableOpacity
+            style={styles.button1}
+            onPress={this.onLogin}
+          >
+            <Text style={{ fontSize: 18, color: 'white' }}> Login </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button2}
+            onPress={this.goToSignup}
+          >
+            <Text style={{ fontSize: 18, color: 'white' }}> Go to Signup </Text>
+          </TouchableOpacity>
+        </View>
+        {/* </View> */}
+      </KeyboardAvoidingView>
     )
   }
 }

@@ -3,7 +3,7 @@
 import React from 'react'
 import { Ionicons } from '@expo/vector-icons';
 import CheckboxFormX from 'react-native-checkbox-form';
-import { StyleSheet, View, Dimensions, Text, TouchableOpacity, TextInput, Image, CheckBox, ScrollView } from 'react-native'
+import { StyleSheet, View, Dimensions, Text, TouchableOpacity, TextInput, Image, KeyboardAvoidingView, ScrollView } from 'react-native'
 import * as ImagePicker from 'expo-image-picker';
 import DatePicker from 'react-native-datepicker'
 import { Firebase, db } from '../Firebase';
@@ -46,7 +46,7 @@ export default class EmployeesAdd extends React.Component {
             defaultWorking: 8
         };
     }
-    
+
     _onSelect = (item, e) => {
         this.setState({
             hasPortAccess: item[0].RNchecked
@@ -127,9 +127,9 @@ export default class EmployeesAdd extends React.Component {
                 alert(error);
             }
             setTimeout(() => {
-                this.props.navigation.navigate('Employees');    
+                this.props.navigation.navigate('Employees');
             }, 2000);
-            
+
 
         } else {
             alert("Please insert required data")
@@ -170,7 +170,7 @@ export default class EmployeesAdd extends React.Component {
     goToStock = () => this.props.navigation.navigate('Stock');
     goToReportTab = () => this.props.navigation.navigate('ReportTab');
     componentDidMount() {
-        this.getPermissionAsync();        
+        this.getPermissionAsync();
     }
 
     getPermissionAsync = async () => {
@@ -181,13 +181,13 @@ export default class EmployeesAdd extends React.Component {
             }
         }
     }
-    
+
     _pickImageProfile = async () => {
-        
+
         this.setState({
             buttonVisableProfile: true
         })
-        
+
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
             allowsEditing: true,
@@ -195,11 +195,11 @@ export default class EmployeesAdd extends React.Component {
             quality: 1,
             base64: true,
         });
-        
+
         setTimeout(() => {
             if (!result.cancelled) {
-                this.setState({ profileImage: 'data:image/gif;base64,' + result.base64 });            
-            } 
+                this.setState({ profileImage: 'data:image/gif;base64,' + result.base64 });
+            }
         }, 50);
     };
     _pickImageId = async () => {
@@ -254,7 +254,10 @@ export default class EmployeesAdd extends React.Component {
     render() {
         const { profileImage, firstName, lastName, id, idImage, email, phone, birthDate, driverLicenseNumber, licenseImage, hasPortAccess, portAccessNumber, accessDate, accessImage, salaryPerHour, vacationsBalance, sicknessBalance, vacationseligibilty, sicknesseligibilty, defaultWorking } = this.state
         return (
-            <View style={styles.container}>
+            <KeyboardAvoidingView
+                style={styles.container}
+                behavior="padding"
+            >
                 <ScrollView>
                     <View style={styles.card1}>
                         <Text style={styles.font2}>Employees details</Text>
@@ -592,7 +595,7 @@ export default class EmployeesAdd extends React.Component {
                     </View>
                 </View>
 
-            </View>
+            </KeyboardAvoidingView>
 
         )
     }

@@ -4,7 +4,7 @@ import React from 'react'
 import { Select, Option } from "react-native-chooser";
 import CheckboxFormX from 'react-native-checkbox-form';
 import { Ionicons } from '@expo/vector-icons';
-import { StyleSheet, View, Dimensions, Text, TouchableOpacity, TextInput, Image, ScrollView } from 'react-native'
+import { StyleSheet, View, Dimensions, Text, TouchableOpacity, TextInput, Image, ScrollView, KeyboardAvoidingView } from 'react-native'
 import * as ImagePicker from 'expo-image-picker';
 import DatePicker from 'react-native-datepicker'
 import { Firebase, db } from '../Firebase';
@@ -253,7 +253,10 @@ export default class StockAdd extends React.Component {
         })
         const { stockImage, sLicenseImage, sInsuranceImage, sAccessImage, name, currentLocation, serialNumber, licenseDate, licenseNumber, insuranceNumber, expirationDate, portAccessNumber, accessDate, driverValue, typeValue } = this.state;
         return (
-            <View style={styles.container}>
+            <KeyboardAvoidingView
+            style={styles.container}
+            behavior="padding"
+          >
                 <ScrollView>
                     <View style={styles.card1}>
                         <Text style={styles.font2}>Stock details</Text>
@@ -584,7 +587,7 @@ export default class StockAdd extends React.Component {
                     </View>
                 </View>
 
-            </View>
+            </KeyboardAvoidingView>
 
         )
     }

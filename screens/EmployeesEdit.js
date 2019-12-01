@@ -3,7 +3,7 @@
 import React from 'react'
 import { Ionicons } from '@expo/vector-icons';
 import CheckboxFormX from 'react-native-checkbox-form';
-import { StyleSheet, View, Dimensions, Text, TouchableOpacity, TextInput, Image, CheckBox, ScrollView } from 'react-native'
+import { StyleSheet, View, Dimensions, Text, TouchableOpacity, TextInput, Image, KeyboardAvoidingView, ScrollView } from 'react-native'
 import * as ImagePicker from 'expo-image-picker';
 import DatePicker from 'react-native-datepicker'
 import { Firebase, db } from '../Firebase';
@@ -100,14 +100,14 @@ export default class EmployeesEdit extends React.Component {
         const { profileImage, firstName, lastName, id, idImage, email, phone, birthDate, driverLicenseNumber, licenseImage, hasPortAccess, portAccessNumber, accessDate, accessImage, salaryPerHour, vacationsBalance, sicknessBalance, vacationseligibilty, sicknesseligibilty, defaultWorking } = this.state
         let employeeId = new Date().getTime();
         // if ((profileImage != null) && (idImage != null) && (licenseImage != null) && (accessImage != null) && (hasPortAccess == true) && firstName.length > 0 && lastName.length > 0 && id, email.length > 0 && phone.length > 0 && birthDate.length > 0 && driverLicenseNumber.length > 0 && portAccessNumber.length > 0 && accessDate.length > 0 && salaryPerHour.length > 0 && vacationsBalance.length > 0 && sicknessBalance.length > 0 && vacationseligibilty.length > 0 && sicknesseligibilty.length > 0 && defaultWorking.length > 0) {
-       
+
         try {
             //console.warn((this.state.tempEmployee).employeeId);
             db.collection("employees").where("employeeId", "==", (this.state.tempEmployee).employeeId)
                 .get()
-                .then(function (querySnapshot) {                    
+                .then(function (querySnapshot) {
                     querySnapshot.forEach(function (doc) {
-                        
+
                         //console.warn(doc.id, " => ", doc.data());
                         console.warn('aaa');
                         db.collection("employees").doc(doc.id).update({
@@ -131,17 +131,17 @@ export default class EmployeesEdit extends React.Component {
                             vacationseligibilty: vacationseligibilty,
                             sicknesseligibilty: sicknesseligibilty,
                             defaultWorking: defaultWorking,
-                            email:email
-                        });                        
+                            email: email
+                        });
                     });
-                })            
+                })
         } catch (error) {
             alert(error);
         }
         setTimeout(() => {
             this.props.navigation.navigate('Employees');
         }, 2000);
-        
+
 
         // } else {
         //     alert("Please insert required data")
@@ -316,7 +316,10 @@ export default class EmployeesEdit extends React.Component {
     render() {
         const { profileImage, firstName, lastName, id, idImage, email, phone, birthDate, driverLicenseNumber, licenseImage, hasPortAccess, portAccessNumber, accessDate, accessImage, salaryPerHour, vacationsBalance, sicknessBalance, vacationseligibilty, sicknesseligibilty, defaultWorking } = this.state
         return (
-            <View style={styles.container}>
+            <KeyboardAvoidingView
+                style={styles.container}
+                behavior="padding"
+            >
                 <ScrollView>
                     <View style={styles.card1}>
                         <Text style={styles.font2}>Employees details</Text>
@@ -653,9 +656,7 @@ export default class EmployeesEdit extends React.Component {
                         </TouchableOpacity>
                     </View>
                 </View>
-
-            </View>
-
+            </KeyboardAvoidingView>
         )
     }
 }

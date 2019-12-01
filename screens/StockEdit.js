@@ -4,7 +4,7 @@ import React from 'react'
 import { Select, Option } from "react-native-chooser";
 import CheckboxFormX from 'react-native-checkbox-form';
 import { Ionicons } from '@expo/vector-icons';
-import { StyleSheet, View, Dimensions, Text, TouchableOpacity, TextInput, Image, CheckBox, ScrollView } from 'react-native'
+import { StyleSheet, View, Dimensions, Text, TouchableOpacity, TextInput, Image, KeyboardAvoidingView, ScrollView } from 'react-native'
 import * as ImagePicker from 'expo-image-picker';
 import DatePicker from 'react-native-datepicker'
 import { Firebase, db } from '../Firebase';
@@ -101,7 +101,7 @@ export default class StockEdit extends React.Component {
                 })
             }
         });
-        
+
     }
 
     async getEmployees() {
@@ -310,16 +310,19 @@ export default class StockEdit extends React.Component {
 
         const { stockImage, sLicenseImage, sInsuranceImage, sAccessImage, name, currentLocation, serialNumber, licenseDate, licenseNumber, insuranceNumber, expirationDate, portAccessNumber, accessDate, driverValue, typeValue } = this.state;
         select_all = [];
-        
-        const { employees } = this.state;        
-        const employeesList = employees.map((data) => {       
-                var str = data.firstName + ' ' + data.lastName             
-                return (
-                    <Option value={str}>{str}</Option>
-                )           
+
+        const { employees } = this.state;
+        const employeesList = employees.map((data) => {
+            var str = data.firstName + ' ' + data.lastName
+            return (
+                <Option value={str}>{str}</Option>
+            )
         })
         return (
-            <View style={styles.container}>
+            <KeyboardAvoidingView
+                style={styles.container}
+                behavior="padding"
+            >
                 <ScrollView>
                     <View style={styles.card1}>
                         <Text style={styles.font2}>Stock details</Text>
@@ -591,21 +594,21 @@ export default class StockEdit extends React.Component {
                                     <Image source={{ uri: sAccessImage }} style={{ width: screenWidth * 0.4, height: screenHeight * 0.12 }} />
                                 </TouchableOpacity>}
                         </View>
-                        
-                            <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: screenHeight / 80, marginRight: screenHeight / 80, }}>
-                                <Select
-                                    onSelect={this.onDriverSelect.bind(this)}
-                                    defaultText={driverValue}
-                                    style={{ borderWidth: 1, borderColor: "#cfcfcf", backgroundColor: 'white', height: screenHeight / 20, paddingTop: 6, width: screenWidth * 0.6 }}
-                                    textStyle={{ color: '#cfcfcf' }}
-                                    backdropStyle={{ backgroundColor: "white" }}
-                                    optionListStyle={{ backgroundColor: "#f6f6f6", height: screenHeight * 0.5 }}
-                                >
-                                    {employeesList}
-                                </Select>
-                            </View>
-                        
-                        
+
+                        <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: screenHeight / 80, marginRight: screenHeight / 80, }}>
+                            <Select
+                                onSelect={this.onDriverSelect.bind(this)}
+                                defaultText={driverValue}
+                                style={{ borderWidth: 1, borderColor: "#cfcfcf", backgroundColor: 'white', height: screenHeight / 20, paddingTop: 6, width: screenWidth * 0.6 }}
+                                textStyle={{ color: '#cfcfcf' }}
+                                backdropStyle={{ backgroundColor: "white" }}
+                                optionListStyle={{ backgroundColor: "#f6f6f6", height: screenHeight * 0.5 }}
+                            >
+                                {employeesList}
+                            </Select>
+                        </View>
+
+
                         <View style={{ flexDirection: 'row', marginTop: 15, marginBottom: 20 }}>
                             <TouchableOpacity
                                 style={{ width: 0.2 * screenWidth, marginRight: screenWidth * 0.3 }}
@@ -651,9 +654,7 @@ export default class StockEdit extends React.Component {
                         </TouchableOpacity>
                     </View>
                 </View>
-
-            </View>
-
+            </KeyboardAvoidingView>
         )
     }
 }

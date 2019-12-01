@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import { Animated, Dimensions, Keyboard, StyleSheet, TextInput, UIManager } from 'react-native';
 
 const { State: TextInputState } = TextInput;
+const screenWidth = Math.round(Dimensions.get('window').width);
+const screenHeight = Math.round(Dimensions.get('window').height);
 
 export default class KeyboardShift extends Component {
   state = {
@@ -66,9 +68,11 @@ export default class KeyboardShift extends Component {
 const styles = StyleSheet.create({
   container: {
     height: '100%',
-    left: 0,
+    left: -screenWidth/4,
     position: 'absolute',
     top: 0,
+    alignContent:'center',
+    justifyContent: 'center',    
     width: '100%'
   }
 });

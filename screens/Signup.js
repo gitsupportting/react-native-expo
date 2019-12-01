@@ -7,7 +7,7 @@ import * as Permissions from 'expo-permissions';
 import 'firebase/firestore';
 import { Firebase, db } from '../Firebase';
 
-import { StyleSheet, View, TextInput, Image, Dimensions, Text, Button, TouchableOpacity } from 'react-native'
+import { StyleSheet, View, TextInput, Image, Dimensions, Text, KeyboardAvoidingView, TouchableOpacity } from 'react-native'
 const screenWidth = Math.round(Dimensions.get('window').width);
 const screenHeight = Math.round(Dimensions.get('window').height);
 
@@ -56,7 +56,7 @@ export default class Signup extends React.Component {
   handleconfirmPassChange = confirmPass => {
     this.setState({ confirmPass })
   }
-  goToLogin = async() => {
+  goToLogin = async () => {
     this.setState({
       companyLogo: null,
       companyName: '',
@@ -134,16 +134,19 @@ export default class Signup extends React.Component {
     // console.log(result.base64);
 
     if (!result.cancelled) {
-      this.setState({ companyLogo: 'data:image/gif;base64,'+result.base64 });
+      this.setState({ companyLogo: 'data:image/gif;base64,' + result.base64 });
     }
-    
+
   };
-  
+
   render() {
     let { companyLogo } = this.state;
     const { companyName, companyAddress, firstName, lastName, email, phone, username, password, confirmPass } = this.state
     return (
-      <View style={styles.container}>
+      <KeyboardAvoidingView
+        style={styles.container}
+        behavior="padding"
+      >
         <View style={styles.card}>
           <View style={{ alignItems: 'center', justifyContent: 'center', marginBottom: 0, marginTop: 10 }}>
             <Text style={styles.font2}>Welcome To Kablanit</Text>
@@ -188,7 +191,7 @@ export default class Signup extends React.Component {
                 style={styles.button3}
                 onPress={this._pickImage}
               >
-                <Image source={{ uri:companyLogo }} style={{ width: screenWidth * 0.5, height: screenHeight * 0.12 }} />
+                <Image source={{ uri: companyLogo }} style={{ width: screenWidth * 0.5, height: screenHeight * 0.12 }} />
               </TouchableOpacity>}
           </View>
           <View style={{ marginLeft: -screenWidth * 0.4 }}>
@@ -277,7 +280,7 @@ export default class Signup extends React.Component {
             <Text style={{ fontSize: 16, color: 'white' }}> Cancel </Text>
           </TouchableOpacity>
         </View>
-      </View>
+      </KeyboardAvoidingView>
     )
   }
 }

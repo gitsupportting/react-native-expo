@@ -746,14 +746,13 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'center',
-        position: 'absolute',
         bottom: 15,
     },
     card: {
-        marginTop: 10,
+        marginTop: screenHeight/30,
         backgroundColor: '#f6f6f6',
         width: screenWidth * 0.9,
-        height: screenHeight * 0.25,
+        height: screenHeight * 0.22,
         borderTopLeftRadius: 15,
         borderTopRightRadius: 15,
     },
@@ -781,7 +780,7 @@ const styles = StyleSheet.create({
         width: screenWidth * 0.5,
         marginRight: screenWidth * 0.05,
         marginLeft: screenWidth * 0.05,
-        marginTop: 30,
+        marginTop: screenHeight/20,
         fontWeight: 'bold'
     },
     button2: {
