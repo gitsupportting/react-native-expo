@@ -38,6 +38,8 @@ export default class ReportTab extends React.Component {
     }
 
     componentDidMount() {
+        // console.warn(screenHeight);
+        // console.warn(screenWidth);375/812
         let workingHourId = new Date().getTime();
         const workingDate = this.timeconvertTodate(workingHourId);
         const workingMonth = this.timeconvertToMonth(workingHourId);
@@ -418,7 +420,8 @@ export default class ReportTab extends React.Component {
                 return (
                     <ListItem avatar>
                         <Left>
-                            {(data.equipmentImage != null) && <Image source={{ uri: data.equipmentImage }} style={{ width: screenHeight * 0.038, height: screenHeight * 0.038, borderRadius: screenHeight * 0.038 }} />}
+                            {/* {(data.equipmentImage != null) && <Image source={{ uri: data.equipmentImage }} style={{ width: screenHeight * 0.038, height: screenHeight * 0.038, borderRadius: screenHeight * 0.038 }} />} */}
+                            {(data.equipmentImage != null) && <Image source={{ uri: data.equipmentImage }} style={{ width: screenHeight * 0.038, height: screenHeight * 0.038, borderRadius: screenHeight * 0.019 }} />}
                             {(data.equipmentImage == null) && <Ionicons name="ios-contact" size={screenHeight * 0.05} color="black" />}
                         </Left>
                         <Body>
@@ -752,7 +755,8 @@ const styles = StyleSheet.create({
         marginTop: screenHeight/30,
         backgroundColor: '#f6f6f6',
         width: screenWidth * 0.9,
-        height: screenHeight * 0.22,
+        height: screenHeight * 0.32,
+        // height: screenHeight * 0.22,
         borderTopLeftRadius: 15,
         borderTopRightRadius: 15,
     },

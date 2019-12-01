@@ -174,16 +174,17 @@ export default class Signup extends React.Component {
               onChangeText={this.handlecompanyAddressChange}
             />
           </View>
-          {/* <Ionicons name="ios-contact" size={screenHeight * 0.1} color="black" /> */}
-
-          <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+          {/* <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}> */}
+          <View style={{ marginTop:20, marginBottom:10, alignItems: 'center', justifyContent: 'center' }}>
             {!this.state.buttonVisable &&
               <TouchableOpacity
                 style={styles.button3}
                 onPress={this._pickImage}
               >
-                <Ionicons name="ios-add-circle-outline" size={screenHeight * 0.05} color="#2684ff" />
-                <Text style={{ fontSize: 22, color: '#2684ff', fontWeight: 'bold' }}> Company Logo </Text>
+                <Ionicons name="ios-add-circle-outline" size={screenHeight * 0.04} color="#2684ff" />
+                <Text style={{ fontSize: 20, color: '#2684ff', fontWeight: 'bold' }}> Company Logo </Text>
+                {/* <Ionicons name="ios-add-circle-outline" size={screenHeight * 0.05} color="#2684ff" />
+                <Text style={{ fontSize: 22, color: '#2684ff', fontWeight: 'bold' }}> Company Logo </Text> */}
               </TouchableOpacity>
             }
             {companyLogo &&
