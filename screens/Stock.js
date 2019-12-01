@@ -2,7 +2,7 @@
 import React from 'react'
 import { Ionicons } from '@expo/vector-icons';
 import CheckboxFormX from 'react-native-checkbox-form';
-import { StyleSheet, View, Dimensions, Text, TouchableOpacity, CheckBox } from 'react-native'
+import { StyleSheet, View, Dimensions, Text, TouchableOpacity, Image } from 'react-native'
 import { List, ListItem, Left, Body, Right, Thumbnail } from 'native-base';
 import { Searchbar } from 'react-native-paper';
 import { Firebase, db } from '../Firebase';
@@ -23,17 +23,9 @@ export default class Stock extends React.Component {
         };
     }
     componentDidMount() {
-        let stocksData = [];
-        const stocks = db.collection('stock').get()
-            .then(querySnapshot => {
-                querySnapshot.docs.map(doc => {
-                    stocksData.push(doc.data());
-                });
-                this.setState({ stocks: stocksData });
-                this.setState({ dataLoaded: true });
-            });
+        this.getStock();
     }
-    async getStocks() {        
+    async getStock(){
         let stocksData = [];
         const stocks = await db.collection('stock').get()
             .then(querySnapshot => {
@@ -44,13 +36,11 @@ export default class Stock extends React.Component {
                 this.setState({ dataLoaded: true });
             });
     }
-
+    
     _onSelect = (item) => {
         selected = item[0].value;
     };
-    goToStockAdd = () => {
-        this.props.navigation.navigate('StockAdd');
-    }
+    goToStockAdd = () => this.props.navigation.navigate('StockAdd');
     goToStockEdit = () => {
         stocksList = this.state.stocks.map((data) => {
             if (data.stockId == selected) {
@@ -85,7 +75,8 @@ export default class Stock extends React.Component {
                 return (
                     <ListItem avatar>
                         <Left>
-                            <Ionicons name="ios-contact" size={screenHeight * 0.05} color="black" />
+                            {(data.stockImage != null) && <Image source={{ uri: data.stockImage }} style={{ width: screenHeight * 0.038, height: screenHeight * 0.038, borderRadius: screenHeight * 0.038 }} />}
+                            {(data.stockImage == null) && <Ionicons name="ios-contact" size={screenHeight * 0.05} color="black" />}
                         </Left>
                         <Body>
                             <Text style={styles.font1}>{data.name}</Text>
@@ -116,7 +107,8 @@ export default class Stock extends React.Component {
                     return (
                         <ListItem avatar>
                             <Left>
-                                <Ionicons name="ios-contact" size={screenHeight * 0.05} color="black" />
+                            {(data.stockImage != null) && <Image source={{ uri: data.stockImage }} style={{ width: screenHeight * 0.038, height: screenHeight * 0.038, borderRadius: screenHeight * 0.038 }} />}
+                            {(data.stockImage == null) && <Ionicons name="ios-contact" size={screenHeight * 0.05} color="black" />}
                             </Left>
                             <Body>
                                 <Text style={styles.font1}>{str}</Text>
@@ -195,9 +187,7 @@ export default class Stock extends React.Component {
                             <Text style={{ fontSize: 13, color: '#3c3c3c' }}> Reports </Text>
                         </TouchableOpacity>
                     </View>
-
                 </View>
-
             </View>
         )
     }

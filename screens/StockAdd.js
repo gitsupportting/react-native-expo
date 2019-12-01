@@ -4,7 +4,7 @@ import React from 'react'
 import { Select, Option } from "react-native-chooser";
 import CheckboxFormX from 'react-native-checkbox-form';
 import { Ionicons } from '@expo/vector-icons';
-import { StyleSheet, View, Dimensions, Text, TouchableOpacity, TextInput, Image, CheckBox, ScrollView } from 'react-native'
+import { StyleSheet, View, Dimensions, Text, TouchableOpacity, TextInput, Image, ScrollView } from 'react-native'
 import * as ImagePicker from 'expo-image-picker';
 import DatePicker from 'react-native-datepicker'
 import { Firebase, db } from '../Firebase';
@@ -16,7 +16,7 @@ const selectall = [
         value: 'one'
     },
 ];
-
+let select_all = [];
 export default class StockAdd extends React.Component {
     constructor(props) {
         super(props);
@@ -41,7 +41,24 @@ export default class StockAdd extends React.Component {
             expirationDate: '',
             portAccessNumber: '',
             accessDate: '',
+            employees: [],
         };
+    }
+    componentDidMount() {
+        this.getEmployees();
+        this.getPermissionAsync();
+    }
+    getEmployees() {
+        let employeesData = [];
+        const employees = db.collection('employees').get()
+            .then(querySnapshot => {
+                querySnapshot.docs.map(doc => {
+                    employeesData.push(doc.data());
+                });
+                this.setState({ employees: employeesData });
+                this.setState({ dataLoaded: true });
+            });
+        // console.warn(this.state.employees);
     }
     _onSelect = (item) => {
         this.setState({
@@ -84,40 +101,40 @@ export default class StockAdd extends React.Component {
     }
     goToStockAdded = async () => {
         const { stockImage, sLicenseImage, sInsuranceImage, sAccessImage, name, currentLocation, serialNumber, licenseDate, licenseNumber, insuranceNumber, expirationDate, portAccessNumber, accessDate, hasPortAccess, typeValue, driverValue } = this.state;
-        let stockId = new Date().getTime();      
+        let stockId = new Date().getTime();
 
-            if ((stockImage != null) && (sLicenseImage != null) && (sInsuranceImage != null) && (sAccessImage != null) && name.length>0 && currentLocation.length>0 && serialNumber.length>0 && licenseDate.length>0 && licenseNumber.length>0 && insuranceNumber.length>0 && expirationDate.length>0 && portAccessNumber.length>0 && accessDate.length>0) {
-            try {
-                db.collection("stock").add({
-                    stockId: stockId,
-                    stockImage: stockImage,
-                    sInsuranceImage: sInsuranceImage,
-                    sAccessImage: sAccessImage,
-                    name: name,
-                    currentLocation: currentLocation,
-                    serialNumber: serialNumber,
-                    licenseDate: licenseDate,
-                    licenseNumber: licenseNumber,
-                    insuranceNumber: insuranceNumber,
-                    sLicenseImage: sLicenseImage,
-                    hasPortAccess: hasPortAccess,
-                    portAccessNumber: portAccessNumber,
-                    accessDate: accessDate,
-                    driverValue: driverValue,
-                    typeValue: typeValue,
-                    expirationDate: expirationDate
-                })
-                    
-            } catch (error) {
-                alert(error);
-            }
-            setTimeout(() => {
-                this.props.navigation.navigate('Stock');    
-            }, 2000);
-            
-            } else {
-                alert("Please insert required data")
-            }        
+        // if ((stockImage != null) && (sLicenseImage != null) && (sInsuranceImage != null) && (sAccessImage != null) && name.length>0 && currentLocation.length>0 && serialNumber.length>0 && licenseDate.length>0 && licenseNumber.length>0 && insuranceNumber.length>0 && expirationDate.length>0 && portAccessNumber.length>0 && accessDate.length>0) {
+        try {
+            db.collection("stock").add({
+                stockId: stockId,
+                stockImage: stockImage,
+                sInsuranceImage: sInsuranceImage,
+                sAccessImage: sAccessImage,
+                name: name,
+                currentLocation: currentLocation,
+                serialNumber: serialNumber,
+                licenseDate: licenseDate,
+                licenseNumber: licenseNumber,
+                insuranceNumber: insuranceNumber,
+                sLicenseImage: sLicenseImage,
+                hasPortAccess: hasPortAccess,
+                portAccessNumber: portAccessNumber,
+                accessDate: accessDate,
+                driverValue: driverValue,
+                typeValue: typeValue,
+                expirationDate: expirationDate
+            })
+
+        } catch (error) {
+            alert(error);
+        }
+        setTimeout(() => {
+            this.props.navigation.navigate('Stock');
+        }, 2000);
+
+        // } else {
+        //     alert("Please insert required data")
+        // }        
 
     }
     goToStockCancel = async () => {
@@ -151,9 +168,7 @@ export default class StockAdd extends React.Component {
     goToEmployees = () => this.props.navigation.navigate('Employees');
     goToStock = () => this.props.navigation.navigate('Stock');
     goToReportTab = () => this.props.navigation.navigate('ReportTab');
-    componentDidMount() {
-        this.getPermissionAsync();
-    }
+
 
     getPermissionAsync = async () => {
         if (Constants.platform.ios) {
@@ -229,7 +244,13 @@ export default class StockAdd extends React.Component {
         }
     };
     render() {
-
+        const { employees } = this.state;
+        const employeesList = employees.map((data) => {
+            var str = data.firstName + ' ' + data.lastName
+            return (
+                <Option value={str}>{str}</Option>
+            )
+        })
         const { stockImage, sLicenseImage, sInsuranceImage, sAccessImage, name, currentLocation, serialNumber, licenseDate, licenseNumber, insuranceNumber, expirationDate, portAccessNumber, accessDate, driverValue, typeValue } = this.state;
         return (
             <View style={styles.container}>
@@ -271,17 +292,10 @@ export default class StockAdd extends React.Component {
                                 style={{ borderWidth: 1, borderColor: "#cfcfcf", backgroundColor: 'white', height: screenHeight / 20, paddingTop: 6, width: screenWidth * 0.6, }}
                                 textStyle={{ color: '#cfcfcf' }}
                                 backdropStyle={{ backgroundColor: "white" }}
-                                optionListStyle={{ backgroundColor: "#f6f6f6", height: screenHeight * 0.5 }}
+                                optionListStyle={{ backgroundColor: "#f6f6f6", height: screenHeight * 0.13 }}
                             >
-                                <Option value={{ name: "azhar" }}>Azhar</Option>
-                                <Option value="johnceena">Johnceena</Option>
-                                <Option value="undertaker">Undertaker</Option>
-                                <Option value="Daniel">Daniel</Option>
-                                <Option value="Roman">Roman</Option>
-                                <Option value="Stonecold">Stonecold</Option>
-                                <Option value="Rock">Rock</Option>
-                                <Option value="Sheild">Sheild</Option>
-                                <Option value="Orton">Orton</Option>
+                                <Option value="vehicle">vehicle</Option>
+                                <Option value="equipment">equipment</Option>
 
                             </Select>
                         </View>
@@ -521,16 +535,7 @@ export default class StockAdd extends React.Component {
                                 backdropStyle={{ backgroundColor: "white" }}
                                 optionListStyle={{ backgroundColor: "#f6f6f6", height: screenHeight * 0.5 }}
                             >
-                                <Option value={{ name: "azhar" }}>Azhar</Option>
-                                <Option value="johnceena">Johnceena</Option>
-                                <Option value="undertaker">Undertaker</Option>
-                                <Option value="Daniel">Daniel</Option>
-                                <Option value="Roman">Roman</Option>
-                                <Option value="Stonecold">Stonecold</Option>
-                                <Option value="Rock">Rock</Option>
-                                <Option value="Sheild">Sheild</Option>
-                                <Option value="Orton">Orton</Option>
-
+                                {employeesList}
                             </Select>
                         </View>
                         <View style={{ flexDirection: 'row', marginTop: 15, marginBottom: 20 }}>

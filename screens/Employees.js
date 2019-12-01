@@ -2,7 +2,7 @@
 import React from 'react'
 import { Ionicons } from '@expo/vector-icons';
 import CheckboxFormX from 'react-native-checkbox-form';
-import { StyleSheet, View, Dimensions, Text, TouchableOpacity } from 'react-native'
+import { StyleSheet, View, Dimensions, Text, Image, TouchableOpacity } from 'react-native'
 import { List, ListItem, Left, Body, Right, Thumbnail } from 'native-base';
 import { Searchbar } from 'react-native-paper';
 import { Firebase, db } from '../Firebase';
@@ -41,10 +41,7 @@ export default class Employees extends React.Component {
     };
 
 
-    goToEmployeesAdd = () => {
-        // console.log('aaa');   
-        this.props.navigation.navigate('EmployeesAdd');
-    }
+    goToEmployeesAdd = () => this.props.navigation.navigate('EmployeesAdd');
     goToEmployeesEdit = () => {
         employeesList = this.state.employees.map((data) => {
             if (data.employeeId == selected) {
@@ -79,8 +76,8 @@ export default class Employees extends React.Component {
                 return (
                     <ListItem avatar>
                         <Left>
-                            {/* <Thumbnail source={{ uri: 'Image URL' }} /> */}
-                            <Ionicons name="ios-contact" size={screenHeight * 0.05} color="black" />
+                            {(data.profileImage != null) && <Image source={{ uri: data.profileImage }} style={{ width: screenHeight * 0.038, height: screenHeight * 0.038, borderRadius: screenHeight * 0.038 }} />}
+                            {(data.profileImage == null) && <Ionicons name="ios-contact" size={screenHeight * 0.05} color="black" />}
                         </Left>
                         <Body>
                             <Text style={styles.font1}>{data.firstName} {data.lastName}</Text>
@@ -111,7 +108,8 @@ export default class Employees extends React.Component {
                     return (
                         <ListItem avatar>
                             <Left>
-                                <Ionicons name="ios-contact" size={screenHeight * 0.05} color="black" />
+                            { (data.profileImage!=null) && <Image source={{ uri:data.profileImage }} style={{ width: screenHeight * 0.038, height: screenHeight * 0.038, borderRadius: screenHeight * 0.038 }} />}
+                            { (data.profileImage==null) && <Ionicons name="ios-contact" size={screenHeight * 0.05} color="black" />}
                             </Left>
                             <Body>
                                 <Text style={styles.font1}>{str}</Text>
@@ -192,9 +190,7 @@ export default class Employees extends React.Component {
                             <Text style={{ fontSize: 13, color: '#3c3c3c' }}> Reports </Text>
                         </TouchableOpacity>
                     </View>
-
                 </View>
-
             </View>
         )
     }

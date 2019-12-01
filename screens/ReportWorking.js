@@ -5,7 +5,7 @@ import CheckboxFormX from 'react-native-checkbox-form';
 import Modal, { ModalFooter, ModalButton, ModalContent } from 'react-native-modals';
 import DatePicker from 'react-native-datepicker'
 import { Ionicons } from '@expo/vector-icons';
-import { StyleSheet, View, Dimensions, Text, TouchableOpacity, CheckBox, ScrollView } from 'react-native'
+import { StyleSheet, View, Dimensions, Text, TouchableOpacity, Image, ScrollView } from 'react-native'
 import { List, ListItem, Left, Body, Right, Thumbnail } from 'native-base';
 import { Searchbar } from 'react-native-paper';
 import { Firebase, db } from '../Firebase';
@@ -56,6 +56,8 @@ export default class ReportWorking extends React.Component {
                         id: select_all[i].value,
                         name: select_all[i].name,
                         defaultWorking: select_all[i].defaultWorking,
+                        profileImage: select_all[i].profileImage,
+                        salaryPerHour: select_all[i].salaryPerHour,
                     })
                 }
             } else {
@@ -67,6 +69,8 @@ export default class ReportWorking extends React.Component {
                     id: item[0].value,
                     name: item[0].name,
                     defaultWorking: item[0].defaultWorking,
+                    profileImage: item[0].profileImage,
+                    salaryPerHour: item[0].salaryPerHour,
                 })
             } else {
                 for (var i = 0; i < selectedData.length; i++) {
@@ -85,6 +89,47 @@ export default class ReportWorking extends React.Component {
     goToEmployees = () => this.props.navigation.navigate('Employees');
     goToStock = () => this.props.navigation.navigate('Stock');
     goToReportTab = () => this.props.navigation.navigate('ReportTab');
+
+    timeconvertTodate = (unixtimestamp) => {
+
+
+        // Convert timestamp to milliseconds
+        var date = new Date(unixtimestamp);
+
+        // Year
+        var year = date.getFullYear();
+
+        // Month
+        var month = date.getMonth() + 1;
+
+        var day = date.getDate();
+        // Display date time in MM-dd-yyyy h:m:s format
+        var convdataTime = year + '-' + month + '-' + day;
+
+        return convdataTime;
+
+    }
+
+    timeconvertToMonth = (unixtimestamp) => {
+
+
+        // Convert timestamp to milliseconds
+        var date = new Date(unixtimestamp);
+
+        // Year
+        var year = date.getFullYear();
+
+        // Month
+        var month = date.getMonth() + 1;
+
+
+        // Display date time in MM-dd-yyyy h:m:s format
+        var convdataTime = year + '-' + month;
+
+        return convdataTime;
+
+    }
+
     render() {
         select_all = [];
         const { firstQuery, employees } = this.state;
@@ -93,22 +138,26 @@ export default class ReportWorking extends React.Component {
             select_all.push({
                 label: '',
                 value: data.employeeId,
-                name: data.firstName + data.lastName,
+                name: data.firstName + ' ' + data.lastName,
                 defaultWorking: data.defaultWorking,
+                profileImage: data.profileImage,
+                salaryPerHour: data.salaryPerHour,
             })
             if (firstQuery == '') {
                 let selectone = [];
                 selectone.push({
                     label: '',
                     value: data.employeeId,
-                    name: data.firstName + data.lastName,
+                    name: data.firstName + ' ' + data.lastName,
                     defaultWorking: data.defaultWorking,
+                    profileImage: data.profileImage,
+                    salaryPerHour: data.salaryPerHour,
                 })
                 return (
                     <ListItem avatar>
                         <Left>
-                            {/* <Thumbnail source={{ uri: 'Image URL' }} /> */}
-                            <Ionicons name="ios-contact" size={screenHeight * 0.05} color="black" />
+                            {(data.profileImage != null) && <Image source={{ uri: data.profileImage }} style={{ width: screenHeight * 0.038, height: screenHeight * 0.038, borderRadius: screenHeight * 0.038 }} />}
+                            {(data.profileImage == null) && <Ionicons name="ios-contact" size={screenHeight * 0.05} color="black" />}
                         </Left>
                         <Body>
                             <Text style={styles.font1}>{data.firstName} {data.lastName}</Text>
@@ -135,13 +184,16 @@ export default class ReportWorking extends React.Component {
                     selecttwo.push({
                         label: '',
                         value: data.employeeId,
-                        name: data.firstName + data.lastName,
+                        name: data.firstName + ' ' + data.lastName,
                         defaultWorking: data.defaultWorking,
+                        profileImage: data.profileImage,
+                        salaryPerHour: data.salaryPerHour,
                     })
                     return (
                         <ListItem avatar>
                             <Left>
-                                <Ionicons name="ios-contact" size={screenHeight * 0.05} color="black" />
+                                {(data.profileImage != null) && <Image source={{ uri: data.profileImage }} style={{ width: screenHeight * 0.038, height: screenHeight * 0.038, borderRadius: screenHeight * 0.038 }} />}
+                                {(data.profileImage == null) && <Ionicons name="ios-contact" size={screenHeight * 0.05} color="black" />}
                             </Left>
                             <Body>
                                 <Text style={styles.font1}>{str}</Text>
@@ -180,7 +232,7 @@ export default class ReportWorking extends React.Component {
                     </TouchableOpacity>
                 </View>
                 <View style={{ marginLeft: -0.4 * screenWidth, }}>
-                    <Text style={styles.font2}>Report Working Hours</Text>
+                    <Text style={styles.font2}>Manage Employees</Text>
                 </View>
                 <Searchbar
                     placeholder="Search"
@@ -300,14 +352,20 @@ export default class ReportWorking extends React.Component {
                                 onPress={() => {
                                     for (var i = 0; i < selectedData.length; i++) {
                                         let workingHourId = new Date().getTime();
+                                        const workingDate = this.timeconvertTodate(workingHourId);
+                                        const workingMonth = this.timeconvertToMonth(workingHourId);
                                         try {
                                             db.collection("workingHours").add({
                                                 workingHourId: workingHourId,
                                                 employeeId: selectedData[i].id,
                                                 name: selectedData[i].name,
-                                                defaultWorking: selectedData[i].defaultWorking,
-                                                startTime: '',
-                                                endTime: ''
+                                                defaultWorking: Number(selectedData[i].defaultWorking),
+                                                startTime: workingDate + ':07-00',
+                                                endTime: workingDate + ':17-00',
+                                                workingDate: workingDate,
+                                                workingMonth: workingMonth,
+                                                profileImage: selectedData[i].profileImage,
+                                                salaryPerHour: selectedData[i].salaryPerHour
                                             })
                                         } catch (error) {
                                             alert(error);
@@ -366,7 +424,10 @@ export default class ReportWorking extends React.Component {
                                     width: screenWidth * 0.2,
                                 }}
                                 onPress={() => {
-                                    const workingHours_custom = Number((this.state.endTime).slice(11, 13))-Number((this.state.startTime).slice(11, 13))
+                                    const workingHours_custom = Number((this.state.endTime).slice(11, 13)) - Number((this.state.startTime).slice(11, 13))
+                                    const workingDate = (this.state.endTime).slice(0, 10);
+                                    const workingMonth = (this.state.endTime).slice(0, 7);
+                                    console.warn(this.state.startTime);
                                     for (var i = 0; i < selectedData.length; i++) {
                                         let workingHourId = new Date().getTime();
                                         try {
@@ -377,6 +438,10 @@ export default class ReportWorking extends React.Component {
                                                 defaultWorking: workingHours_custom,
                                                 startTime: this.state.startTime,
                                                 endTime: this.state.endTime,
+                                                workingDate: workingDate,
+                                                workingMonth: workingMonth,
+                                                profileImage: selectedData[i].profileImage,
+                                                salaryPerHour: selectedData[i].salaryPerHour
                                             })
                                         } catch (error) {
                                             alert(error);

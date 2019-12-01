@@ -16,7 +16,7 @@ const selectall = [
         value: 'one'
     },
 ];
-
+let select_all = [];
 export default class StockEdit extends React.Component {
     constructor(props) {
         super(props);
@@ -41,124 +41,12 @@ export default class StockEdit extends React.Component {
             expirationDate: '',
             portAccessNumber: '',
             accessDate: '',
+            dataLoaded: false,
+            employees: [],
         };
     }
-    _onSelect = (item) => {
-        this.setState({
-            hasPortAccess: item[0].RNchecked
-        })
-    };
-    onTypeSelect(value, label) {
-        console.log(value);
-        this.setState({ typeValue: value });
-    }
-
-    onDriverSelect(value, label) {
-        this.setState({ driverValue: value });
-    }
-    handlenameChange = name => {
-        this.setState({ name })
-    }
-    handlecurrentLocationChange = currentLocation => {
-        this.setState({ currentLocation })
-    }
-    handleserialNumberChange = serialNumber => {
-        this.setState({ serialNumber })
-    }
-    handlelicenseNumberChange = licenseNumber => {
-        this.setState({ licenseNumber })
-    }
-    handlelicenseDateChange = licenseDate => {
-        this.setState({ licenseDate })
-    }
-    handleinsuranceNumberChange = insuranceNumber => {
-        this.setState({ insuranceNumber })
-    }
-    handleexpirationDateChange = expirationDate => {
-        this.setState({ expirationDate })
-    }
-    handleportAccessNumberChange = portAccessNumber => {
-        this.setState({ portAccessNumber })
-    }
-    handleaccessDateChange = accessDate => {
-        this.setState({ accessDate })
-    }
-    goToStockAdded = async () => {
-        const { stockImage, sLicenseImage, sInsuranceImage, sAccessImage, name, currentLocation, serialNumber, licenseDate, licenseNumber, insuranceNumber, expirationDate, portAccessNumber, accessDate, hasPortAccess, typeValue, driverValue } = this.state;
-        let stockId = new Date().getTime();
-
-        // if ((stockImage != null) && (sLicenseImage != null) && (sInsuranceImage != null) && (sAccessImage != null) && name.length > 0 && currentLocation.length > 0 && serialNumber.length > 0 && licenseDate.length > 0 && licenseNumber.length > 0 && insuranceNumber.length > 0 && expirationDate.length > 0 && portAccessNumber.length > 0 && accessDate.length > 0) {
-            try {
-                db.collection("stock").where("stockId", "==", (this.state.tempStock).stockId)
-                    .get()
-                    .then(function (querySnapshot) {
-                        querySnapshot.forEach(function (doc) {
-                            // console.warn(doc.id, " => ", doc.data());
-                            db.collection("stock").doc(doc.id).update({
-                                stockId: stockId,
-                                stockImage: stockImage,
-                                sInsuranceImage: sInsuranceImage,
-                                sAccessImage: sAccessImage,
-                                name: name,
-                                currentLocation: currentLocation,
-                                serialNumber: serialNumber,
-                                licenseDate: licenseDate,
-                                licenseNumber: licenseNumber,
-                                insuranceNumber: insuranceNumber,
-                                sLicenseImage: sLicenseImage,
-                                hasPortAccess: hasPortAccess,
-                                portAccessNumber: portAccessNumber,
-                                accessDate: accessDate,
-                                driverValue: driverValue,
-                                typeValue: typeValue,
-                                expirationDate: expirationDate
-                            });
-                        });
-                    })
-            } catch (error) {
-                alert(error);
-            }
-            setTimeout(() => {
-                this.props.navigation.navigate('Stock');
-            }, 2000);
-            
-        // } else {
-        //     alert("Please insert required data")
-        // }
-        
-    }
-    goToStockCancel = async () => {
-        this.setState({
-            buttonVisableSAccess: false,
-            buttonVisableSInsurance: false,
-            buttonVisableSLicense: false,
-            buttonVisableStock: false,
-            stockImage: null,
-            sLicenseImage: null,
-            sInsuranceImage: null,
-            sAccessImage: null,
-            typeValue: "Type",
-            driverValue: "Driver",
-            hasPortAccess: 'false',
-            name: '',
-            currentLocation: '',
-            serialNumber: '',
-            licenseNumber: '',
-            licenseDate: '',
-            insuranceNumber: '',
-            expirationDate: '',
-            portAccessNumber: '',
-            accessDate: '',
-        })
-        this.props.navigation.navigate('Stock')
-    }
-
-
-    goToHome = () => this.props.navigation.navigate('Home');
-    goToEmployees = () => this.props.navigation.navigate('Employees');
-    goToStock = () => this.props.navigation.navigate('Stock');
-    goToReportTab = () => this.props.navigation.navigate('ReportTab');
     componentDidMount() {
+        this.getEmployees();
         this.getPermissionAsync();
         this.setState({
             tempStock: this.props.navigation.state.params.editData
@@ -213,7 +101,137 @@ export default class StockEdit extends React.Component {
                 })
             }
         });
+        
     }
+
+    async getEmployees() {
+        let employeesData = [];
+        const employees = await db.collection('employees').get()
+            .then(querySnapshot => {
+                querySnapshot.docs.map(doc => {
+                    employeesData.push(doc.data());
+                });
+                this.setState({ employees: employeesData });
+                this.setState({ dataLoaded: true });
+            });
+        // console.warn(this.state.employees);
+    }
+    _onSelect = (item) => {
+        this.setState({
+            hasPortAccess: item[0].RNchecked
+        })
+    };
+    onTypeSelect(value, label) {
+        console.log(value);
+        this.setState({ typeValue: value });
+    }
+
+    onDriverSelect(value, label) {
+        this.setState({ driverValue: value });
+    }
+    handlenameChange = name => {
+        this.setState({ name })
+    }
+    handlecurrentLocationChange = currentLocation => {
+        this.setState({ currentLocation })
+    }
+    handleserialNumberChange = serialNumber => {
+        this.setState({ serialNumber })
+    }
+    handlelicenseNumberChange = licenseNumber => {
+        this.setState({ licenseNumber })
+    }
+    handlelicenseDateChange = licenseDate => {
+        this.setState({ licenseDate })
+    }
+    handleinsuranceNumberChange = insuranceNumber => {
+        this.setState({ insuranceNumber })
+    }
+    handleexpirationDateChange = expirationDate => {
+        this.setState({ expirationDate })
+    }
+    handleportAccessNumberChange = portAccessNumber => {
+        this.setState({ portAccessNumber })
+    }
+    handleaccessDateChange = accessDate => {
+        this.setState({ accessDate })
+    }
+    goToStockAdded = async () => {
+        const { stockImage, sLicenseImage, sInsuranceImage, sAccessImage, name, currentLocation, serialNumber, licenseDate, licenseNumber, insuranceNumber, expirationDate, portAccessNumber, accessDate, hasPortAccess, typeValue, driverValue } = this.state;
+        let stockId = new Date().getTime();
+
+        // if ((stockImage != null) && (sLicenseImage != null) && (sInsuranceImage != null) && (sAccessImage != null) && name.length > 0 && currentLocation.length > 0 && serialNumber.length > 0 && licenseDate.length > 0 && licenseNumber.length > 0 && insuranceNumber.length > 0 && expirationDate.length > 0 && portAccessNumber.length > 0 && accessDate.length > 0) {
+        try {
+            db.collection("stock").where("stockId", "==", (this.state.tempStock).stockId)
+                .get()
+                .then(function (querySnapshot) {
+                    querySnapshot.forEach(function (doc) {
+                        // console.warn(doc.id, " => ", doc.data());
+                        db.collection("stock").doc(doc.id).update({
+                            stockId: stockId,
+                            stockImage: stockImage,
+                            sInsuranceImage: sInsuranceImage,
+                            sAccessImage: sAccessImage,
+                            name: name,
+                            currentLocation: currentLocation,
+                            serialNumber: serialNumber,
+                            licenseDate: licenseDate,
+                            licenseNumber: licenseNumber,
+                            insuranceNumber: insuranceNumber,
+                            sLicenseImage: sLicenseImage,
+                            hasPortAccess: hasPortAccess,
+                            portAccessNumber: portAccessNumber,
+                            accessDate: accessDate,
+                            driverValue: driverValue,
+                            typeValue: typeValue,
+                            expirationDate: expirationDate
+                        });
+                    });
+                })
+        } catch (error) {
+            alert(error);
+        }
+        setTimeout(() => {
+            this.props.navigation.navigate('Stock');
+        }, 2000);
+
+        // } else {
+        //     alert("Please insert required data")
+        // }
+
+    }
+    goToStockCancel = async () => {
+        this.setState({
+            buttonVisableSAccess: false,
+            buttonVisableSInsurance: false,
+            buttonVisableSLicense: false,
+            buttonVisableStock: false,
+            stockImage: null,
+            sLicenseImage: null,
+            sInsuranceImage: null,
+            sAccessImage: null,
+            typeValue: "Type",
+            driverValue: "Driver",
+            hasPortAccess: 'false',
+            name: '',
+            currentLocation: '',
+            serialNumber: '',
+            licenseNumber: '',
+            licenseDate: '',
+            insuranceNumber: '',
+            expirationDate: '',
+            portAccessNumber: '',
+            accessDate: '',
+        })
+        this.props.navigation.navigate('Stock')
+    }
+
+
+    goToHome = () => this.props.navigation.navigate('Home');
+    goToEmployees = () => this.props.navigation.navigate('Employees');
+    goToStock = () => this.props.navigation.navigate('Stock');
+    goToReportTab = () => this.props.navigation.navigate('ReportTab');
+
 
     getPermissionAsync = async () => {
         if (Constants.platform.ios) {
@@ -291,6 +309,15 @@ export default class StockEdit extends React.Component {
     render() {
 
         const { stockImage, sLicenseImage, sInsuranceImage, sAccessImage, name, currentLocation, serialNumber, licenseDate, licenseNumber, insuranceNumber, expirationDate, portAccessNumber, accessDate, driverValue, typeValue } = this.state;
+        select_all = [];
+        
+        const { employees } = this.state;        
+        const employeesList = employees.map((data) => {       
+                var str = data.firstName + ' ' + data.lastName             
+                return (
+                    <Option value={str}>{str}</Option>
+                )           
+        })
         return (
             <View style={styles.container}>
                 <ScrollView>
@@ -331,18 +358,10 @@ export default class StockEdit extends React.Component {
                                 style={{ borderWidth: 1, borderColor: "#cfcfcf", backgroundColor: 'white', height: screenHeight / 20, paddingTop: 6, width: screenWidth * 0.6, }}
                                 textStyle={{ color: '#cfcfcf' }}
                                 backdropStyle={{ backgroundColor: "white" }}
-                                optionListStyle={{ backgroundColor: "#f6f6f6", height: screenHeight * 0.5 }}
+                                optionListStyle={{ backgroundColor: "#f6f6f6", height: screenHeight * 0.13 }}
                             >
-                                <Option value={{ name: "azhar" }}>Azhar</Option>
-                                <Option value="johnceena">Johnceena</Option>
-                                <Option value="undertaker">Undertaker</Option>
-                                <Option value="Daniel">Daniel</Option>
-                                <Option value="Roman">Roman</Option>
-                                <Option value="Stonecold">Stonecold</Option>
-                                <Option value="Rock">Rock</Option>
-                                <Option value="Sheild">Sheild</Option>
-                                <Option value="Orton">Orton</Option>
-
+                                <Option value="vehicle">vehicle</Option>
+                                <Option value="equipment">equipment</Option>
                             </Select>
                         </View>
                         <View style={{ margin: screenHeight / 80 }}>
@@ -572,27 +591,21 @@ export default class StockEdit extends React.Component {
                                     <Image source={{ uri: sAccessImage }} style={{ width: screenWidth * 0.4, height: screenHeight * 0.12 }} />
                                 </TouchableOpacity>}
                         </View>
-                        <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: screenHeight / 80, marginRight: screenHeight / 80, }}>
-                            <Select
-                                onSelect={this.onDriverSelect.bind(this)}
-                                defaultText={driverValue}
-                                style={{ borderWidth: 1, borderColor: "#cfcfcf", backgroundColor: 'white', height: screenHeight / 20, paddingTop: 6, width: screenWidth * 0.6 }}
-                                textStyle={{ color: '#cfcfcf' }}
-                                backdropStyle={{ backgroundColor: "white" }}
-                                optionListStyle={{ backgroundColor: "#f6f6f6", height: screenHeight * 0.5 }}
-                            >
-                                <Option value={{ name: "azhar" }}>Azhar</Option>
-                                <Option value="johnceena">Johnceena</Option>
-                                <Option value="undertaker">Undertaker</Option>
-                                <Option value="Daniel">Daniel</Option>
-                                <Option value="Roman">Roman</Option>
-                                <Option value="Stonecold">Stonecold</Option>
-                                <Option value="Rock">Rock</Option>
-                                <Option value="Sheild">Sheild</Option>
-                                <Option value="Orton">Orton</Option>
-
-                            </Select>
-                        </View>
+                        
+                            <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: screenHeight / 80, marginRight: screenHeight / 80, }}>
+                                <Select
+                                    onSelect={this.onDriverSelect.bind(this)}
+                                    defaultText={driverValue}
+                                    style={{ borderWidth: 1, borderColor: "#cfcfcf", backgroundColor: 'white', height: screenHeight / 20, paddingTop: 6, width: screenWidth * 0.6 }}
+                                    textStyle={{ color: '#cfcfcf' }}
+                                    backdropStyle={{ backgroundColor: "white" }}
+                                    optionListStyle={{ backgroundColor: "#f6f6f6", height: screenHeight * 0.5 }}
+                                >
+                                    {employeesList}
+                                </Select>
+                            </View>
+                        
+                        
                         <View style={{ flexDirection: 'row', marginTop: 15, marginBottom: 20 }}>
                             <TouchableOpacity
                                 style={{ width: 0.2 * screenWidth, marginRight: screenWidth * 0.3 }}

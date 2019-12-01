@@ -38,7 +38,7 @@ export default class EmployeesAdd extends React.Component {
             driverLicenseNumber: '',
             portAccessNumber: '',
             accessDate: '',
-            salaryPerHour: '',
+            salaryPerHour: 0,
             vacationsBalance: '',
             sicknessBalance: '',
             vacationseligibilty: '',
@@ -46,6 +46,7 @@ export default class EmployeesAdd extends React.Component {
             defaultWorking: 8
         };
     }
+    
     _onSelect = (item, e) => {
         this.setState({
             hasPortAccess: item[0].RNchecked
@@ -154,7 +155,7 @@ export default class EmployeesAdd extends React.Component {
             driverLicenseNumber: '',
             portAccessNumber: '',
             accessDate: '',
-            salaryPerHour: '',
+            salaryPerHour: 0,
             vacationsBalance: '',
             sicknessBalance: '',
             vacationseligibilty: '',

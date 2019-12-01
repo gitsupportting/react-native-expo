@@ -39,12 +39,12 @@ export default class EmployeesEdit extends React.Component {
             driverLicenseNumber: '',
             portAccessNumber: '',
             accessDate: '',
-            salaryPerHour: '',
+            salaryPerHour: 0,
             vacationsBalance: '',
             sicknessBalance: '',
             vacationseligibilty: '',
             sicknesseligibilty: '',
-            defaultWorking: ''
+            defaultWorking: 8
         };
     }
     _onSelect = (item, e) => {
@@ -167,12 +167,12 @@ export default class EmployeesEdit extends React.Component {
             driverLicenseNumber: '',
             portAccessNumber: '',
             accessDate: '',
-            salaryPerHour: '',
+            salaryPerHour: 0,
             vacationsBalance: '',
             sicknessBalance: '',
             vacationseligibilty: '',
             sicknesseligibilty: '',
-            defaultWorking: ''
+            defaultWorking: 8
         })
         this.props.navigation.navigate('Employees')
     }
