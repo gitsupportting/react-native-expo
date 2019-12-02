@@ -38,6 +38,8 @@ export default class ReportTab extends React.Component {
     }
 
     componentDidMount() {
+        // console.warn(screenHeight);
+        // console.warn(screenWidth);375/812
         let workingHourId = new Date().getTime();
         const workingDate = this.timeconvertTodate(workingHourId);
         const workingMonth = this.timeconvertToMonth(workingHourId);

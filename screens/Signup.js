@@ -182,8 +182,10 @@ export default class Signup extends React.Component {
                 style={styles.button3}
                 onPress={this._pickImage}
               >
-                <Ionicons name="ios-add-circle-outline" size={screenHeight * 0.05} color="#2684ff" />
-                <Text style={{ fontSize: 22, color: '#2684ff', fontWeight: 'bold' }}> Company Logo </Text>
+                <Ionicons name="ios-add-circle-outline" size={screenHeight * 0.04} color="#2684ff" />
+                <Text style={{ fontSize: 20, color: '#2684ff', fontWeight: 'bold' }}> Company Logo </Text>
+                {/* <Ionicons name="ios-add-circle-outline" size={screenHeight * 0.05} color="#2684ff" />
+                <Text style={{ fontSize: 22, color: '#2684ff', fontWeight: 'bold' }}> Company Logo </Text> */}
               </TouchableOpacity>
             }
             {companyLogo &&

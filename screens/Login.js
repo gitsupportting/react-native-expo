@@ -123,7 +123,8 @@ const styles = StyleSheet.create({
     marginTop: 30,
     backgroundColor: '#f6f6f6',
     width: screenWidth * 0.8,
-    height: screenHeight * 0.65,
+    // height: screenHeight * 0.65,
+    height: screenHeight * 0.7,
     borderRadius: 15,
     alignItems: 'center',
     justifyContent: 'center'
