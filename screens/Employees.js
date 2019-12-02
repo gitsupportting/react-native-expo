@@ -76,7 +76,7 @@ export default class Employees extends React.Component {
                 return (
                     <ListItem avatar>
                         <Left>
-                            {(data.profileImage != null) && <Image source={{ uri: data.profileImage }} style={{ width: screenHeight * 0.038, height: screenHeight * 0.038, borderRadius: screenHeight * 0.038 }} />}
+                            {(data.profileImage != null) && <Image source={{ uri: data.profileImage }} style={{ width: screenHeight * 0.038, height: screenHeight * 0.038, borderRadius: screenHeight * 0.019 }} />}
                             {(data.profileImage == null) && <Ionicons name="ios-contact" size={screenHeight * 0.05} color="black" />}
                         </Left>
                         <Body>
@@ -108,7 +108,7 @@ export default class Employees extends React.Component {
                     return (
                         <ListItem avatar>
                             <Left>
-                            { (data.profileImage!=null) && <Image source={{ uri:data.profileImage }} style={{ width: screenHeight * 0.038, height: screenHeight * 0.038, borderRadius: screenHeight * 0.038 }} />}
+                            { (data.profileImage!=null) && <Image source={{ uri:data.profileImage }} style={{ width: screenHeight * 0.038, height: screenHeight * 0.038, borderRadius: screenHeight * 0.019 }} />}
                             { (data.profileImage==null) && <Ionicons name="ios-contact" size={screenHeight * 0.05} color="black" />}
                             </Left>
                             <Body>

@@ -75,7 +75,7 @@ export default class Stock extends React.Component {
                 return (
                     <ListItem avatar>
                         <Left>
-                            {(data.stockImage != null) && <Image source={{ uri: data.stockImage }} style={{ width: screenHeight * 0.038, height: screenHeight * 0.038, borderRadius: screenHeight * 0.038 }} />}
+                            {(data.stockImage != null) && <Image source={{ uri: data.stockImage }} style={{ width: screenHeight * 0.038, height: screenHeight * 0.038, borderRadius: screenHeight * 0.019 }} />}
                             {(data.stockImage == null) && <Ionicons name="ios-contact" size={screenHeight * 0.05} color="black" />}
                         </Left>
                         <Body>
@@ -107,7 +107,7 @@ export default class Stock extends React.Component {
                     return (
                         <ListItem avatar>
                             <Left>
-                            {(data.stockImage != null) && <Image source={{ uri: data.stockImage }} style={{ width: screenHeight * 0.038, height: screenHeight * 0.038, borderRadius: screenHeight * 0.038 }} />}
+                            {(data.stockImage != null) && <Image source={{ uri: data.stockImage }} style={{ width: screenHeight * 0.038, height: screenHeight * 0.038, borderRadius: screenHeight * 0.019 }} />}
                             {(data.stockImage == null) && <Ionicons name="ios-contact" size={screenHeight * 0.05} color="black" />}
                             </Left>
                             <Body>

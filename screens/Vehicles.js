@@ -32,13 +32,22 @@ export default class Vehicles extends React.Component {
             employeeNames: [],
             dataLoaded: false,
             licenseNumber: 0,
-            newDriver:'Driver'
+            newDriver: 'Driver'
         };
     }
     componentDidMount() {
         selectedData = [];
         this.getEmployees();
         this.getEmployeeNames();
+        if (screenWidth / screenHeight < 0.5) {
+            this.setState({
+                deviceType: true
+            })
+        } else {
+            this.setState({
+                deviceType: false
+            })
+        }
     }
     async getEmployees() {
         let employeesData = [];
@@ -188,7 +197,7 @@ export default class Vehicles extends React.Component {
                 return (
                     <ListItem avatar>
                         <Left>
-                            {(data.profileImage != null) && <Image source={{ uri: data.profileImage }} style={{ width: screenHeight * 0.038, height: screenHeight * 0.038, borderRadius: screenHeight * 0.038 }} />}
+                            {(data.profileImage != null) && <Image source={{ uri: data.profileImage }} style={{ width: screenHeight * 0.038, height: screenHeight * 0.038, borderRadius: screenHeight * 0.019 }} />}
                             {(data.profileImage == null) && <Ionicons name="ios-contact" size={screenHeight * 0.05} color="black" />}
                         </Left>
                         <Body>
@@ -225,7 +234,7 @@ export default class Vehicles extends React.Component {
                     return (
                         <ListItem avatar>
                             <Left>
-                                {(data.profileImage != null) && <Image source={{ uri: data.profileImage }} style={{ width: screenHeight * 0.038, height: screenHeight * 0.038, borderRadius: screenHeight * 0.038 }} />}
+                                {(data.profileImage != null) && <Image source={{ uri: data.profileImage }} style={{ width: screenHeight * 0.038, height: screenHeight * 0.038, borderRadius: screenHeight * 0.019 }} />}
                                 {(data.profileImage == null) && <Ionicons name="ios-contact" size={screenHeight * 0.05} color="black" />}
                             </Left>
                             <Body>
@@ -250,7 +259,7 @@ export default class Vehicles extends React.Component {
         return (
 
             <View style={styles.container}>
-                <View style={{ flexDirection: 'row', marginTop: 30 }}>
+                <View style={{ flexDirection: 'row', marginTop: 0 }}>
                     <TouchableOpacity
                         style={{ width: 0.2 * screenWidth, marginRight: 0.55 * screenWidth }}
                         onPress={this.goToReportCancel}
@@ -285,7 +294,7 @@ export default class Vehicles extends React.Component {
                         onChecked={(item) => this._onSelect(item)}
                     />
                 </View>
-                <View style={styles.card}>
+                <View style={[this.state.deviceType ? styles.card2 : styles.card]}>
                     <ScrollView>
                         {this.state.dataLoaded &&
                             <View>
@@ -449,12 +458,17 @@ const styles = StyleSheet.create({
         marginTop: 10,
         backgroundColor: '#f6f6f6',
         width: screenWidth * 0.9,
-        height: screenHeight * 0.53,
-        // height: screenHeight * 0.58,
+        height: screenHeight * 0.57,
         borderTopLeftRadius: 15,
         borderTopRightRadius: 15,
-        // alignItems: 'center',
-        // justifyContent: 'center'
+    },
+    card2: {
+        marginTop: 10,
+        backgroundColor: '#f6f6f6',
+        width: screenWidth * 0.9,
+        height: screenHeight * 0.66,
+        borderTopLeftRadius: 15,
+        borderTopRightRadius: 15,
     },
     card1: {
         backgroundColor: '#f6f6f6',

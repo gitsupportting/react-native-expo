@@ -10,7 +10,19 @@ export default class Login extends React.Component {
     email: '',
     password: ''
   }
-
+  componentDidMount() {
+    // console.warn(screenWidth/screenHeight);0.59, 0.61
+    // console.warn(375/812);0.45,0.47
+    if (screenWidth/screenHeight<0.5){
+      this.setState({
+        deviceType:true
+      })
+    } else {
+      this.setState({
+        deviceType:false
+      })
+    }
+}
   handleemailChange = email => {
     this.setState({ email })
   }
@@ -51,7 +63,7 @@ export default class Login extends React.Component {
           style={{ width: screenWidth * 0.8, height: screenHeight / 6 }}
           source={require('../assets/icon.png')}
         />
-        <View style={styles.card}>
+        <View style={[this.state.deviceType ? styles.card1 : styles.card]}>
           <View style={{ alignItems: 'center', justifyContent: 'center', marginBottom: 20 }}>
             <Text style={styles.font1}>Welcome To Kablanit</Text>
             <Text style={styles.font1}>Sign in with your Company Admin</Text>
@@ -112,6 +124,15 @@ const styles = StyleSheet.create({
     backgroundColor: '#f6f6f6',
     width: screenWidth * 0.8,
     height: screenHeight * 0.65,
+    borderRadius: 15,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  card1: {
+    marginTop: 30,
+    backgroundColor: '#f6f6f6',
+    width: screenWidth * 0.8,
+    height: screenHeight * 0.7,
     borderRadius: 15,
     alignItems: 'center',
     justifyContent: 'center'

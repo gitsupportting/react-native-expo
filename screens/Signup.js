@@ -176,7 +176,7 @@ export default class Signup extends React.Component {
           </View>
           {/* <Ionicons name="ios-contact" size={screenHeight * 0.1} color="black" /> */}
 
-          <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+          <View style={{ marginTop:15, marginBottom:15, alignItems: 'center', justifyContent: 'center' }}>
             {!this.state.buttonVisable &&
               <TouchableOpacity
                 style={styles.button3}

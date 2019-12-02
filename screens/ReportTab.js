@@ -50,7 +50,17 @@ export default class ReportTab extends React.Component {
             this.getVehicles();
             this.getEquipments();
         })
+        if (screenWidth/screenHeight<0.5){
+            this.setState({
+              deviceType:true
+            })
+          } else {
+            this.setState({
+              deviceType:false
+            })
+          }
     }
+    
     async getEmployees() {
         let employeesData = [];
         const employees = await db.collection('workingHours')
@@ -249,7 +259,7 @@ export default class ReportTab extends React.Component {
                 return (
                     <ListItem avatar>
                         <Left>
-                            {(data.profileImage != null) && <Image source={{ uri: data.profileImage }} style={{ width: screenHeight * 0.038, height: screenHeight * 0.038, borderRadius: screenHeight * 0.038 }} />}
+                            {(data.profileImage != null) && <Image source={{ uri: data.profileImage }} style={{ width: screenHeight * 0.038, height: screenHeight * 0.038, borderRadius: screenHeight * 0.019 }} />}
                             {(data.profileImage == null) && <Ionicons name="ios-contact" size={screenHeight * 0.05} color="black" />}
                         </Left>
                         <Body>
@@ -294,7 +304,7 @@ export default class ReportTab extends React.Component {
                     return (
                         <ListItem avatar>
                             <Left>
-                                {(data.profileImage != null) && <Image source={{ uri: data.profileImage }} style={{ width: screenHeight * 0.038, height: screenHeight * 0.038, borderRadius: screenHeight * 0.038 }} />}
+                                {(data.profileImage != null) && <Image source={{ uri: data.profileImage }} style={{ width: screenHeight * 0.038, height: screenHeight * 0.038, borderRadius: screenHeight * 0.019 }} />}
                                 {(data.profileImage == null) && <Ionicons name="ios-contact" size={screenHeight * 0.05} color="black" />}
                             </Left>
                             <Body>
@@ -335,7 +345,7 @@ export default class ReportTab extends React.Component {
                 return (
                     <ListItem avatar>
                         <Left>
-                            {(data.vehicleImage != null) && <Image source={{ uri: data.vehicleImage }} style={{ width: screenHeight * 0.038, height: screenHeight * 0.038, borderRadius: screenHeight * 0.038 }} />}
+                            {(data.vehicleImage != null) && <Image source={{ uri: data.vehicleImage }} style={{ width: screenHeight * 0.038, height: screenHeight * 0.038, borderRadius: screenHeight * 0.019 }} />}
                             {(data.vehicleImage == null) && <Ionicons name="ios-contact" size={screenHeight * 0.05} color="black" />}
                         </Left>
                         <Body>
@@ -374,7 +384,7 @@ export default class ReportTab extends React.Component {
                     return (
                         <ListItem avatar>
                             <Left>
-                                {(data.vehicleImage != null) && <Image source={{ uri: data.vehicleImage }} style={{ width: screenHeight * 0.038, height: screenHeight * 0.038, borderRadius: screenHeight * 0.038 }} />}
+                                {(data.vehicleImage != null) && <Image source={{ uri: data.vehicleImage }} style={{ width: screenHeight * 0.038, height: screenHeight * 0.038, borderRadius: screenHeight * 0.019 }} />}
                                 {(data.vehicleImage == null) && <Ionicons name="ios-contact" size={screenHeight * 0.05} color="black" />}
                             </Left>
                             <Body>
@@ -418,7 +428,7 @@ export default class ReportTab extends React.Component {
                 return (
                     <ListItem avatar>
                         <Left>
-                            {(data.equipmentImage != null) && <Image source={{ uri: data.equipmentImage }} style={{ width: screenHeight * 0.038, height: screenHeight * 0.038, borderRadius: screenHeight * 0.038 }} />}
+                            {(data.equipmentImage != null) && <Image source={{ uri: data.equipmentImage }} style={{ width: screenHeight * 0.038, height: screenHeight * 0.038, borderRadius: screenHeight * 0.019 }} />}
                             {(data.equipmentImage == null) && <Ionicons name="ios-contact" size={screenHeight * 0.05} color="black" />}
                         </Left>
                         <Body>
@@ -455,7 +465,7 @@ export default class ReportTab extends React.Component {
                     return (
                         <ListItem avatar>
                             <Left>
-                                {(data.equipmentImage != null) && <Image source={{ uri: data.equipmentImage }} style={{ width: screenHeight * 0.038, height: screenHeight * 0.038, borderRadius: screenHeight * 0.038 }} />}
+                                {(data.equipmentImage != null) && <Image source={{ uri: data.equipmentImage }} style={{ width: screenHeight * 0.038, height: screenHeight * 0.038, borderRadius: screenHeight * 0.019 }} />}
                                 {(data.equipmentImage == null) && <Ionicons name="ios-contact" size={screenHeight * 0.05} color="black" />}
                             </Left>
                             <Body>
@@ -594,7 +604,7 @@ export default class ReportTab extends React.Component {
                     value={firstQuery}
                     style={{ width: 0.9 * screenWidth, backgroundColor: '#f6f6f6', borderRadius: 8, marginTop: 20, height: screenHeight / 20 }}
                 />
-                <View style={styles.card}>
+                <View style={[this.state.deviceType ? styles.card2 : styles.card]}>
                     <ScrollView>
                         {this.state.dataLoaded && this.state.employeesVisible && <List>
                             {employeesList}
@@ -749,6 +759,14 @@ const styles = StyleSheet.create({
         bottom: 15,
     },
     card: {
+        marginTop: screenHeight/30,
+        backgroundColor: '#f6f6f6',
+        width: screenWidth * 0.9,
+        height: screenHeight * 0.2,
+        borderTopLeftRadius: 15,
+        borderTopRightRadius: 15,
+    },
+    card2: {
         marginTop: screenHeight/30,
         backgroundColor: '#f6f6f6',
         width: screenWidth * 0.9,
